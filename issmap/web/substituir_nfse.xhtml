@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="#{MBNfseLanca.template}">
+
+            <ui:define name="title">
+                Substituição Nota Fiscal Eletrônica de Serviço
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel id="nfseBusca" styleClass="sem_borda" header="Substituição - Buscar Nota Fiscal">
+
+                    <p:messages id="msgs" showDetail="true"/>
+
+                    <h:panelGrid columns="5" style="margin-top: 30px;">
+
+                        <h:outputText value="CNPJ/CPF Tomador: " />
+                        <p:inputText value="#{MBSubstitui.cpfCnpjTomador}"  label="CNPJ/CPF" />
+                        <h:outputText value="Codigo Verificação: " />
+                        <p:inputText value="#{MBSubstitui.codigoVerificacao}"  label="CNPJ/CPF" />
+                        <p:commandButton value="Buscar" action="#{MBSubstitui.buscaNotaFical}" update="aviso,tab,msgs"/>
+
+                        <p:ajaxStatus>
+                            <f:facet name="start">
+                                <h:graphicImage value="/img/loading1.gif" />
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+
+                    </h:panelGrid>
+                    <p:separator/>
+                </p:panel> 
+                <p:panel styleClass="sem_borda" id="tab" visible="#{MBSubstitui.exibeCarta}">
+                    <p:tabView >
+                        <p:tab id="dadosNota" title="NFS-e a ser Substituida">
+                            <h:panelGrid style="width: 630px;" columns="2" >
+                                <h:panelGrid columns="1" >
+                                    <h:outputText value="Numero Nota" />
+                                    <h:outputText value="#{MBSubstitui.numeroNota}" style="font-weight: bold;" />
+                                    <h:outputText value="Data e Hora de Emissão" />
+                                    <h:outputText value="#{MB}" style="font-weight: bold;" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" >
+                                    <h:outputText value="Tomador" />
+                                    <h:outputText value="#{MBSubstitui.nomeRazaoTomador}" style="font-weight: bold;" />
+                                    <h:outputText value="Endereço" />
+                                    <h:outputText value="#{MBSubstitui.endTomador}" style="font-weight: bold;" />
+                                </h:panelGrid>                                
+                            </h:panelGrid>                            
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Atividade/Serviço" />
+                                <h:outputText value="Aliquota" />
+                                <p:inputText disabled="true" value="#{MBSubstitui.servicoPrestado}" size="80"/>
+                                <p:inputText id="aliquota" disabled="true" value="#{MBSubstitui.aliquota}" size="10"/>
+                            </h:panelGrid>                                                        
+
+                            <h:panelGrid columns="9" >
+                                <h:outputText value="Local de execução" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Natureza da Operação" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Tipo de Tributação" />
+                                <p:spacer width="15" height="10" />                                
+                                <h:outputText value="Tipo Movimento" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Retiro na Fonte" />
+
+
+                                <h:outputText value="#{MBSubstitui.localExecucao}" style="font-weight: bold;" />  
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText value="#{MBSubstitui.naturezaOperacao}" style="font-weight: bold;" />
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText value="#{MBSubstitui.tipoTributacao}" style="font-weight: bold;" />
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText id="movimento" value="#{MBSubstitui.tipoMovimento}" style="font-weight: bold;" />
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText value="#{MBCMBSubstituiarta.retidoFonte}" style="font-weight: bold;" />
+                            </h:panelGrid>                          
+                            <br/>                            
+                            <h:panelGrid columns="2">
+                                Descrição do<br/> serviço:
+                                <p:inputTextarea disabled="true" style="width:520px;height:70px;"
+                                                 effectDuration="200" maxHeight="115" value="#{MBSubstitui.descServico}" />
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="9" style="margin-left: 30px;" >
+
+                                <h:outputText value="Valor do Serviço" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Valor Deduções" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Base de Calculo" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Valor do ISSQN" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Crédito Gerado" />
+
+                                <p:inputText value="#{MBSubstitui.valorServico}" disabled="true" size="10" />
+                                <p:spacer width="15" height="10" />
+
+                                <p:inputText value="#{MBSubstitui.deducoes}" disabled="true" size="10"/>
+
+                                <p:spacer width="15" height="10" />
+                                <p:inputText id="baseCalculo"  value="#{MBSubstitui.baseCalculo}" disabled="true" size="10"/>
+                                <p:spacer width="15" height="10" />
+                                <p:inputText value="#{MBSubstitui.valorIss}" disabled="true" size="10"/>
+                                <p:spacer width="15" height="10" />
+                                <p:inputText value="#{MBSubstitui.valorCredito}" disabled="true" size="10"/>
+
+                            </h:panelGrid>
+                            <br/>
+                            <br/>
+                            <h:panelGrid style="margin: auto;" columns="2" >
+                                <p:commandButton  id="cbSubs" styleClass="button" value="Substituir Nota Fiscal" onclick="dlg3.show ()"  update="msgs,cbAnxCarta"/>                          
+                            </h:panelGrid>
+                        </p:tab>                       
+                    </p:tabView> 
+                </p:panel>
+
+                <p:panel id="aviso" visible="#{MBSubstitui.exibeAviso}" styleClass="sem_borda" style="height: 420px; margin-top: 3px;">
+                    <h:panelGrid style="margin-top: 10px;" columns="1" columnClasses="label, value" styleClass="imagem_fundo" >
+                        <br/>
+                        <h:outputText styleClass="texto_informativo" value="Prezado Contribuinte" /><br/>
+
+                        <h:outputText styleClass="texto_informativo" value="A Funcionalidade de substituição da NFS-e  realiza a geração de uma nova Nota Fiscal em substituição a outra, 
+                                      já gerada. A NFS-e substituída será cancelada, caso já não esteja nessa condição. Este serviço utiliza 
+                                      a 'Geração de NFS-e' tendo como incremento os campos que identifica a NFS-e a ser substituída, registrando 
+                                      o vinculo entre a nota substituta e a substituída.  " />
+                        <br/>
+                        <h:outputText styleClass="texto_informativo" value=" ATENÇÃO! A eventual utilização indevida do serviço de substituição da NFS-e, em desacordo com o previsto 
+                                      na legislação municipal, acarretará a desvinculação da NFS-e substituída da substitutiva podendo ocorrer 
+                                      punição junto a Secretaria Municipal de Finanças. " />
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

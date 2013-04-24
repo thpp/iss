@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                IssMap - Cadastro
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <div id="centro_cadastro">
+                        <div class="postagens_centro">
+                            <p:panel style="width:800px; height: 60px; margin-top: 50px; border:2px solid #d8000c; background-color: #ffbaba">
+                                <h3 style="color: #d8000c">Nota nao encontrada! Verifique se o CPF/CNPJ do Tomador ou o codigo de verificaçao estão corretos</h3>
+                            </p:panel>                            
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

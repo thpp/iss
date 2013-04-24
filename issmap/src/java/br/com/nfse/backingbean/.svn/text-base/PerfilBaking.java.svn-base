@@ -1,0 +1,337 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.nfse.backingbean;
+
+import br.com.nfse.to.Contato;
+import br.com.nfse.to.Socio;
+import br.com.nfse.to.Usuario;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/**
+ *
+ * @author Thiago Henrique
+ */
+@ManagedBean(name = "MBPerfil")
+@ViewScoped
+public class PerfilBaking implements java.io.Serializable {
+
+    private String razaoEmpresa;
+    private String cnpjEmpresa;
+    private String cepEmpresa ;
+    private String logradouroEmpresa;
+    private String numeroEmpresa;
+    private String bairroEmpresa;
+    private String complementoEmpresa;
+    private String cidadeEmpresa;
+    private String estadoEmpresa;
+    private String emailEmpresa;
+    private String telefoneEEmpresa;
+    private String senha;
+    private String confirmaSenha;
+    private String dicaSenha;
+    private boolean teste = true;
+    private boolean confirmaSenhaHidden = false;
+    private String testeSenha;
+    private String nomeRepresentanteLegal;
+    private String cpfRepresentanteegal;
+    private ArrayList<Contato> contatoLista = new ArrayList<Contato>();
+    private static Logger logger = Logger.getLogger(PerfilBaking.class.getName());
+    private Contato contato = new Contato();
+    private Contato contatoSelecionado = new Contato();
+
+    public PerfilBaking() {
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        Usuario currentUser = (Usuario) session.getAttribute("usuario");
+
+        System.out.print(currentUser.getCcm().getLogradouro().getCep());
+
+        this.razaoEmpresa = currentUser.getCcm().getNomeRazao();
+        this.emailEmpresa = currentUser.getCcm().getEmail();
+        this.nomeRepresentanteLegal = currentUser.getCcm().getRepresentanteLegal();
+        this.cepEmpresa = currentUser.getCcm().getLogradouro().getCep();
+        this.estadoEmpresa = currentUser.getCcm().getLogradouro().getBairro().getCidade().getEstado().getNome();
+        this.cidadeEmpresa = currentUser.getCcm().getLogradouro().getBairro().getCidade().getNome();
+        this.numeroEmpresa = currentUser.getCcm().getNumeroPredio().toString();
+        this.complementoEmpresa = currentUser.getCcm().getComplemento();
+        this.telefoneEEmpresa = currentUser.getCcm().getTelefone();
+
+        String rua = currentUser.getCcm().getRua();
+
+        if(!currentUser.getCcm().getContatos().isEmpty()){
+            this.contatoLista = (ArrayList<Contato>) currentUser.getCcm().getContatos();
+        }
+
+        if(rua==null){
+            this.logradouroEmpresa = currentUser.getCcm().getLogradouro().getNome();
+            this.bairroEmpresa = currentUser.getCcm().getLogradouro().getBairro().getNome();
+        }else{
+            this.logradouroEmpresa = currentUser.getCcm().getRua();
+            this.bairroEmpresa = currentUser.getCcm().getBairro();
+        }
+
+    }
+
+    public void incluiContato() {
+
+        String enteredEmail = contato.getEmail();
+        Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+        Matcher m = p.matcher(enteredEmail);
+
+        boolean matchFound = m.matches();
+
+        if (!matchFound) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "E-mail Incorreto"));
+        } else {
+            contatoLista.add(contato);
+            contato = new Contato();
+        }
+    }
+
+    public void deletaContatoSelecionado() {
+
+        contatoLista.remove(contatoSelecionado);
+
+//        if (sociosLista.isEmpty()) {
+//            teste = true;
+//        }
+    }
+
+    public void salvar() {
+    }
+
+    public void carregaValorSenha() {
+        System.out.println("Entrou no metodo carrega valor senha!!");
+
+        System.out.println("Senha " + senha);
+        System.out.println("confima senha " + confirmaSenha);
+
+        if (confirmaSenha != null) {
+            System.out.println("chama validação");
+            validaSenhas();
+        }
+    }
+
+    public void validaSenhas() {
+
+        System.out.println("confima senha " + confirmaSenha);
+
+        System.out.println("Senha " + senha);
+
+        if (senha != null) {
+            if (!senha.equals(confirmaSenha)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "Senhas Incorretas"));
+                System.out.println("Campo requerido ,true,");
+                confirmaSenhaHidden = true;
+            } else {
+                System.out.println("Campo não requerido ,false,");
+                confirmaSenhaHidden = false;
+            }
+        }
+    }
+
+
+    
+
+    public void onRowSelect(SelectEvent event) {
+        FacesMessage msg = new FacesMessage("Car Selected", ((Socio) event.getObject()).getCpf().toString());
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowUnselect(UnselectEvent event) {
+        FacesMessage msg = new FacesMessage("Car Unselected", ((Socio) event.getObject()).getCpf().toString());
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public String getBairroEmpresa() {
+        return bairroEmpresa;
+    }
+
+    public void setBairroEmpresa(String bairroEmpresa) {
+        this.bairroEmpresa = bairroEmpresa;
+    }
+
+    public String getCepEmpresa() {
+        return cepEmpresa;
+    }
+
+    public void setCepEmpresa(String cepEmpresa) {
+        this.cepEmpresa = cepEmpresa;
+    }
+
+    public String getCidadeEmpresa() {
+        return cidadeEmpresa;
+    }
+
+    public void setCidadeEmpresa(String cidadeEmpresa) {
+        this.cidadeEmpresa = cidadeEmpresa;
+    }
+
+    public String getCnpjEmpresa() {
+        return cnpjEmpresa;
+    }
+
+    public void setCnpjEmpresa(String cnpjEmpresa) {
+        this.cnpjEmpresa = cnpjEmpresa;
+    }
+
+    public String getComplementoEmpresa() {
+        return complementoEmpresa;
+    }
+
+    public void setComplementoEmpresa(String complementoEmpresa) {
+        this.complementoEmpresa = complementoEmpresa;
+    }
+
+    public String getConfirmaSenha() {
+        return confirmaSenha;
+    }
+
+    public void setConfirmaSenha(String confirmaSenha) {
+        this.confirmaSenha = confirmaSenha;
+    }
+
+    public String getDicaSenha() {
+        return dicaSenha;
+    }
+
+    public void setDicaSenha(String dicaSenha) {
+        this.dicaSenha = dicaSenha;
+    }
+
+    public String getEmailEmpresa() {
+        return emailEmpresa;
+    }
+
+    public void setEmailEmpresa(String emailEmpresa) {
+        this.emailEmpresa = emailEmpresa;
+    }
+
+    public String getEstadoEmpresa() {
+        return estadoEmpresa;
+    }
+
+    public void setEstadoEmpresa(String estadoEmpresa) {
+        this.estadoEmpresa = estadoEmpresa;
+    }
+
+    public String getLogradouroEmpresa() {
+        return logradouroEmpresa;
+    }
+
+    public void setLogradouroEmpresa(String logradouroEmpresa) {
+        this.logradouroEmpresa = logradouroEmpresa;
+    }
+
+    public String getNumeroEmpresa() {
+        return numeroEmpresa;
+    }
+
+    public void setNumeroEmpresa(String numeroEmpresa) {
+        this.numeroEmpresa = numeroEmpresa;
+    }
+
+    public String getRazaoEmpresa() {
+        return razaoEmpresa;
+    }
+
+    public void setRazaoEmpresa(String razaoEmpresa) {
+        this.razaoEmpresa = razaoEmpresa;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public ArrayList<Contato> getContatoLista() {
+        return contatoLista;
+    }
+
+    public void setContatoLista(ArrayList<Contato> contatoLista) {
+        this.contatoLista = contatoLista;
+    }
+
+    public String getTelefoneEEmpresa() {
+        return telefoneEEmpresa;
+    }
+
+    public void setTelefoneEEmpresa(String telefoneEEmpresa) {
+        this.telefoneEEmpresa = telefoneEEmpresa;
+    }
+
+    public Contato getContato() {
+        return contato;
+    }
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
+    }
+
+    public Contato getContatoSelecionado() {
+        return contatoSelecionado;
+    }
+
+    public void setContatoSelecionado(Contato contatoSelecionado) {
+        this.contatoSelecionado = contatoSelecionado;
+    }
+
+    public boolean isTeste() {
+        return teste;
+    }
+
+    public void setTeste(boolean teste) {
+        this.teste = teste;
+    }
+
+    public boolean isConfirmaSenhaHidden() {
+        return confirmaSenhaHidden;
+    }
+
+    public void setConfirmaSenhaHidden(boolean confirmaSenhaHidden) {
+        this.confirmaSenhaHidden = confirmaSenhaHidden;
+    }
+
+    public String getTesteSenha() {
+        return testeSenha;
+    }
+
+    public void setTesteSenha(String testeSenha) {
+        this.testeSenha = testeSenha;
+    }
+
+    public String getCpfRepresentanteegal() {
+        return cpfRepresentanteegal;
+    }
+
+    public void setCpfRepresentanteegal(String cpfRepresentanteegal) {
+        this.cpfRepresentanteegal = cpfRepresentanteegal;
+    }
+
+    public String getNomeRepresentanteLegal() {
+        return nomeRepresentanteLegal;
+    }
+
+    public void setNomeRepresentanteLegal(String nomeRepresentanteLegal) {
+        this.nomeRepresentanteLegal = nomeRepresentanteLegal;
+    }
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title><ui:insert name="title">IssMap</ui:insert></title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />                        
+            <link href="./resources/css/cssLayout_1.css" rel="stylesheet" type="text/css" />
+        </h:head>
+
+        <h:body>
+            <div id="top">
+                <div id="centro_topo">
+                    <h:panelGrid style="width: 898px;" border="0" columns="3">
+                        <p:graphicImage style="border: none"  value="/img/logo_iss.png" />
+                        <h:outputText value="Prefeitura Municipal de Santa Cruz do Rio Pardo" styleClass="texto_topocidade" />
+                        <p:graphicImage style="border: none"  value="/img/logo_scruz.png" />
+                    </h:panelGrid>
+                </div>
+            </div>
+
+            <div>
+                <p:layout style="width: 925px; height: 620px; margin: 10px auto; ">
+
+                    <p:layoutUnit position="top" height="50" >
+
+                        <h:panelGrid style="width: 920px;" columns="2" >
+                            <h:panelGrid style="width: 800px;" columns="1">
+                                <h:outputText value="#{MBlogin.nomeEmpresa}, User: #{MBlogin.nomeUsuario}" styleClass="texto_subtopo" />
+                            </h:panelGrid>
+                            <h:form>
+                                <h:commandLink  action="#{MBlogin.encerraSessao}" >
+                                    <h:panelGrid columns="2">
+                                        <h:outputText styleClass="texto_subtoposair" value="Sair" />
+                                        <p:graphicImage style="border: none"  value="/img/sair.png" />
+                                    </h:panelGrid>                                    
+                                </h:commandLink>
+                            </h:form>
+
+                        </h:panelGrid>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="bottom" height="33"
+                                  header="Micromap - Soluções em Informática">
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="left" width="230">
+                        <h:form>
+                            <p:accordionPanel style="-moz-border-radius: 10px; -webkit-border-radius: 10px;" activeIndex="#{MBMenu.index}" autoHeight="false" >
+                                <p:tab  title="NFS-e">
+                                    <h:commandLink actionListener="#{MBMenu.altera0}" action="nfse_lanca?faces-redirect=true">
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/nota.png" />
+                                            <h:outputText styleClass="texto_menu" value="Gerar NFS-e" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink  actionListener="#{MBMenu.altera0}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/cancela_nota.png" />
+                                            <h:outputText styleClass="texto_menu" value="Cancelar NFS-e" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink actionListener="#{MBMenu.altera0}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/busca_nota.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Consultas NFS-e" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                </p:tab>
+
+                                <p:tab title="Gerenciamento NFS-e">
+                                    <h:commandLink  actionListener="#{MBMenu.altera1}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/carta_correcao.png" />
+                                            <h:outputText styleClass="texto_menu" value="Carta Correção " />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink  actionListener="#{MBMenu.altera1}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/processo_administrativo.png" />
+                                            <h:outputText styleClass="texto_menu" value="Processos Administrativos" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink actionListener="#{MBMenu.altera1}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/substituir_nota.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Substituir NFS-e" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                </p:tab>
+
+                                <p:tab title="RPS">
+                                    <h:commandLink  actionListener="#{MBMenu.altera2}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/lote_rps_assincrono.png" />
+                                            <h:outputText styleClass="texto_menu" value="Enviar Lote Assincrono " />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink  actionListener="#{MBMenu.altera2}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/lote_rps_sincrono.png" />
+                                            <h:outputText styleClass="texto_menu" value="Enviar Lote Sincrono" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink actionListener="#{MBMenu.altera2}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/busca_rps.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Consultas RPS" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                </p:tab>
+                                <p:tab title="Configuração">
+                                    <h:commandLink actionListener="#{MBMenu.altera3}" action="perfil_prestador?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/configura.png" />
+                                            <h:outputText styleClass="texto_menu" value="Perfil" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>                                   
+                                    <h:commandLink actionListener="#{MBMenu.altera3}" action="vincular_contador?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/contador.png" />
+                                            <h:outputText styleClass="texto_menu" value="Contador" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink actionListener="#{MBMenu.altera3}" action="altera_senha_prestador?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/senha.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Senha" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                </p:tab>
+                            </p:accordionPanel>
+                        </h:form>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit id="center" position="center" scrollable="true" >
+                        <h:form id="form">
+                            <ui:insert name="content">Content</ui:insert>
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+
+
+                <p:dialog id="modalDialog1" header="Busca Cidades" modal="true" widgetVar="dlg2" showEffect="scale" hideEffect="scale"
+                          width="600" height="500" resizable="false"> 
+                    <p:panel id="pnBuscaCidade" >
+                        <h:form id="fmBuscaCidade">
+                            
+                            <p:messages id="msgs" showDetail="true"/>
+                            
+                            <h:panelGrid columns="4">
+                                <h:outputText value="Nome Cidade: " />
+                                <p:inputText value="#{MBNfseLanca.buscaCidade}"  label="Nome Cidade" />
+                                <p:commandButton id="btBuscaCidade" value="Buscar Cidade" action="#{MBNfseLanca.buscaCidadePorNome}" update="tabelaCidades"/>
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>
+                            <br/>
+                            <p:dataTable  id="tabelaCidades" var="cidade" value="#{MBNfseLanca.listaCidadesIbge}" 
+                                          paginator="true" rows="10" selectionMode="single"  selection="#{MBNfseLanca.cidadeIbgeSelecionado}" >
+                                <f:facet name="header">
+                                    Cidades IssMap
+                                </f:facet>
+                                <p:column >                                
+                                    <h:outputText value="#{cidade.nome}" />
+                                </p:column>
+
+                            </p:dataTable>
+                            <br/>
+                            <p:commandButton id="btFechaBuscaCidade" value="Teste fechar" actionListener="#{MBNfseLanca.alteraCidadeDeExecucao}" 
+                                             update="form:cidadeExecucao,msgs" oncomplete="handleLoginRequest(xhr, status, args)" />
+
+                        </h:form>
+                    </p:panel>
+                    <script type="text/javascript">  
+                        function handleLoginRequest(xhr, status, args) {  
+                            if(args.validationFailed || !args.loggedIn) {  
+                                  
+                            } else {  
+                                dlg2.hide();                                  
+                            }  
+                        }  
+                    </script>
+                </p:dialog> 
+
+            </div>
+        </h:body>
+
+    </f:view>
+
+</html>

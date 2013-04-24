@@ -1,0 +1,7 @@
+deploy.ant.properties.file=C:\\Users\\JoaoMarcos\\.netbeans\\7.0\\gfv3792323236.properties
+j2ee.platform.is.jsr109=true
+j2ee.server.home=C:/Desenv/glassfish-3.1/glassfish
+j2ee.server.instance=[C:\\Desenv\\glassfish-3.1\\glassfish]deployer:gfv3ee6wc:localhost:4848
+javac.debug=true
+javadoc.preview=true
+user.properties.file=C:\\Users\\JoaoMarcos\\.netbeans\\7.0\\build.properties

@@ -1,0 +1,185 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.nfse.backingbean;
+
+import br.com.nfse.dao.DAOBairro;
+import br.com.nfse.dao.DAOUsuario;
+import br.com.nfse.email.CommonsMail;
+import br.com.nfse.to.Ccm;
+import br.com.nfse.to.Usuario;
+import java.net.MalformedURLException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.mail.EmailException;
+
+/**
+ *
+ * @author Thiago Henrique
+ */
+@ManagedBean(name = "MBUsuario")
+@RequestScoped()
+public class UsuarioBaking {
+
+    private String nome;
+    private String login;
+    private String cargo;
+    private String email;
+    private String telefone;
+    private Ccm ccm = null;
+    private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
+    private Usuario usuarioSelecionado;
+
+    public UsuarioBaking() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        Usuario currentUser = (Usuario) session.getAttribute("usuario");
+        ccm = currentUser.getCcm();
+        listaUsuarios = ccm.getUsuarios();
+    }
+
+    public void addUsuario() {
+
+        Usuario usuario = new Usuario();
+
+        usuario.setNome(nome);
+        usuario.setCargo(cargo);
+        usuario.setLogin(login);
+        usuario.setEmail(email);
+        usuario.setTelefone(telefone);
+        usuario.setCcm(ccm);
+        usuario.setTipoUsuario(2);
+        usuario.setSenha("padrao123");
+
+        DateFormat dataf = new SimpleDateFormat("dd/mm/yyyy");
+        Date data = Calendar.getInstance(Locale.getDefault()).getTime();
+        String dataS = dataf.format(data);
+        Date dateGrava;
+
+        try {
+            dateGrava = new Date(dataf.parse(dataS).getTime());
+            usuario.setDataInscricao(dateGrava);
+        } catch (ParseException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao converter datas ", ""));
+        }
+
+        DAOUsuario daoUsuario = new DAOUsuario();
+
+        if (daoUsuario.buscaPorCnpj(usuario.getLogin()) == null) {
+
+            CommonsMail email;
+            try {
+                email = new CommonsMail();
+                // email.enviaEmailSimples(usuario.getEmail(),usuario.getNome());
+            } catch (EmailException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao enviar e-mail ", ""));
+            } catch (MalformedURLException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao enviar e-mail ", ""));
+            }
+
+            try {
+                daoUsuario.salvar(usuario);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario cadastrado ", "Aguardando validação"));
+            } catch (SQLException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao salvar usuario ", ""));
+            }
+            listaUsuarios.add(usuario);
+
+            nome = "";
+            cargo = "";
+            login = "";
+            telefone = "";
+            this.email = "";
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario já Cadastrado", ""));
+        }
+
+    }
+
+    public void excluir(){
+
+        DAOUsuario daoUsuario = new DAOUsuario();
+        try {
+            daoUsuario.excluir(usuarioSelecionado);
+            listaUsuarios.remove(usuarioSelecionado);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario excluido com sucesso ", ""));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao excluir usuario ", ""));
+        }
+
+
+
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public List<Usuario> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
+    }
+
+    public Usuario getUsuarioSelecionado() {
+        return usuarioSelecionado;
+    }
+
+    public void setUsuarioSelecionado(Usuario usuarioSelecionado) {
+        this.usuarioSelecionado = usuarioSelecionado;
+    }
+}

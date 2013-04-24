@@ -1,0 +1,597 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                IssMap - Cadastro
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <div id="centro_cadastro">
+                        <div class="postagens_centro">
+                            <center>
+                                <h:outputLabel value="Solicitação de Senha Contadores" styleClass="texto_topico" />
+                            </center>
+                            <p:panel style="width:800px; height: 610px; margin-top: 5px;">
+
+                                <p:tabView >
+                                    <p:tab id="escritorio" title="Escritório de Contabilidade">
+                                        <p:wizard id="escritorioContador" widgetVar="wiz" nextLabel="Proximo" backLabel="Voltar" flowListener="#{MBSolicitaSenhaContador.onFlowProcess}" >
+
+                                            <p:tab id="empresa" title="Empresa">
+
+                                                <p:panel id="dadosEmpresa" header="Dados da Empresa">
+
+                                                    <p:messages id="msgs1" showDetail="true"/>
+                                                    <h:outputText value="* Campos Obrigatórios. " style="font-size: 9px;font-style: italic;" />
+                                                    <h:panelGrid columns="2" style="margin: auto;" columnClasses="label, value" styleClass="grid">                                      
+
+                                                        <h:outputText value="Nome/Razão*" />
+                                                        <h:outputText value="CNPJ*" />
+                                                        <p:inputText size="70" label="Nome/Razão"
+                                                                     value="#{MBSolicitaSenhaContador.razaoEmpresa}" />
+
+
+                                                        <p:inputMask label="CNPJ" value="#{MBSolicitaSenhaContador.cnpjEmpresa}" mask="99.999.999/9999-99">
+                                                            <f:validator validatorId="validatorCnpj"/>
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.verificaCadastro}" update="msgs1, local" />
+                                                        </p:inputMask>
+                                                    </h:panelGrid>
+
+                                                    <br/>
+
+                                                    <h:panelGrid columns="3" style="margin: auto;" >
+
+                                                        <h:outputText value="Nome Representante Legal*" />
+                                                        <h:outputText value="CPF *" />
+                                                        <h:outputText value="Numero de CRC*" />
+                                                        <p:inputText size="60" label="Representante Legal"
+                                                                     value="#{MBSolicitaSenhaContador.nomeRepresentanteLegal}" />
+                                                        <p:inputMask label="CPF" size="14" value="#{MBSolicitaSenhaContador.cpfRepresentanteegal}" mask="999.999.999-99">
+                                                            <f:validator validatorId="validaCPF"/>
+                                                            <p:ajax event="blur" update="msgs1" />
+                                                        </p:inputMask>
+                                                                                                                
+                                                        <p:inputText size="10" label="CRC"
+                                                                     value="#{MBSolicitaSenhaContador.crcRepresentanteLegalEscritorio}" />
+                                                        
+                                                    </h:panelGrid>
+
+                                                    <br/>
+                                                    <!-- <h:outputText styleClass="texto_informativo" value="Sócios da Empresa" /> -->
+
+                                                    <h:panelGrid id="propSocio" columns="2" style="margin: auto;" >                                        
+                                                        <h:outputText value="Nome Sócio/Proprietário *" />
+                                                        <h:outputText value="CPF *" />
+                                                        <p:inputText label="Sócio" size="70" value="#{MBSolicitaSenhaContador.socio.nome}" />
+                                                        <p:inputMask label="CPF" value="#{MBSolicitaSenhaContador.socio.cpf}" mask="999.999.999-99">
+                                                            <f:validator validatorId="validaCPF"/>
+                                                            <p:ajax event="blur" update="msgs1" />
+                                                        </p:inputMask>                                        
+                                                        <p:commandButton value="Cadastrar" action="#{MBSolicitaSenhaContador.incluiSocio}" update="msgs1, propSocio, tabelaSocio" />                                  
+
+                                                    </h:panelGrid>
+
+                                                    <p:dataTable  id="tabelaSocio" var="socio" value="#{MBSolicitaSenhaContador.sociosLista}" paginator="true" rows="3" >
+                                                        <p:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Nome Socio/Proprietário " />
+                                                            </f:facet>
+                                                            <h:outputText value="#{socio.nome}" />
+                                                        </p:column>
+
+                                                        <p:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="CPF" />
+                                                            </f:facet>
+                                                            <h:outputText value="#{socio.cpf}" />
+                                                        </p:column>
+                                                        <p:column style="width:32px">
+                                                            <p:commandButton  action="#{MBSolicitaSenhaContador.carregaSocioSelecionado}" update=":form :dadosEmpresa" image="ui-icon ui-icon-close" title="Delete">
+                                                                <f:setPropertyActionListener value="#{socio}"  target="#{MBSolicitaSenhaContador.socioSelecionado}" />
+                                                            </p:commandButton>
+                                                        </p:column>
+
+                                                    </p:dataTable>
+                                                </p:panel>
+                                            </p:tab>
+                                            <p:tab id="localizacao" title="Localização">
+                                                <p:panel id="local" header="Localização da Empresa">
+
+                                                    <p:messages id="msgs2" showDetail="true"/>
+
+                                                    <h:outputText value="OBS: Caso tenha duvidas procure seu CEP no site dos correios.     * Campos Obrigatórios." style="font-size: 9px;font-style: italic;" />
+                                                    <h:panelGrid columns="4" columnClasses="label, value">
+
+                                                        <h:outputText value="Cep*: " />
+                                                        <p:inputMask label="CEP"
+                                                                     size="6"   value="#{MBSolicitaSenhaContador.cepEmpresa}" mask="99999-999">
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.buscaCep}" update="local" />
+                                                        </p:inputMask> 
+
+                                                        <h:inputHidden value="as" />
+                                                        <h:outputLink target="_blank"  value="http://www.buscacep.correios.com.br/" >
+                                                            <p:graphicImage style="border: none"  value="/img/buscaCep2.png" />
+                                                        </h:outputLink>
+                                                        <h:outputText value="Logradouro*: " />
+                                                        <p:inputText label="Logradouro"
+                                                                     size="30" value="#{MBSolicitaSenhaContador.logradouroEmpresa}" />
+
+                                                        <h:outputText value="Numero*: " />
+                                                        <p:inputText label="Numero"
+                                                                     size="6" value="#{MBSolicitaSenhaContador.numeroEmpresa}" />
+
+                                                        <h:outputText value="Bairro*: " />
+                                                        <p:inputText size="30" label="Bairro"
+                                                                     value="#{MBSolicitaSenhaContador.bairroEmpresa}" />
+
+                                                        <h:outputText value="Complemento: " />
+                                                        <p:inputText size="30" value="#{MBSolicitaSenhaContador.complementoEmpresa}" />
+
+                                                        <h:outputText value="Telefone*: " />
+                                                        <p:inputMask label="Telefone"
+                                                                     value="#{MBSolicitaSenhaContador.telefoneEEmpresa}" mask="(99) 9999-9999"/>
+
+                                                        <h:outputText value="E-mail*: " />
+                                                        <p:inputText size="30" value="#{MBSolicitaSenhaContador.emailEmpresa}" label="E-mail ">
+                                                            <f:validator validatorId="emailValidator"/>
+                                                            <p:ajax event="blur" update="msgs2" />
+                                                        </p:inputText>
+
+                                                        <h:outputText value="Estado*: " />
+                                                        <p:inputText size="30" value="#{MBSolicitaSenhaContador.estadoEmpresa}" />
+
+                                                        <h:outputText value="Cidade*: " />
+                                                        <p:inputText size="30" value="#{MBSolicitaSenhaContador.cidadeEmpresa}" />
+
+                                                    </h:panelGrid>
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab id="acesso" title="Acesso">
+                                                <p:panel header="Configuração de Usuario e Senha de Acesso">
+
+                                                    <p:messages id="msgs3" showDetail="true"/>
+                                                    <h:outputText value="* Campos Obrigatórios. " style="font-size: 9px;font-style: italic;" />
+                                                    <h:panelGrid columns="2" columnClasses="label, value">
+
+                                                        <h:outputText value="CNPJ: " />
+                                                        <h:outputText styleClass="texto_informativo" value="#{MBSolicitaSenhaContador.cnpjEmpresa}" />
+
+                                                        <h:outputText value="Razão Social: " />
+                                                        <h:outputText styleClass="texto_informativo"  value="#{MBSolicitaSenhaContador.razaoEmpresa}" />
+
+                                                    </h:panelGrid>
+                                                    <br/>
+                                                    <h:panelGrid columns="2" >
+                                                        <h:outputText value="Senha*: " />
+                                                        <p:password label="Senha"
+                                                                    value="#{MBSolicitaSenhaContador.senha}" inline="true" feedback="true" minLength="6"
+                                                                    promptLabel="Senha" weakLabel="Fraca"
+                                                                    goodLabel="Médio" strongLabel="Forte" size="30" >
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.carregaValorSenha}" update="msgs3" />
+                                                        </p:password>
+
+                                                        <h:outputText value="Confirme a Senha*: " />
+                                                        <p:password label="Confirma senha"
+                                                                    value="#{MBSolicitaSenhaContador.confirmaSenha}" feedback="false" minLength="6" size="30">
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.validaSenhas}" update="msgs3" />
+                                                        </p:password>
+
+                                                        <h:outputText value="Dica de senha*: " />
+                                                        <p:inputText label="Dica de Senha"
+                                                                     value="#{MBSolicitaSenhaContador.dicaSenha}" size="60"/>
+
+                                                        <h:inputHidden required="#{MBSolicitaSenhaContador.confirmaSenhaHidden}" requiredMessage="Senha e confirma senha, valores incorretos" />
+
+
+                                                    </h:panelGrid>
+
+                                                    <script type="text/javascript">
+                                                        function fadein(input, container) {
+                                                            container.fadeIn("slow");
+                                                        }
+
+                                                        function fadeout(input, container) {  
+                                                            container.fadeOut("slow");
+                                                        }
+                                                    </script>
+
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab id="confirm" title="Confirmação">
+                                                <p:panel header="Confirmação dos dados">
+
+                                                    <p:messages id="msgs5" showDetail="true"/>
+
+                                                    <h:panelGrid id="confirmation" columns="4">
+                                                        <h:outputText styleClass="texto_informativo" value="Razão Social: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.razaoEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="CNPJ: " />
+                                                        <h:outputText  styleClass="texto"
+                                                                       value="#{MBSolicitaSenhaContador.cnpjEmpresa}"/>
+
+                                                        <h:outputText styleClass="texto_informativo" value="CEP: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.cepEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Logradouro: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.logradouroEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Numero: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.numeroEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Bairro: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.bairroEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Cidade: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.cidadeEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Estado " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.estadoEmpresa}"/>
+
+                                                        <h:outputText styleClass="texto_informativo" value="Complemento: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.complementoEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Telefone " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.telefoneEEmpresa}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Senha " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.senha}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Dica de Senha " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.dicaSenha}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="E-mail " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.emailEmpresa}" />
+
+                                                        <h:outputText />
+                                                        <h:outputText />
+                                                    </h:panelGrid>
+
+                                                    <p:separator/>
+                                                    <h:outputText styleClass="texto_informativo" value="Sócios " />
+                                                    <p:dataList value="#{MBSolicitaSenhaContador.sociosLista}" var="socio" itemType="disc">
+                                                        #{socio.nome}, #{socio.cpf}
+                                                    </p:dataList>                                                                         
+
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab id="desbloqueiosenha" title="Desbloqueio">
+                                                <p:panel header="Emissão do Formulário de Desbloqueio de Senha">
+
+                                                    <p:messages id="msgs6" showDetail="true"/>
+
+                                                    <br/>
+                                                    <br/>
+                                                    <h:panelGrid id="desbloqueio" columns="1" styleClass="imagem_fundo">
+
+
+                                                        <h:outputText styleClass="texto_informativo" value="O cadastro de solicitação de senha está quase concluído, para seu encerramento faça o download do formulário,
+                                                                      SOLICITAÇÃO DE DESBLOQUEIO DA SENHA WEB, que deverá ser entregue junto a prefeitura com os documentos nele especificado." />
+                                                        <h:outputText styleClass="texto_informativo" value="ATENÇÃO! Para que tenha uma melhor performance sugerimos que tenha instalado em seu computador o leitor PDF Adobe Reader,
+                                                                      caso não tenha faça o download clicando sobre o incone Adobe Reader antes de concluir o cadastro." /> <br/>
+                                                        <br/>
+                                                        <br/>
+
+                                                        <h:panelGrid columns="4" >
+                                                            <p:spacer width="10" height="50" />
+                                                            <h:commandLink target="_blank" immediate="flse" action="#{MBSolicitaSenhaContador.formularioDesbloqueioEscritorioContabilidade}" >
+                                                                <p:graphicImage style="border: none"  value="/img/download1.png" />
+                                                            </h:commandLink>
+
+
+                                                            <p:spacer width="330" height="50" />   
+
+                                                            <h:outputLink target="_blank"  value="http://get.adobe.com/br/reader/" >
+                                                                <p:graphicImage style="border: none"  value="/img/AdobeReader.png" />
+                                                            </h:outputLink>
+                                                        </h:panelGrid>
+                                                    </h:panelGrid>
+                                                    <p:separator/>                                      
+
+                                                </p:panel>
+                                            </p:tab>                                                                                        
+                                        </p:wizard>
+                                    </p:tab>
+
+                                    <p:tab id="contador" title="Contador Autonomo">                                        
+                                        <p:wizard id="contadorAuto" widgetVar="wiz2" nextLabel="Proximo" backLabel="Voltar" flowListener="#{MBSolicitaSenhaContador.onFlowProcessAutonomo}" >
+
+                                            <p:tab id="empresa2" title="Pessoa Física">
+
+                                                <p:panel id="dadosEmpresa2" header="Dados Pessoais">
+
+                                                    <p:messages id="msgsAuto" showDetail="true"/>
+                                                    <h:outputText value="* Campos Obrigatórios. " style="font-size: 9px;font-style: italic;" />
+                                                    <h:panelGrid style="margin-top: 10px;" columns="2" columnClasses="label, value" styleClass="grid">
+
+                                                        <h:outputText value="Nome Completo: *" />
+                                                        <h:outputText value="CPF: *" />
+
+                                                        <p:inputText size="70" label="Nome"
+                                                                     value="#{MBSolicitaSenhaContador.nomeContadorAutonomo}" />
+
+                                                        <p:inputMask label="CPF" value="#{MBSolicitaSenhaContador.cpfAutonomo}" mask="999.999.999-99">
+                                                            <f:validator validatorId="validaCPF"/>
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.verificaCadastro}" update="msgsAuto, local1" />
+                                                        </p:inputMask>
+
+
+                                                        <h:panelGrid columns="3" columnClasses="label, value" styleClass="grid">
+                                                            <h:outputText value="Numero do Registro CRC: *" />
+                                                            <h:inputHidden value="as" />
+                                                            <h:outputText value="Inscrição Municipal: *" />
+                                                            
+                                                            <p:inputText label="CRC"
+                                                                         value="#{MBSolicitaSenhaContador.crc}" />
+                                                            <p:spacer width="10" height="10" />
+                                                            <p:inputText label="Inscrição Municipal"
+                                                                         value="#{MBSolicitaSenhaContador.inscricaoMunicipal}" />
+
+                                                        </h:panelGrid>
+                                                    </h:panelGrid>
+                                                    <br/>
+
+                                                    <p:separator/>
+                                                    <h:outputText value="OBS: Caso tenha duvidas procure seu CEP no site dos correios. " style="font-size: 9px;font-style: italic;" />
+
+                                                    <h:panelGrid style="padding-top: 0px" id="localAutonomo" columns="4" columnClasses="label, value">
+
+                                                        <h:outputText value="Cep*: " />
+                                                        <p:inputMask label="CEP"
+                                                                     size="6"   value="#{MBSolicitaSenhaContador.cepAutonomo}" mask="99999-999">
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.buscaCep}" update="localAutonomo" />
+                                                        </p:inputMask> 
+
+                                                        <h:inputHidden value="as" />
+                                                        <h:outputLink target="_blank"  value="http://www.buscacep.correios.com.br/" >
+                                                            <p:graphicImage style="border: none"  value="/img/buscaCep2.png" />
+                                                        </h:outputLink>
+
+                                                        <h:outputText value="Logradouro*: " />
+                                                        <p:inputText label="Logradouro"
+                                                                     size="30" value="#{MBSolicitaSenhaContador.logradouroAutonomo}" />
+
+                                                        <h:outputText value="Numero*: " />
+                                                        <p:inputText label="Numero"
+                                                                     size="6" value="#{MBSolicitaSenhaContador.numeroAutonomo}" />
+
+                                                        <h:outputText value="Bairro*: " />
+                                                        <p:inputText size="30" label="Bairro"
+                                                                     value="#{MBSolicitaSenhaContador.bairroAutonomo}" />
+
+                                                        <h:outputText value="Complemento: " />
+                                                        <p:inputText size="30" value="#{MBSolicitaSenhaContador.complementoAutonomo}" />
+
+                                                        <h:outputText value="Telefone*: " />
+                                                        <p:inputMask label="Telefone"
+                                                                     value="#{MBSolicitaSenhaContador.telefoneAutonomo}" mask="(99) 9999-9999"/>
+
+                                                        <h:outputText value="E-mail*: " />
+                                                        <p:inputText size="30" value="#{MBSolicitaSenhaContador.emailAutonomo}" label="E-mail ">                          
+                                                        </p:inputText>
+
+                                                        <h:outputText value="Estado*: " />
+                                                        <p:inputText disabled="true" size="30" value="#{MBSolicitaSenhaContador.estadoAutonomo}" />
+
+                                                        <h:outputText value="Cidade*: " />
+                                                        <p:inputText disabled="true" size="30" value="#{MBSolicitaSenhaContador.cidadeAutonomo}" />
+
+                                                    </h:panelGrid>
+
+                                                </p:panel>
+                                            </p:tab>                           
+
+                                            <p:tab id="acessoAuto" title="Acesso">
+                                                <p:panel header="Configuração de Usuario e Senha de Acesso">
+
+                                                    <p:messages id="msgsAuto1" showDetail="true"/>
+
+                                                    <h:panelGrid columns="2" columnClasses="label, value">
+
+                                                        <h:outputText value="CPF: " />
+                                                        <h:outputText styleClass="texto_informativo" value="#{MBSolicitaSenhaContador.cpfAutonomo}" />
+
+                                                        <h:outputText value="Nome: " />
+                                                        <h:outputText styleClass="texto_informativo"  value="#{MBSolicitaSenhaContador.nomeContadorAutonomo}" />
+
+                                                    </h:panelGrid>
+                                                    <br/>
+                                                    <h:panelGrid columns="2" >
+                                                        <h:outputText value="Senha: " />
+                                                        <p:password label="Senha"
+                                                                    value="#{MBSolicitaSenhaContador.senhaAtonomo}" inline="true" feedback="true" minLength="6"
+                                                                    promptLabel="Senha" weakLabel="Fraca"
+                                                                    goodLabel="Médio" strongLabel="Forte" size="30" >
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.carregaValorSenha}" update="msgsAuto1" />
+                                                        </p:password>
+
+                                                        <h:outputText value="Confirme a Senha: " />
+                                                        <p:password label="Confirma senha"
+                                                                    value="#{MBSolicitaSenhaContador.confirmaSenhaAutonomo}" feedback="false" minLength="6" size="30">
+                                                            <p:ajax event="blur" listener="#{MBSolicitaSenhaContador.validaSenhas}" update="msgsAuto1" />
+                                                        </p:password>
+
+                                                        <h:outputText value="Dica de senha: " />
+                                                        <p:inputText label="Dica de Senha"
+                                                                     value="#{MBSolicitaSenhaContador.dicaSenhaAutonomo}" size="60"/>
+
+                                                        <h:inputHidden required="#{MBSolicitaSenhaContador.confirmaSenhaHidden}" requiredMessage="Senha e confirma senha, valores incorretos" />
+
+
+                                                    </h:panelGrid>
+
+                                                    <script type="text/javascript">
+                                                        function fadein(input, container) {
+                                                            container.fadeIn("slow");
+                                                        }
+
+                                                        function fadeout(input, container) {  
+                                                            container.fadeOut("slow");
+                                                        }
+                                                    </script>
+
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab id="confirmAuto" title="Confirmação">
+                                                <p:panel header="Confirmação dos dados">
+
+                                                    <p:messages id="msgsAuto4" showDetail="true"/>
+
+                                                    <h:panelGrid id="confirmationAuto" columns="4">
+                                                        <h:outputText styleClass="texto_informativo" value="Nome: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.nomeContadorAutonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="CPF: " />
+                                                        <h:outputText  styleClass="texto"
+                                                                       value="#{MBSolicitaSenhaContador.cpfAutonomo}"/>
+
+                                                        <h:outputText styleClass="texto_informativo" value="Inscri. Municipal: " />
+                                                        <h:outputText  styleClass="texto"
+                                                                       value="#{MBSolicitaSenhaContador.inscricaoMunicipal}"/>
+
+                                                        <h:outputText styleClass="texto_informativo" value="CEP: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.cepAutonomo}" />
+                                                        
+                                                        <h:outputText styleClass="texto_informativo" value="CRC " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.crc}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Logradouro: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.logradouroAutonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Numero: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.numeroAutonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Bairro: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.bairroAutonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Cidade: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.cidadeAutonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Estado " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.estadoAutonomo}"/>
+
+                                                        <h:outputText styleClass="texto_informativo" value="Complemento: " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.complementoAutonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Telefone " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.telefoneAutonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Senha " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.senhaAtonomo}" />
+
+                                                        <h:outputText styleClass="texto_informativo" value="Dica de Senha " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.dicaSenhaAutonomo}" />                                                        
+
+                                                        <h:outputText styleClass="texto_informativo" value="E-mail " />
+                                                        <h:outputText styleClass="texto"
+                                                                      value="#{MBSolicitaSenhaContador.emailAutonomo}" />
+
+                                                        <h:outputText />
+                                                        <h:outputText />
+                                                    </h:panelGrid>
+
+                                                    <p:separator/>                                                                                                        
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab id="desbloqueiosenhaAuto" title="Desbloqueio">
+                                                <p:panel header="Emissão do Formulário de Desbloqueio de Senha">
+
+                                                    <p:messages id="msgsAuto2" showDetail="true"/>
+
+                                                    <br/>
+                                                    <br/>
+                                                    <h:panelGrid id="desbloqueioAuto" columns="1" styleClass="imagem_fundo">
+
+
+                                                        <h:outputText styleClass="texto_informativo" value="O cadastro de solicitação de senha está quase concluído, para isso faça 
+                                                                      o download do formulário, SOLICITAÇÃO DE DESBLOQUEIO DA SENHA WEB, que deverá ser entregue junto a Prefeitura Municipal de Santa Cruz do Rio Pardo com os documentos nele especificado." />
+                                                        <h:outputText styleClass="texto_informativo" value="ATENÇÃO! Para que tenha uma melhor performance sugerimos que tenha instalado em seu computador o leitor PDF Adobe Reader,
+                                                                      caso não tenha faça o download clicando sobre o incone Adobe Reader antes de concluir o cadastro." /> <br/>
+
+                                                        <br/>
+                                                        <br/>
+
+                                                        <h:panelGrid columns="4" >
+                                                            <p:spacer width="10" height="50" />
+                                                            <h:commandLink target="_blank" immediate="flse" action="#{MBSolicitaSenhaContador.formularioDesbloqueioContadorAutonomo}" >
+                                                                <p:graphicImage style="border: none"  value="/img/download1.png" />
+                                                            </h:commandLink>
+
+                                                            <p:spacer width="330" height="50" />   
+
+                                                            <h:outputLink target="_blank"  value="http://get.adobe.com/br/reader/" >
+                                                                <p:graphicImage style="border: none"  value="/img/AdobeReader.png" />
+                                                            </h:outputLink>
+                                                        </h:panelGrid>
+
+                                                    </h:panelGrid>
+
+
+                                                    <p:separator/>                                      
+
+                                                </p:panel>
+                                            </p:tab>
+                                        </p:wizard>
+                                    </p:tab>
+                                </p:tabView>                                                                
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading.gif" />
+                                    </f:facet>
+
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+
+                            </p:panel>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

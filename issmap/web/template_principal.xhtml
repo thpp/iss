@@ -1,0 +1,613 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title><ui:insert name="title">IssMap</ui:insert></title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />                        
+            <link href="./resources/css/cssLayout_1.css" rel="stylesheet" type="text/css" />
+        </h:head>
+
+        <h:body>
+            <div id="top">
+                <div id="centro_topo">
+                    <h:panelGrid style="width: 898px;" border="0" columns="3">
+                        <p:graphicImage style="border: none"  value="/img/logo_iss.png" />
+                        <h:outputText value="Prefeitura Municipal de Santa Cruz do Rio Pardo" styleClass="texto_topocidade" />
+                        <p:graphicImage style="border: none"  value="/img/logo_scruz.png" />
+                    </h:panelGrid>
+                </div>
+            </div>
+
+            <div>               
+                <p:layout style="width: 925px; height: 785px; margin: 10px auto;">
+
+                    <p:layoutUnit position="top" height="50" >
+
+                        <h:panelGrid style="width: 920px;" columns="2" >
+                            <h:panelGrid style="width: 800px;" columns="1">
+                                <h:outputText value="#{MBlogin.nomeEmpresa}, User: #{MBlogin.nomeUsuario} - Tributação: #{MBlogin.tipoTributacao}" styleClass="texto_subtopo" />
+                            </h:panelGrid>
+                            <h:form>
+                                <h:commandLink  action="#{MBlogin.encerraSessao}" >
+                                    <h:panelGrid columns="2">
+                                        <h:outputText styleClass="texto_subtoposair" value="Sair" />
+                                        <p:graphicImage style="border: none"  value="/img/sair.png" />
+                                    </h:panelGrid>                                    
+                                </h:commandLink>
+                            </h:form>
+
+                        </h:panelGrid>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="bottom" height="33"
+                                  header="Micromap - Soluções em Informática">
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="left" width="230">
+                        <h:form>
+                            <p:accordionPanel style="-moz-border-radius: 10px; -webkit-border-radius: 10px;" activeIndex="#{MBMenu.index}" autoHeight="false" >
+                                <p:tab  title="NFS-e">
+                                    <h:commandLink actionListener="#{MBMenu.altera0}" action="inicial?faces-redirect=true">
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/chart.png" />
+                                            <h:outputText styleClass="texto_menu" value="Visão Geral" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink actionListener="#{MBMenu.altera0}" action="nfse_lanca?faces-redirect=true">
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/nota.png" />
+                                            <h:outputText styleClass="texto_menu" value="Gerar NFS-e" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>                                    
+                                    <h:commandLink  actionListener="#{MBMenu.altera0}" action="nfse_consulta?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/busca_nota.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Consultas NFS-e" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>                                    
+                                    <h:commandLink  actionListener="#{MBMenu.altera0}" action="nfse_lanca_retido_fonte?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/retido_fonte.png" />
+                                            <h:outputText styleClass="texto_menu"  value="NF-e Retido na Fonte" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <!--<hr/>
+                                    <h:commandLink rendered="#"  actionListener="#" action="nfse_consulta?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/cidade.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Mobiliarios" />
+                                        </h:panelGrid>
+                                    </h:commandLink> -->
+                                </p:tab>
+
+                                <p:tab title="Gerenciamento NFS-e">
+                                    <h:commandLink actionListener="#{MBMenu.altera1}" action="nfse_guia_pagamento?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/boleto.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Guia de pagamento" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink  actionListener="#{MBMenu.altera1}" action="cartacorrecao?faces-redirect=true"  >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/carta_correcao.png" />
+                                            <h:outputText styleClass="texto_menu" value="Carta Correção " />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink  actionListener="#{MBMenu.altera1}" action="substituir_nfse?faces-redirect=true">
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/substituir_nota.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Substituir NFS-e" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <!--<hr/>
+                                    <h:commandLink  actionListener="#" action="livro_fiscal?faces-redirect=true">
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/livrofiscal1.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Livro Fiscal" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink  actionListener="#" action="nao_movimento?faces-redirect=true">
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/naomovimento.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Declaração de Não Movimento" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/> -->
+                                </p:tab>
+
+                                <p:tab title="RPS">
+                                    <h:commandLink  actionListener="#{MBMenu.altera2}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/lote_rps_assincrono.png" />
+                                            <h:outputText styleClass="texto_menu" value="Enviar Lote Assincrono " />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink  actionListener="#{MBMenu.altera2}">
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/lote_rps_sincrono.png" />
+                                            <h:outputText styleClass="texto_menu" value="Enviar Lote Sincrono" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                    <h:commandLink actionListener="#{MBMenu.altera2}" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/busca_rps.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Consultas RPS" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                </p:tab>
+                                <p:tab title="Configuração">
+                                    <h:commandLink actionListener="#{MBMenu.altera3}" action="perfil_prestador?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/configura.png" />
+                                            <h:outputText styleClass="texto_menu" value="Perfil" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <!--  <hr/>                                   
+                                      <h:commandLink actionListener="#" action="vincular_contador?faces-redirect=true" >
+                                          <h:panelGrid columns="2">
+                                              <p:graphicImage style="border: none"  value="/img/contador.png" />
+                                              <h:outputText styleClass="texto_menu" value="Contador" />
+                                          </h:panelGrid>
+                                      </h:commandLink>
+                                    --><hr/>
+                                    <h:commandLink actionListener="#{MBMenu.altera3}" action="usuarios?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/usuarios.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Usuários" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+
+                                    <h:commandLink actionListener="#{MBMenu.altera3}" action="altera_senha_prestador?faces-redirect=true" >
+                                        <h:panelGrid columns="2">
+                                            <p:graphicImage style="border: none"  value="/img/senha.png" />
+                                            <h:outputText styleClass="texto_menu"  value="Senha" />
+                                        </h:panelGrid>
+                                    </h:commandLink>
+                                    <hr/>
+                                </p:tab>                                    
+
+                            </p:accordionPanel>
+                        </h:form>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit id="center" position="center" scrollable="true" >
+                        <h:form id="form">
+                            <ui:insert name="content">Content</ui:insert>
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+
+
+                <p:dialog id="modalDialog1" header="Busca Cidades" modal="true" widgetVar="dlg2" showEffect="scale" hideEffect="scale"
+                          width="600" height="500" resizable="false"> 
+                    <p:panel id="pnBuscaCidade" >
+                        <h:form id="fmBuscaCidade">
+
+                            <p:messages id="msgs" showDetail="true"/>
+
+                            <h:panelGrid columns="4">
+                                <h:outputText value="Nome Cidade: " />
+                                <p:inputText value="#{MBNfseLanca.buscaCidade}"  label="Nome Cidade" />
+                                <p:commandButton id="btBuscaCidade" value="Buscar Cidade" action="#{MBNfseLanca.buscaCidadePorNome}" update="tabelaCidades" style="width: 150px;"/>
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>
+                            <br/>
+                            <p:dataTable  id="tabelaCidades" var="cidade" value="#{MBNfseLanca.listaCidadesIbge}" 
+                                          paginator="true" rows="10" selectionMode="single"  selection="#{MBNfseLanca.cidadeIbgeSelecionado}" >
+                                <f:facet name="header">
+                                    Cidades IssMap
+                                </f:facet>
+                                <p:column >                                
+                                    <h:outputText value="#{cidade.nome}" />
+                                </p:column>
+
+                                <f:facet name="header">
+                                    Estado
+                                </f:facet>
+                                <p:column >                                
+                                    <h:outputText value="#{cidade.estado.sigla}" />
+                                </p:column>
+
+                            </p:dataTable>
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <p:commandButton id="btFechaBuscaCidade" value="Confirmar Cidade" actionListener="#{MBNfseLanca.alteraCidadeDeExecucao}" 
+                                                 update="form:cidadeExecucao,msgs" oncomplete="handleLoginRequest1(xhr, status, args)" style="width: 150px;"/>
+
+                                <p:commandButton id="btFechar" value="Cancelar" onclick="dlg2.hide()" />
+                            </h:panelGrid>                            
+
+                        </h:form>
+                    </p:panel>
+                    <script type="text/javascript">
+                        function handleLoginRequest1(xhr, status, args) {  
+                            if(args.validationFailed || !args.loggedIn1) {
+                                
+                            } else {  
+                                dlg2.hide();                                  
+                            }  
+                        }  
+                    </script>
+                </p:dialog>
+
+                <p:dialog id="modalDialog2" header="Emitir Nota Fiscal Substitutiva" modal="true" widgetVar="dlg3" showEffect="scale" hideEffect="scale"
+                          width="700" height="600" resizable="false"> 
+                    <p:panel id="pnSubstituiNota" >
+                        <h:form id="fmSubstituiNota">                            
+                            <p:panel id="nfseBusca" styleClass="sem_borda">
+
+                                <p:messages id="msgs" showDetail="true"/>
+
+                                <h:panelGrid columns="5">
+
+                                    <h:outputText value="CNPJ/CPF: " />
+                                    <p:inputText value="#{MBSubstitui.cpfCnpjTomadorCadastra}"  label="CNPJ/CPF" />
+                                    <p:commandButton value="Buscar Tomador" action="#{MBSubstitui.buscaTomador}" style="width: 150px;" update="tab,msgs"/>
+                                    <p:commandButton value="Cancelar" onclick="dlg3.hide()" />
+
+                                    <p:ajaxStatus>
+                                        <f:facet name="start">
+                                            <h:graphicImage value="/img/loading1.gif" />
+                                        </f:facet>
+                                        <f:facet name="complete">
+                                            <h:outputText value="" />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+                                </h:panelGrid>
+
+                            </p:panel> 
+                            <p:panel styleClass="sem_borda" id="tab" visible="#{MBSubstitui.exNfse}">
+                                <p:tabView >                                                                
+                                    <p:tab id="nfse" title="Tomador de Serviço">
+                                        <h:panelGrid columns="1">
+                                            <h:outputText value="R. Social/Nome*: " />
+                                            <p:inputText value="#{MBSubstitui.nomeTomador}" size="80"/>
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="6">
+                                            <h:outputText value="IE/RG: " />
+                                            <h:inputHidden value="as"  />
+                                            <h:outputText value="Inscrição Municipal: " />
+                                            <h:inputHidden value="as"  />
+                                            <h:outputText value="CEP*: " />
+                                            <h:inputHidden value="as"  />
+
+                                            <p:inputText value="#{MBSubstitui.ieRgTomador}" size="15"/>
+                                            <p:spacer width="25" height="10" />
+                                            <p:inputText value="#{MBSubstitui.inscricaoMunicipalTomador}" size=""/>
+                                            <p:spacer width="25" height="10" />
+
+                                            <p:inputMask label="CEP"
+                                                         size="15"  value="#{MBSubstitui.cepTomador}" mask="99999-999">
+                                                <p:ajax event="blur" listener="#{MBSubstitui.buscaCep}" update="endereco, bairro, cidade, estado" />
+                                            </p:inputMask>
+
+                                            <h:outputLink target="_blank"  value="http://www.buscacep.correios.com.br/" >
+                                                <p:graphicImage style="border: none"  value="/img/buscaCep2.png" />
+                                            </h:outputLink>
+
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="2">
+                                            <h:outputText value="Endereço*:" />
+                                            <h:outputText value="Numero*:" />
+
+                                            <p:inputText id="endereco" value="#{MBSubstitui.enderecoTomador}" size="65"/>
+                                            <p:inputText value="#{MBSubstitui.numeroNota}" size="10"/>
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="2">
+                                            <h:outputText value="Complemento: " />
+                                            <h:outputText value="Bairro*: " />
+
+                                            <p:inputText value="#{MBSubstitui.complementoTomador}" size="32"/>
+                                            <p:inputText id="bairro" value="#{MBSubstitui.bairroTomador}" size="43"/>
+
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="3">
+                                            <h:outputText value="Cidade*: " />
+                                            <h:outputText value="Estado*: " />
+                                            <h:outputText value="Fone/Fax*: " />
+
+                                            <p:inputText id="cidade" disabled="true" value="#{MBSubstitui.cidadeTomador}" size="50"/>
+                                            <p:inputText id="estado" disabled="true" value="#{MBSubstitui.estadoTomador}" size="5"/>
+                                            <p:inputMask size="15" label="Telefone"
+                                                         value="#{MBSubstitui.foneFaxTomador}" mask="(99) 9999-9999"/>
+
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2">
+                                            <h:outputText value="E-mail*: " />
+                                            <h:inputHidden value="as" />
+
+                                            <p:inputText value="#{MBSubstitui.emailTomador}" size="50"/>
+
+                                            <p:commandButton id="botaoSalvar1" value="Cadastrar Tomador" disabled="#{MBSubstitui.botaoCadastraTomador}" action="#{MBSubstitui.cadastraTomador}"  style="margin-left: 50px;" update="msgs, botaoSalvar" />
+                                        </h:panelGrid>
+                                    </p:tab>
+
+                                    <p:tab id="servicos" title="Serviços Prestados">
+                                        <h:panelGrid columns="2" >
+                                            <h:outputText value="Atividade/Serviço" />
+                                            <h:outputText value="Aliquota" />
+
+                                            <h:selectOneMenu value="#{MBSubstitui.servicoSelecionado}"  style="width: 500px; height: 23px;"  >
+                                                <f:selectItems value="#{MBSubstitui.listaServicos}" var="s"
+                                                               itemLabel="#{s.itemTabela}" itemValue="#{s.id}" />
+                                                <p:ajax event="change" listener="#{MBSubstitui.alteraAliquota}" update="aliquota,aliquota2, valorIss, valorCredito, retencao, movimento" />
+                                            </h:selectOneMenu>
+
+                                            <p:inputText id="aliquota1" disabled="true" value="#{MBSubstitui.valorAliquotaSubs}" size="8"/>
+                                        </h:panelGrid>                                                        
+
+                                        <h:panelGrid columns="7" >
+                                            <h:outputText value="Local de execução" />
+                                            <p:spacer width="15" height="10" />
+                                            <h:outputText value="Natureza da Operação" />
+                                            <p:spacer width="15" height="10" />
+                                            <h:outputText value="Tipo de Tributação" />
+                                            <p:spacer width="15" height="10" />
+                                            <h:outputText value="Tipo Movimento" />
+
+
+                                            <p:commandLink id="cidadeExecucao1" onclick="dlg4.show();" style="margin-right:20px; font-weight: bold;">  
+                                                <h:outputText value="#{MBSubstitui.nomeCidadeExecucao}" />  
+                                            </p:commandLink>
+
+                                            <h:inputHidden   value="as"  />
+                                            <h:outputText value="#{MBSubstitui.cobrancaSub}" style="font-weight: bold;" />
+
+                                            <h:inputHidden   value="as"  />
+                                            <h:outputText value="#{MBSubstitui.tipoTributacaoSub}" style="font-weight: bold;" />
+
+                                            <h:inputHidden   value="as"  />
+                                            <h:outputText id="movimento1" value="#{MBSubstitui.tipoMovimentoServicoSubs}" style="font-weight: bold;" />
+
+                                            <h:outputText value="* para editar clique sobre a cidade" style="font-size: 9px;font-style: italic;" />
+
+                                        </h:panelGrid>                          
+                                        <br/>
+                                        <h:panelGrid style="margin-left: 80px;" columns="2">
+                                            <h:outputText value="ISSQN Retiro na Fonte: " />
+                                            <h:outputText id="retencao" value="#{MBSubstitui.retencaoFonteSubs}" style="font-weight: bold;" />
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2">
+                                            Descrição <br/> serviço*:
+                                            <p:inputTextarea style="width:520px;height:70px;"
+                                                             effectDuration="200" maxHeight="115" value="#{MBSubstitui.descServico}" />
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="7" style="margin-left: 30px;" >
+
+                                            <h:outputText value="Valor do Serviço*" />
+                                            <h:inputHidden value="as"  />
+                                            <h:outputText value="Total das Deduções" />
+                                            <h:inputHidden value="as"  />
+                                            <h:outputText value="Base de Calculo" />
+                                            <h:inputHidden value="as"  />
+                                            <h:outputText value="Aliquota" />
+
+                                            <p:inputText id="valorTotalNota" onkeypress="#{MBSubstitui.calculaBase()}" value="#{MBSubstitui.valorNotaSubs}" size="10">
+                                                <p:ajax event="blur" listener="#{MBSubstitui.calculaBase}" update="baseCalculo2, valorTotalNota, valorDeducoes, valorIss, valorCredito" />
+                                            </p:inputText>
+                                            <p:spacer width="15" height="10" />
+
+                                            <p:inputText id="valorDeducoes" onkeypress="#{MBSubstitui.calculaBase()}" value="#{MBSubstitui.valorDeducoesSubs}" size="10">
+                                                <p:ajax event="blur" listener="#{MBSubstitui.calculaBase}" update="baseCalculo2, valorTotalNota, valorDeducoes, valorIss, valorCredito" />
+                                            </p:inputText>
+
+                                            <p:spacer width="15" height="10" />
+                                            <p:inputText id="baseCalculo2"  value="#{MBSubstitui.valorBaseCalculoSubs}" disabled="true" size="10"/>
+                                            <p:spacer width="15" height="10" />
+                                            <p:inputText id="aliquota2" value="#{MBSubstitui.valorAliquotaSubs}" disabled="true" size="10"/>
+
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="5" style="margin-left: 30px;"  >
+                                            <h:outputText value="Valor do ISSQN" />
+                                            <h:inputHidden value="as"  />
+                                            <h:outputText value="Crédito Gerado" />
+                                            <h:inputHidden value="as"  />
+
+
+                                            <p:spacer width="31" height="10" />
+                                            <p:inputText id="valorIss" value="#{MBSubstitui.valorIssSubs}" disabled="true" size="10"/>
+                                            <p:spacer width="16" height="10" />
+                                            <p:inputText id="valorCredito" value="#{MBSubstitui.valorCreditoSubs}" disabled="true" size="10"/>
+                                            <p:spacer width="50" height="10" />
+                                            <p:commandButton  id="cbtGerarRelatorio" value="Substituir Nota Fiscal" action="#{MBSubstitui.lancaNotaSubstitutiva}" ajax="false" onclick="this.form.target='_blank'" />                                
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:tabView>
+                            </p:panel>
+                        </h:form>
+                    </p:panel>                    
+                </p:dialog>
+
+                <p:dialog id="modalDialogConfirmaNaoMovimento" header="Emitir Nota Fiscal Substitutiva" modal="true" widgetVar="dlgNaoMovimento" showEffect="scale" hideEffect="scale"
+                          width="300" height="200" resizable="false">
+                    <p:panel id="pnNaoMovimento" >
+                        <h:panelGrid style="margin: auto;" columns="1" >
+                            <h:outputText styleClass="texto_informativo" value="Tem certeza que deseja efetuar a declaração?" />
+                            <br/>
+                            <h:panelGrid style="margin: auto;" columns="2" >
+                                <h:form>                                    
+                                    <p:commandButton id="btSim" value="Sim" actionListener="#{MBNaoMovimento.emiteNaoMovimento}" 
+                                                     update="form:msgs4" oncomplete="handleLoginRequest(xhr, status, args)"/>
+
+                                    <p:commandButton  id="cbtN" value="Nao" onclick="dlgNaoMovimento.hide()" />
+                                </h:form>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                    <script type="text/javascript">  
+                        function handleLoginRequest(xhr, status, args) {  
+                                dlgNaoMovimento.hide();                                  
+                        }  
+                    </script>
+                </p:dialog>
+
+                <p:dialog id="modalDialogDadosRF" header="Nota Fiscal Retido na Fonte" modal="true" widgetVar="dlgDadosRF" showEffect="scale" hideEffect="scale"
+                          width="650" height="800" resizable="false">
+                    <p:panel id="dadosNota">
+                        
+                        <h:outputText value="Prestador" styleClass="texto_menu" style="font-size: 20px;" />
+                        <p:separator/>
+                        <h:panelGrid columns="2">
+                                <h:outputText value="R. Social/Nome*: " />
+                                <h:outputText value="CNPJ/CPF: " />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.nomeRazaoPrestador}" size="65"/>                                
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.cpfCnpjPrestador}" size="15"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1">
+                                <h:outputText value="Endereço*:" />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.enderecoPrestador}" size="87"/>
+                            </h:panelGrid>
+                            <!--
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Complemento: " />
+                                <h:outputText value="Bairro*: " />
+
+                                <p:inputText value="" size="37"/>
+                                <p:inputText value="" size="43"/>
+
+                            </h:panelGrid>
+                            -->
+                            <h:panelGrid columns="3">
+                                <h:outputText value="Cidade*: " />
+                                <h:outputText value="Estado*: " />
+                                <h:inputHidden   value="as"  />
+
+                                <p:inputText disabled="true" value="#{MBMostraNotaRF.notaSelecionada.cidadePrestador}" size="75"/>
+                                <p:inputText disabled="true" value="#{MBMostraNotaRF.notaSelecionada.estadoPrestador}" size="5"/>
+                                
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <h:outputText value="E-mail*: " />
+                                <h:inputHidden value="as" />
+                                <p:inputText value="#" size="87"/>
+                            </h:panelGrid>
+                        
+                        <br/>
+                        <h:outputText value="Serviço Prestado" styleClass="texto_menu" style="font-size: 20px;" />
+                        <p:separator/>
+                        <h:panelGrid columns="5" style="margin: auto; margin-top: 5px;" >
+                                <h:outputText value="Numero da Nota" />
+                                <p:spacer width="15" height="10" />
+
+                                <h:outputText value="Codigo de Verificação" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Local de execução" />
+
+
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.numeroNota}" size="15" disabled="true" />
+
+                                <h:inputHidden   value="as"  />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.cogigoVerifica}" size="25" disabled="true"/>
+
+                                <h:inputHidden   value="as"  />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.localExecucao}" size="25" disabled="true"/>
+
+                            </h:panelGrid>                          
+
+                            <h:panelGrid columns="7" style="margin: auto; margin-top: 5px;" >
+
+                                <h:outputText value="Data de Emissão" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Hora de Emissão" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Data Lancamento" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Hora Lancamento" />
+
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.dataEmissao}" size="15" disabled="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:inputText>
+                                <h:inputHidden   value="as"  />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.hora}" size="13" disabled="true"/>
+                                <h:inputHidden   value="as"  />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.dataLancamentoNotaTerceiro}" size="15" disabled="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:inputText>
+                                <h:inputHidden   value="as"  />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.horaLancamentoNotaTerceiro}" size="13" disabled="true"/>
+                                
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" style="margin: auto; margin-top: 5px;" >
+                                <h:outputText value="Atividade de Serviço Prestado" />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.servicoPrestado}" size="85" disabled="true"/>
+          
+                            </h:panelGrid>                       
+                            <h:panelGrid columns="1" style="margin: auto; margin-top: 5px;" >
+                                <h:outputText value="Descrição do serviço*" />
+                                <p:inputTextarea value="#{MBMostraNotaRF.notaSelecionada.descServico}" style="width: 550px; height: 80px;" disabled="true"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" style="margin: auto; margin-top: 5px;">
+                                <h:outputText value="Endereço de Validação da Nota Fiscal" />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.enderecoValidacaoNotaTerceiros}" size="85" disabled="true"/>                                
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="5" style="margin: auto; margin-top: 5px;" >
+
+                                <h:outputText value="Valor do Serviço*" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Total das Deduções" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Valor Nota Fiscal" />
+
+
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.valorNota}" size="10" disabled="true"/>                                    
+
+                                <p:spacer width="15" height="10" />
+                                <p:inputText value="#{MBMostraNotaRF.notaSelecionada.valorDeducoes}" size="10" disabled="true"/>
+
+                                <p:spacer width="15" height="10" />
+                                <p:inputText  value="#{MBMostraNotaRF.notaSelecionada.valorBaseCalculo}" size="10" disabled="true"/>
+
+
+                            </h:panelGrid>
+                        <br/>
+                        <h:panelGrid columns="1" style="margin: auto;">
+                            <h:form id="fmMostraDados">
+                                <p:commandButton id="btFecharRF" style="width: 100px;" value="Fechar" onclick="dlgDadosRF.hide()" />
+                            </h:form>
+                        </h:panelGrid>                            
+                    </p:panel>
+                </p:dialog>
+
+            </div>
+        </h:body>
+
+    </f:view>
+
+</html>

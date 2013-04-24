@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                IssMap - Cadastro
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <div id="centro_cadastro">
+                        <div class="postagens_centro">
+                            
+                            <p:panel header="Aguardando Finalização de Cadastramento" style="width:800px; height: 410px; margin-top: 3px;">
+                                <h:panelGrid style="margin-top: 20px;" columns="1" columnClasses="label, value" styleClass="imagem_fundo" >
+                                    <br/>
+                                    <h:outputText styleClass="texto_informativo" value="Prezado Contribuinte" /><br/>
+
+                                    <h:outputText styleClass="texto_informativo"  value="A Prefeitura Municipal de Santa Cruz do Rio Pardo foi notificada de seu cadastramento, mas ainda não foi efetivado, estamos aguardando o seu comparacimento ao Fisco Municipal com o termo de liberação de cadastro e os outros documentos nele exigido
+                                                                                          para que possamos o finalizar e permitir o acesso ao IssMap, Sistem de Emissão de Nota Fiscal Eletrônica.   " />
+                                    <br/>
+                                    <h:outputText styleClass="texto_informativo" value="A Prefeitura Municipal de Santa Cruz do Rio Pardo aguarda atenciosamente o seu comparecimento." /> <br/>                                    
+
+                                    <h:panelGrid columns="1" columnClasses="label, value" >
+                                      
+                                        <br />
+                                        <br />
+                                        <br />    
+                                        Prefeitura Municipal de Santa Cruz do Rio Pardo <br/>
+                                        Praça Deputado Lêonidas Camarinha nº 340 - Centro<br/>                                        
+                                        CEP: 18900-000<br/>
+
+                                        Fone: (14) 3332-4000 Fax: (14) 3372-1518<br/>
+                                        Horário de Atendimento ao público das 8h às 11h30 e 13h às 16h30<br/>
+                                        Site: http://www.santacruzdoriopardo.sp.gov.br/<br/>
+
+                                    </h:panelGrid>
+                                </h:panelGrid> 
+
+                            </p:panel>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

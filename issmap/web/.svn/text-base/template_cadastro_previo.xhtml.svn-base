@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/cssLayout_1.css" rel="stylesheet" type="text/css" />
+
+        <title><ui:insert name="title">Facelets Template</ui:insert></title>
+    </h:head>
+
+    <h:body>
+
+        <div id="topo1">
+            <p:breadCrumb>
+                <p:menuitem value="Login" url="login.xhtml"  />
+                <p:menuitem value="Cadastro" url="cadastro_previo_aviso.xhtml"  />
+                <p:menuitem value="Login" url="login.xhtml"  />
+            </p:breadCrumb>
+        </div>
+
+        <div id="top">
+            <div id="centro_topo">
+                <h:panelGrid style="width: 898px;" border="0" columns="3">
+                    <p:graphicImage style="border: none"  value="/img/logo_iss.png" />
+                    <h:outputText value="Prefeitura Municipal de Santa Cruz do Rio Pardo" styleClass="texto_topocidade" />
+                    <p:graphicImage style="border: none"  value="/img/logo_scruz.png" />
+                </h:panelGrid>
+            </div>
+        </div>
+
+        <div>           
+            <div id="content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,728 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.nfse.backingbean;
+
+import br.com.nfse.dao.DAOCcm;
+import br.com.nfse.dao.DAOLogradouro;
+import br.com.nfse.jsfuntil.CnpjValidator;
+import br.com.nfse.jsfuntil.CpfValidator;
+import br.com.nfse.jsfuntil.JSFUtil;
+import br.com.nfse.jsfuntil.UsuarioSalt;
+import br.com.nfse.to.Ccm;
+import br.com.nfse.to.Logradouro;
+import br.com.nfse.to.Socio;
+import br.com.nfse.to.Usuario;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.ByteArrayOutputStream;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author Thiago Henrique
+ */
+@ManagedBean(name = "MBSolicitaSenha")
+@ViewScoped
+public class SolicitaSenha implements java.io.Serializable {
+
+    private String razaoEmpresa;
+    private String cnpjEmpresa;
+    private String rg;
+    private String cepEmpresa;
+    private String logradouroEmpresa;
+    private String numeroEmpresa;
+    private String bairroEmpresa;
+    private String complementoEmpresa;
+    private String cidadeEmpresa;
+    private String estadoEmpresa;
+    private String emailEmpresa;
+    private String telefoneEEmpresa;
+    private String senha;
+    private String confirmaSenha;
+    private String dicaSenha;
+    private boolean teste = true;
+    private ArrayList<SelectItem> listaEstadosPesquisar;
+    private boolean confirmaSenhaHidden = false;
+    private String testeSenha;
+    private String nomeRepresentanteLegal;
+    private String cpfRepresentanteegal;
+    private ArrayList<Socio> sociosLista = new ArrayList<Socio>();
+    private static Logger logger = Logger.getLogger(SolicitaSenha.class.getName());
+    private Socio socio = new Socio();
+    private Socio socioSelecionado = new Socio();
+    private static Map<String, Object> listaComboCidades;
+    private static Map<String, Object> listaComboEstados;
+    private Logradouro logradouro;
+
+    public SolicitaSenha() {        
+    }
+
+    public Map<String, Object> getListaComboEstados() {
+        return listaComboEstados;
+    }
+
+    public Map<String, Object> getListaComboCidades() {
+        return listaComboCidades;
+    }
+
+    public void incluiSocio() {
+
+        if (CnpjValidator.validaCNPJ(cnpjEmpresa.replaceAll("\\.", "").replaceAll("\\-", "").replaceAll("\\/", ""))) {
+            if (CpfValidator.validaCPF(socio.getCpf().replaceAll("\\.", "").replaceAll("\\-", "")) && !socio.getNome().equals("")) {
+
+                socio.setCpf(socio.getCpf().replaceAll("\\.", "").replaceAll("\\-", ""));
+
+                sociosLista.add(socio);
+                socio = new Socio();
+
+                teste = false;
+
+
+                for (Socio socio1 : sociosLista) {
+                    System.out.println(socio1.getNome());
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "VERIFIQUE 'NOME SÓCIO' OU 'CPF', DADOS  INCORRETO "));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "CNPJ INVÁLIDO"));
+        }
+    }
+
+    public void carregaSocioSelecionado() {
+        System.out.println("Selecionado socio " + socioSelecionado.getNome());
+        System.out.println("Selecionado socio cpf " + socioSelecionado.getCpf());
+
+        sociosLista.remove(socioSelecionado);
+
+        if (sociosLista.isEmpty()) {
+            teste = true;
+        }
+    }
+
+    public void salvar() {
+    }
+
+    public void carregaValorSenha() {
+        System.out.println("Entrou no metodo carrega valor senha!!");
+
+        System.out.println("Senha " + senha);
+        System.out.println("confima senha " + confirmaSenha);
+
+        if (confirmaSenha != null) {
+            System.out.println("chama validação");
+            validaSenhas();
+        }
+    }
+
+    public void validaSenhas() {
+
+        if (senha != null) {
+            if (!senha.equals(confirmaSenha)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "Senhas Incorretas"));
+                confirmaSenhaHidden = true;
+            } else {
+                confirmaSenhaHidden = false;
+            }
+        }
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        logger.info("Current wizard step:" + event.getOldStep());
+        logger.info("Next step:" + event.getNewStep());
+
+        if (event.getNewStep().equals("localizacao") && event.getOldStep().equals("empresa")) {
+            if (sociosLista.isEmpty()) {
+                incluiSocio();
+            } else if (!socio.getCpf().equals("") && !socio.getNome().equals("")) {
+                incluiSocio();
+            }
+        }
+
+        return event.getNewStep();
+    }
+
+    public void buscaCep() {
+
+        DAOLogradouro daoLogradouro = new DAOLogradouro();
+        try {
+            logradouro = daoLogradouro.buscaPorNomeCep(cepEmpresa.replace("-", ""));
+
+            logradouroEmpresa = logradouro.getNome();
+            bairroEmpresa = logradouro.getBairro().getNome();
+            cidadeEmpresa = logradouro.getBairro().getCidade().getNome();
+            estadoEmpresa = logradouro.getBairro().getCidade().getEstado().getNome();
+
+            /*
+            listaComboEstados = new LinkedHashMap<String, Object>();
+            listaComboEstados.put(logradouro.getBairro().getCidade().getEstado().getNome(), logradouro.getBairro().getCidade().getEstado().getCodigo()); //label, value
+
+            listaComboCidades = new LinkedHashMap<String, Object>();
+            listaComboCidades.put(logradouro.getBairro().getCidade().getNome(),logradouro.getBairro().getCidade().getCodigo());*/
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "CEP INVÁLIDO"));
+        }
+    }
+
+    public void formularioDesbloqueio() throws Exception {
+
+        Document doc = null;
+        OutputStream os = null;
+        ByteArrayOutputStream baos = null;
+
+        try {
+            //cria o documento tamanho A4, margens de 2,54cm
+            doc = new Document(PageSize.A4, 30, 30, 30, 30);
+            baos = new ByteArrayOutputStream();
+
+            //cria a stream de saída
+            os = new FileOutputStream("out.pdf");
+
+            //associa a stream de saída ao
+            PdfWriter.getInstance(doc, baos);
+
+            //abre o documento
+            doc.open();
+
+            //adiciona o texto ao PDF
+
+            PdfPTable tabela = new PdfPTable(new float[]{0.3f, 0.9f}); //cria uma tabela com 2 colunas
+
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
+            String arquivo = scontext.getRealPath("/img/santa_cruz_pequeno2.jpg");
+
+            PdfPCell celula1 = new PdfPCell(Image.getInstance(arquivo)); //cria uma celula com parametro de Image.getInstance com o caminho da imagem do cabeçalho
+
+            Font fSubTitulo = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+            Paragraph subTitulo = new Paragraph("Prefeitura Municipal de Santa Cruz do Rio Pardo ", fSubTitulo);
+            subTitulo.setAlignment(Element.ALIGN_CENTER);
+
+            Font fTitulo = new Font(Font.FontFamily.TIMES_ROMAN, 13, Font.BOLD);
+            Paragraph titulo = new Paragraph("SOLICITAÇÃO DE DESBLOQUEIO SENHA WEB ", fTitulo);
+
+            PdfPCell celula2 = new PdfPCell(subTitulo); //adiciona o paragrafo com o titulo na segunda celula.
+            celula2.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPTable tabela1 = new PdfPTable(new float[]{1.0f});
+            PdfPCell celulaBranco = new PdfPCell();
+
+            PdfPCell celulaBrancoSubTitulo = new PdfPCell(titulo);
+            celulaBrancoSubTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            celula1.setBorder(-1); // aqui vc tira as bordas da celula
+            celula2.setBorder(-1);
+            celulaBranco.setBorder(-1);
+            celulaBrancoSubTitulo.setBorder(-1);
+
+            //gambiarra para alinhar o texto no centro da celula.. setVerticalAling() não funciona
+
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celulaBranco);
+            tabela1.addCell(celula2);
+            tabela1.addCell(celulaBranco);
+
+            PdfPCell celulaSecundaria = new PdfPCell(tabela1);
+
+            celulaSecundaria.setBorder(-1);
+
+            tabela.setSpacingAfter(20);
+
+            Font fTextos = new Font(Font.FontFamily.TIMES_ROMAN, 11, Font.NORMAL);
+            Paragraph texto1 = new Paragraph("                         O representante legal infra-assinado do(a) " + razaoEmpresa + ", inscrito(a) no CNPJ sob Nº. " + cnpjEmpresa + " ,"
+                    + " informa que efetuou o cadastramento da SENHA WEB no site da Prefeitura do Municipio de Santa Cruz do Rio Pardo e solicita o seu desbloqueio"
+                    + " para permitir o acesso as funcionalidades e informaçõs de seu interesse exclusivo da pessoa juridica.", fTextos);
+            texto1.setAlignment(Element.ALIGN_JUSTIFIED);
+
+            Paragraph texto2 = new Paragraph("                             Declara conhecer que a SENHA WEB é intransferivel e que representa a sua assinatura eletronica da pessoa juridica. ", fTextos);
+            texto2.setAlignment(Element.ALIGN_JUSTIFIED);
+            Paragraph texto3 = new Paragraph("                              Assume total responsabilidade decorrente do uso indevido da SENHA WEB. ", fTextos);
+            texto3.setAlignment(Element.ALIGN_JUSTIFIED);
+            texto3.setSpacingAfter(40);
+
+
+            DateFormat diaf = new SimpleDateFormat("d");
+            DateFormat mesf = new SimpleDateFormat("MMMM");
+            DateFormat anof = new SimpleDateFormat("yyyy");
+            Date data = Calendar.getInstance(Locale.getDefault()).getTime();
+
+            Paragraph textoDataDia = new Paragraph("Santa Cruz do Rio Pardo, " + diaf.format(data) + " de " + mesf.format(data) + " de " + anof.format(data), fTextos);
+            textoDataDia.setAlignment(Element.ALIGN_CENTER);
+            textoDataDia.setSpacingAfter(30);
+
+            Paragraph textoLinhaAssinatura = new Paragraph("___________________________________");
+            textoLinhaAssinatura.setAlignment(Element.ALIGN_CENTER);
+
+            Font fAssinatura = new Font(Font.FontFamily.TIMES_ROMAN, 8, Font.BOLD);
+            Paragraph textoAssinatura = new Paragraph("Assinatura do(a) representante legal", fAssinatura);
+            Paragraph nomeAssinatura = new Paragraph("Nome: " + nomeRepresentanteLegal, fAssinatura);
+            Paragraph cpfAssinatura = new Paragraph("CPF: " + cpfRepresentanteegal, fAssinatura);
+            textoAssinatura.setAlignment(Element.ALIGN_CENTER);
+            nomeAssinatura.setAlignment(Element.ALIGN_CENTER);
+            cpfAssinatura.setAlignment(Element.ALIGN_CENTER);
+            cpfAssinatura.setSpacingAfter(40);
+
+            Paragraph codigoVerif1 = new Paragraph("CPF: 369.953.698-07 CODIGO DE VERIFICAÇÃO: DCC60AE", fTextos);
+
+            Paragraph textoAviso = new Paragraph("A SOLICITAÇÃO DE DESBLOQUEIO DA SENHA WEB deverá ser entregue a "
+                    + "Prefetura Municipal de Santa Cruz do Rio Pardo de 2ª a 6ª feira, das 9 as 18 horas. Sem isso "
+                    + "a SENHA WEB, que possibilita o acesso as funções e informações de interece exclusivo do contribuinte "
+                    + "não será desbloqueada.", fTextos);
+
+            Font fAvisoNegrito = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
+
+            Paragraph textoAviso1 = new Paragraph("Apresentar documento original do outorgante com foto para a conferêrencia da assinatura pelo servidor respondavel. ", fTextos);
+
+            Paragraph textoAviso2 = new Paragraph("Esta solicitação terá validade de 60 (sessenta) dias a partir de sua emissão.", fTextos);
+
+            Paragraph textoAviso3 = new Paragraph("Favor anexar cópia simples e originais, para conferencia, dos seguintes documentos:", fAvisoNegrito);
+
+            Paragraph textoAviso4 = new Paragraph("CNPJ da pessoa juridica;", fTextos);
+
+            Paragraph textoAviso5 = new Paragraph("Instrumento de constituição e, se for o caso suas alterações posteriores ou instrumento de constituição consolidad, "
+                    + "regularmente registrado no órgão competente;", fTextos);
+
+            PdfPTable tabelaAviso = new PdfPTable(new float[]{1.0f});
+            PdfPTable tabelaAvisos = new PdfPTable(new float[]{1.0f});
+
+            PdfPCell celulaAviso = new PdfPCell(textoAviso);
+            PdfPCell celulaAviso1 = new PdfPCell(textoAviso1);
+            PdfPCell celulaAviso2 = new PdfPCell(textoAviso2);
+            PdfPCell celulaAviso3 = new PdfPCell(textoAviso3);
+            PdfPCell celulaAviso4 = new PdfPCell(textoAviso4);
+            PdfPCell celulaAviso5 = new PdfPCell(textoAviso5);
+
+            celulaAviso.setBorder(-1);
+            celulaAviso1.setBorder(-1);
+            celulaAviso2.setBorder(-1);
+            celulaAviso3.setBorder(-1);
+            celulaAviso4.setBorder(-1);
+            celulaAviso5.setBorder(-1);
+
+            tabelaAviso.addCell(celulaAviso);
+            tabelaAviso.addCell(celulaAviso3);
+            tabelaAviso.addCell(celulaAviso4);
+            tabelaAviso.addCell(celulaAviso5);
+            tabelaAviso.addCell(celulaAviso1);
+            tabelaAviso.addCell(celulaAviso2);
+
+            PdfPCell celulaAvisos = new PdfPCell(tabelaAviso);
+            tabelaAvisos.addCell(celulaAvisos);
+            tabelaAvisos.setSpacingBefore(20);
+            tabelaAvisos.setSpacingAfter(20);
+
+            Paragraph linhapontilhada = new Paragraph("................................................................................................................................................................");
+            linhapontilhada.setSpacingAfter(5);
+
+            Font fTituloProtocolo = new Font(Font.FontFamily.TIMES_ROMAN, 11, Font.BOLD);
+            Paragraph tituloProtocolo = new Paragraph("PROTOCOLO - Desbloqueio da Senha Web", fTituloProtocolo);
+            tituloProtocolo.setSpacingAfter(30);
+
+            Font fTextoProtocolo = new Font(Font.FontFamily.TIMES_ROMAN, 11, Font.NORMAL);
+            Paragraph cnpjCpfProtolo = new Paragraph("CNPJ: " + cnpjEmpresa, fTextoProtocolo);
+            Paragraph dataRecibo = new Paragraph("Recebido em ___/___/_____", fTextoProtocolo);
+            Paragraph codigoVerificacaoProtocolo = new Paragraph("CÓDIGO DE VERIFICAÇÃO: DCC60EAE", fTextoProtocolo);
+            Paragraph linhaAssinatura = new Paragraph("______________________________________", fTextoProtocolo);
+            Paragraph textoAssinaturaProtocolo = new Paragraph("Assinatura e carimbo no funcionario", fAssinatura);
+
+            PdfPTable tabelaProtocolo1 = new PdfPTable(new float[]{0.5f, 0.5f});
+            PdfPTable tabelaProtocolo2 = new PdfPTable(new float[]{0.5f, 0.5f});
+            PdfPTable tabelaProtocolo3 = new PdfPTable(new float[]{1.0f});
+
+            PdfPCell celulaProtocolo = new PdfPCell(cnpjCpfProtolo);
+            PdfPCell celulaProtocolo1 = new PdfPCell(dataRecibo);
+            PdfPCell celulaProtocolo2 = new PdfPCell(codigoVerificacaoProtocolo);
+            PdfPCell celulaProtocolo3 = new PdfPCell(linhaAssinatura);
+            PdfPCell celulaProtocolo4 = new PdfPCell(textoAssinaturaProtocolo);
+
+            celulaProtocolo4.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            celulaProtocolo.setBorder(-1);
+            celulaProtocolo1.setBorder(-1);
+            celulaProtocolo2.setBorder(-1);
+            celulaProtocolo3.setBorder(-1);
+            celulaProtocolo4.setBorder(-1);
+
+            tabelaProtocolo1.addCell(celulaProtocolo);
+            tabelaProtocolo1.addCell(celulaProtocolo1);
+            tabelaProtocolo1.setSpacingAfter(40);
+
+            tabelaProtocolo3.addCell(celulaProtocolo3);
+            tabelaProtocolo3.addCell(celulaProtocolo4);
+
+            PdfPCell celulaProtocolo5 = new PdfPCell(tabelaProtocolo3);
+
+            celulaProtocolo5.setBorder(-1);
+
+            tabelaProtocolo2.addCell(celulaProtocolo2);
+            tabelaProtocolo2.addCell(celulaProtocolo5);
+
+
+            tabela.addCell(celula1); //aqui adiciona as celulas na tabela.
+            tabela.addCell(celulaSecundaria);
+            tabela.addCell(celulaBranco);
+            tabela.addCell(celulaBrancoSubTitulo);
+            doc.add(tabela); // coloca a tabela na pagina do PDF.            
+            doc.add(texto1);
+            doc.add(texto2);
+            doc.add(texto3);
+            doc.add(textoDataDia);
+            doc.add(textoLinhaAssinatura);
+            doc.add(textoAssinatura);
+            doc.add(nomeAssinatura);
+            doc.add(cpfAssinatura);
+            doc.add(codigoVerif1);
+            doc.add(tabelaAvisos);
+            doc.add(linhapontilhada);
+            doc.add(tituloProtocolo);
+            doc.add(tabelaProtocolo1);
+            doc.add(tabelaProtocolo2);
+
+        } catch (Exception e) {
+        } finally {
+            if (doc != null) {
+                //fechamento do documento
+                doc.close();
+
+                HttpServletResponse resp = JSFUtil.getResponse();
+                resp.setContentType("Application/pdf");
+                resp.setHeader("Content-disposition", "attachment;filename=SOLICITAÇÃO DE DESBLOQUEIO DA SENHA WEB.pdf");
+                resp.setContentLength(baos.size());
+                ServletOutputStream saida = resp.getOutputStream();
+                baos.writeTo(saida);
+                saida.flush();
+                JSFUtil.responseComplete();
+
+                inserePedido();
+
+            }
+            if (os != null) {
+                try {
+                    //fechamento da stream de saída
+                    os.close();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(SolicitaSenha.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+
+    }
+
+    private void inserePedido() {
+
+        
+        Ccm contribuinte = new Ccm();
+
+        contribuinte.setNomeRazao(this.razaoEmpresa);
+        contribuinte.setCnpjCpf(this.cnpjEmpresa.replaceAll("\\/", "").replaceAll("\\.", "").replaceAll("-", ""));
+        contribuinte.setRepresentanteLegal(this.nomeRepresentanteLegal);
+
+        if (logradouro.getNome().equals("")) {
+            contribuinte.setRua(this.logradouroEmpresa);
+            contribuinte.setBairro(this.bairroEmpresa);
+        }
+        contribuinte.setNumeroPredio(Integer.parseInt(this.numeroEmpresa));
+        contribuinte.setComplemento(this.complementoEmpresa);
+        contribuinte.setTelefone(this.telefoneEEmpresa.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "").replaceAll(" ", ""));
+        contribuinte.setEmail(this.emailEmpresa);
+        contribuinte.setLogradouro(this.logradouro);
+
+        Usuario usuario = new Usuario();
+
+        usuario.setLogin(this.cnpjEmpresa);
+        usuario.setSenha(this.senha);
+        usuario.setDicaSenha(this.dicaSenha);
+
+        DateFormat dataf = new SimpleDateFormat("dd/mm/yyyy");
+        Date data = Calendar.getInstance(Locale.getDefault()).getTime();
+        String dataS = dataf.format(data);
+        usuario.setCcm(contribuinte);
+
+        try {
+            Date dateGrava = new Date(dataf.parse(dataS).getTime());
+            usuario.setDataInscricao(dateGrava);
+        } catch (ParseException ex) {
+            System.out.println(ex.getStackTrace());
+        }
+        UsuarioSalt criptografia = new UsuarioSalt();
+
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        try {
+            criptografia.criarLoginSenha(usuario);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(SolicitaSenha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(SolicitaSenha.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        usuarios.add(usuario);
+
+        contribuinte.setUsuarios(usuarios);
+
+        for (Socio sociol : sociosLista) {
+            sociol.setCcm(contribuinte);
+        }
+
+        contribuinte.setSocios(this.sociosLista);
+
+        DAOCcm ccmDao = new DAOCcm();
+
+
+        try {
+            ccmDao.salvar(contribuinte);
+        } catch (SQLException e) {
+            System.out.println(e.getNextException());
+        }
+    }
+
+    public void onRowSelect(SelectEvent event) {
+        FacesMessage msg = new FacesMessage("Car Selected", ((Socio) event.getObject()).getCpf().toString());
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowUnselect(UnselectEvent event) {
+        FacesMessage msg = new FacesMessage("Car Unselected", ((Socio) event.getObject()).getCpf().toString());
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public String getBairroEmpresa() {
+        return bairroEmpresa;
+    }
+
+    public void setBairroEmpresa(String bairroEmpresa) {
+        this.bairroEmpresa = bairroEmpresa;
+    }
+
+    public String getCepEmpresa() {
+        return cepEmpresa;
+    }
+
+    public void setCepEmpresa(String cepEmpresa) {
+        this.cepEmpresa = cepEmpresa;
+    }
+
+    public String getCidadeEmpresa() {
+        return cidadeEmpresa;
+    }
+
+    public void setCidadeEmpresa(String cidadeEmpresa) {
+        this.cidadeEmpresa = cidadeEmpresa;
+    }
+
+    public String getCnpjEmpresa() {
+        return cnpjEmpresa;
+    }
+
+    public void setCnpjEmpresa(String cnpjEmpresa) {
+        this.cnpjEmpresa = cnpjEmpresa;
+    }
+
+    public String getComplementoEmpresa() {
+        return complementoEmpresa;
+    }
+
+    public void setComplementoEmpresa(String complementoEmpresa) {
+        this.complementoEmpresa = complementoEmpresa;
+    }
+
+    public String getConfirmaSenha() {
+        return confirmaSenha;
+    }
+
+    public void setConfirmaSenha(String confirmaSenha) {
+        this.confirmaSenha = confirmaSenha;
+    }
+
+    public String getDicaSenha() {
+        return dicaSenha;
+    }
+
+    public void setDicaSenha(String dicaSenha) {
+        this.dicaSenha = dicaSenha;
+    }
+
+    public String getEmailEmpresa() {
+        return emailEmpresa;
+    }
+
+    public void setEmailEmpresa(String emailEmpresa) {
+        this.emailEmpresa = emailEmpresa;
+    }
+
+    public String getEstadoEmpresa() {
+        return estadoEmpresa;
+    }
+
+    public void setEstadoEmpresa(String estadoEmpresa) {
+        this.estadoEmpresa = estadoEmpresa;
+    }
+
+    public String getLogradouroEmpresa() {
+        return logradouroEmpresa;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public void setLogradouroEmpresa(String logradouroEmpresa) {
+        this.logradouroEmpresa = logradouroEmpresa;
+    }
+
+    public String getNumeroEmpresa() {
+        return numeroEmpresa;
+    }
+
+    public void setNumeroEmpresa(String numeroEmpresa) {
+        this.numeroEmpresa = numeroEmpresa;
+    }
+
+    public String getRazaoEmpresa() {
+        return razaoEmpresa;
+    }
+
+    public void setRazaoEmpresa(String razaoEmpresa) {
+        this.razaoEmpresa = razaoEmpresa;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public ArrayList<Socio> getSociosLista() {
+        return sociosLista;
+    }
+
+    public void setSociosLista(ArrayList<Socio> sociosLista) {
+        this.sociosLista = sociosLista;
+    }
+
+    public String getTelefoneEEmpresa() {
+        return telefoneEEmpresa;
+    }
+
+    public void setTelefoneEEmpresa(String telefoneEEmpresa) {
+        this.telefoneEEmpresa = telefoneEEmpresa;
+    }
+
+    public Socio getSocioSelecionado() {
+        return socioSelecionado;
+    }
+
+    public void setSocioSelecionado(Socio socioSelecionado) {
+        this.socioSelecionado = socioSelecionado;
+
+    }
+
+    public boolean isTeste() {
+        return teste;
+    }
+
+    public void setTeste(boolean teste) {
+        this.teste = teste;
+    }
+
+    public ArrayList<SelectItem> getListaEstadosPesquisar() {
+        return listaEstadosPesquisar;
+    }
+
+    public void setListaEstadosPesquisar(ArrayList<SelectItem> listaEstadosPesquisar) {
+        this.listaEstadosPesquisar = listaEstadosPesquisar;
+    }
+
+    public boolean isConfirmaSenhaHidden() {
+        return confirmaSenhaHidden;
+    }
+
+    public void setConfirmaSenhaHidden(boolean confirmaSenhaHidden) {
+        this.confirmaSenhaHidden = confirmaSenhaHidden;
+    }
+
+    public String getTesteSenha() {
+        return testeSenha;
+    }
+
+    public void setTesteSenha(String testeSenha) {
+        this.testeSenha = testeSenha;
+    }
+
+    public String getCpfRepresentanteegal() {
+        return cpfRepresentanteegal;
+    }
+
+    public void setCpfRepresentanteegal(String cpfRepresentanteegal) {
+        this.cpfRepresentanteegal = cpfRepresentanteegal;
+    }
+
+    public String getNomeRepresentanteLegal() {
+        return nomeRepresentanteLegal;
+    }
+
+    public void setNomeRepresentanteLegal(String nomeRepresentanteLegal) {
+        this.nomeRepresentanteLegal = nomeRepresentanteLegal;
+    }
+
+    public Socio getSocio() {
+        return socio;
+    }
+
+    public void setSocio(Socio socio) {
+        this.socio = socio;
+    }
+}

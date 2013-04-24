@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_principal.xhtml">
+
+            <ui:define name="title">
+                Usuarios
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel id="usuarios" styleClass="sem_borda" header="Usuários">
+
+                    <p:messages id="msgs" showDetail="true"/>                    
+
+                    <h:panelGrid columns="2" style="margin: auto;" >
+                        <h:outputText value="Nome: " />
+                        <h:outputText value="CPF: " />
+                        <p:inputText  label="Nome" size="60" maxlength="55" value="#{MBUsuario.nome}" />
+                        <p:inputMask  label="CPF" value="#{MBUsuario.login}" mask="999.999.999-99">
+                            <f:validator validatorId="validaCPF"/>
+                            <p:ajax event="blur" update="msgs" />
+                        </p:inputMask>
+
+
+                        <h:outputText value="E-mail: " />
+                        <h:outputText value="Telefone: " />
+                        <p:inputText  size="60" value="#{MBUsuario.email}" label="E-mail "/>                            
+                        <p:inputMask  value="#{MBUsuario.telefone}" mask="(99) 9999-9999"/>
+
+                        <h:outputText value="Cargo: " />
+                        <h:inputHidden value="#{MBUsuario.id}" />
+                        <p:inputText size="60" maxlength="55" value="#{MBUsuario.cargo}" />
+
+                        <h:panelGrid columns="3" style="margin: auto;" >
+
+                            <p:commandButton value="Novo" action="#{MBUsuario.novo}" update="usuarios"/>
+                            <p:commandButton value="Salvar" update="usuarios, outTabela" action="#{MBUsuario.addUsuario}" disabled="#{MBUsuario.salvarHabilitado}"/>
+                            <p:commandButton value="Excluir" action="#{MBUsuario.excluir}" update="usuarios, outTabela"/>                                                        
+
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <h:graphicImage value="/img/loading1.gif" />
+                                </f:facet>
+                                <f:facet name="complete">
+                                    <h:outputText value="" />
+                                </f:facet>
+                            </p:ajaxStatus>
+
+                        </h:panelGrid>                        
+                    </h:panelGrid>
+                    <br/>
+
+                    <p:outputPanel id="outTabela" >
+                        <p:dataTable  id="tabelaUsuarios" var="usuario" value="#{MBUsuario.listaUsuarios}" paginator="true" rows="3">
+
+                            <f:facet name="header">
+                                Lista de Usuários
+                            </f:facet>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Efetivado " />
+                                </f:facet>
+                                <p:graphicImage style="border: none"  value="/img/#{usuario.cadastroConfirmado}" />
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome " />
+                                </f:facet>
+                                <h:outputText value="#{usuario.nome}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="E-mail" />
+                                </f:facet>
+                                <h:outputText value="#{usuario.email}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Telefone" />
+                                </f:facet>
+                                <h:outputText value="#{usuario.telefone}" />
+                            </p:column>
+                            <p:column style="width:32px; ">
+                                <p:commandButton update=":form :usuarios" action ="#{MBUsuario.carregaUsuarioselecionado()}" image="ui-icon ui-icon-plusthick" title="Exibir">  
+                                    <f:setPropertyActionListener value="#{usuario}" target="#{MBUsuario.usuarioSelecionado}" />  
+                                </p:commandButton>                                                     
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                </p:panel>
+
+                <br/>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

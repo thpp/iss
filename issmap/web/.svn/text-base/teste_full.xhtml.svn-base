@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_principal.xhtml">
+
+            <ui:define name="title">
+                Altera senha
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel id="alteraSenha" style="width: 600px;margin: auto;margin-top: 40px;" header="Configuração de Usuario e Senha de Acesso">
+
+                    <p:messages id="msgs" showDetail="true"/>
+
+                    <h:panelGrid columns="2">
+                        <p:graphicImage style="border: none"  value="/img/cadeado1.png" />
+                        <h:panelGrid columns="2" >
+
+                            <h:outputText value="Senha: " />
+                            <p:password required="true" label="Senha"
+                                        value="#{MBAlteraSenha.senhaAnterior}" feedback="false" minLength="6" size="30">
+                            </p:password>
+
+                            <h:outputText value="Nova Senha: " />
+                            <p:password required="true" label="Senha"
+                                        value="#{MBAlteraSenha.senha}" inline="true" feedback="true" minLength="6"
+                                        promptLabel="Senha" weakLabel="Fraca"
+                                        goodLabel="Médio" strongLabel="Forte" size="30" >
+                                <p:ajax event="blur" listener="#{MBAlteraSenha.carregaValorSenha}" update="msgs" />
+                            </p:password>
+
+                            <h:outputText value="Confirme a Senha: " />
+                            <p:password required="true" label="Confirma senha"
+                                        value="#{MBAlteraSenha.confirmaSenha}" feedback="false" minLength="6" size="30">
+                                <p:ajax event="blur" listener="#{MBAlteraSenha.validaSenhas}" update="msgs" />
+                            </p:password>
+
+                            <h:outputText value="Dica de senha: " />
+                            <p:inputText required="true" label="Dica de Senha"
+                                         value="#{MBAlteraSenha.dicaSenha}" size="50"/>
+
+                            <h:inputHidden required="#{MBAlteraSenha.confirmaSenhaHidden}" requiredMessage="Senha e confirma senha, valores incorretos" />
+                            
+                            <p:commandButton value="Salvar" action="#{MBAlteraSenha.salvar}" update="alteraSenha" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <script type="text/javascript">
+                        function fadein(input, container) {
+                            container.fadeIn("slow");
+                        }
+
+                        function fadeout(input, container) {
+                            container.fadeOut("slow");
+                        }
+                    </script>
+
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

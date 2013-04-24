@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="#{MBNaoMovimento.template}">
+
+            <ui:define name="title">
+                Declaração de Não Movimento
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel id="nfseBusca" styleClass="sem_borda" header="Declaração de Não Movimento">                   
+                    
+                    <p:messages id="msgs4" showDetail="true"/>
+                    
+                    <br/>
+                    <h:panelGrid columns="1" columnClasses="label, value" >
+
+                        <h:panelGrid id="confirmation" columns="4">
+                            <h:outputText styleClass="texto_informativo" value="Razão Social: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.nomeRazao}" />
+
+                            <h:outputText styleClass="texto_informativo" value="CNPJ: " />
+                            <h:outputText  styleClass="texto"
+                                           value="#{MBNaoMovimento.cpfCnpj}"/>
+
+                            <h:outputText styleClass="texto_informativo" value="Ins. Municipal: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.inscricaoMunicipal}" />
+
+                            <h:outputText styleClass="texto_informativo" value="Ins. Estadual: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.inscricaoEstadual}" />
+
+                            <h:outputText styleClass="texto_informativo" value="CEP: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.cep}" />
+
+                            <h:outputText styleClass="texto_informativo" value="Logradouro: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.logradouro}" />
+
+                            <h:outputText styleClass="texto_informativo" value="Numero: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.numero}" />
+
+                            <h:outputText styleClass="texto_informativo" value="Bairro: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.bairro}" />
+
+                            <h:outputText styleClass="texto_informativo" value="Cidade: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.cidade}" />
+
+                            <h:outputText styleClass="texto_informativo" value="Estado " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.estado}"/>
+
+                            <h:outputText styleClass="texto_informativo" value="Complemento: " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.complemento}" />
+
+                            <h:outputText styleClass="texto_informativo" value="Telefone " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.telefone}" />
+
+                            <h:outputText styleClass="texto_informativo" value="E-mail " />
+                            <h:outputText styleClass="texto"
+                                          value="#{MBNaoMovimento.email}" />
+
+                            <h:outputText />
+                            <h:outputText />
+                        </h:panelGrid>
+
+                        <p:separator/>
+
+                        <p:panel id="aviso" visible="#{MBSubstitui.exibeAviso}" styleClass="sem_borda" style=" margin-top: 0px;">
+                            <h:panelGrid columns="1" columnClasses="label, value" styleClass="imagem_fundo">
+                    
+                                <h:outputText styleClass="texto_informativo" value="Prefeitura Municipal de Santa Cruz do Rio Pardo" />
+
+                                <h:outputText styleClass="texto_informativo" value="A Empresa acima qualificada, por intermédio de seu sócio/Representante 
+                                              Legal, vem declarar que no presente mês, não auferiu receita tributada pelo ISSQN. Declara e assume toda e qualquer 
+                                              responsabilidade das informações aqui dispostas serem verídicas sob as penas da lei.  " />
+                               <br/>
+                                <h:panelGrid style="margin: auto;" columns="1" >
+                                    <h:outputText styleClass="texto_informativo" value="Prefeitura Municipal de Santa Cruz do Rio Pardo, #{MBNaoMovimento.dia} de #{MBNaoMovimento.mes} de #{MBNaoMovimento.ano}" />   
+                                </h:panelGrid>
+                                
+                                <h:panelGrid columns="2" style="margin: auto;" >
+                                    <h:outputText value="Nome Sócio/Proprietário *" />
+                                    <h:outputText value="CPF *" />
+                                    <p:inputText label="Sócio" size="70" value="#{MBNaoMovimento.nomeRepresentanteLegal}" />
+                                    <p:inputMask label="CPF" value="#{MBNaoMovimento.cpfRepresentanteLegal}" mask="999.999.999-99">
+                                        <f:validator validatorId="validaCPF"/>
+                                        <p:ajax event="blur" update="msgs4" />
+                                    </p:inputMask>
+                                </h:panelGrid>
+                                <br/>                                
+                                <h:panelGrid style="margin: auto;" columns="1" >
+                                    <p:commandButton  id="cbtNaoMovimento" value="DECLARAR NÃO MOVIMENTO" onclick="dlgNaoMovimento.show()" update="msgs4" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            
+                        </p:panel>
+
+                    </h:panelGrid>
+
+
+                </p:panel>                 
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

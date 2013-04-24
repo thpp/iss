@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    
+    <body>
+        
+        <ui:composition template="./template_principal.xhtml">
+            
+            <ui:define name="title">
+                Identificação do Contador
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel id="contador" header="Identificação do Contador">
+                    <p:messages id="msgs" />
+                    <br/>
+                    <h:outputText styleClass="texto_informativo" rendered="#{MBContador.texto}" value="Você esta Vinculado á: " />
+                      <center>
+                        <h:panelGrid style="margin-top: 15px;" columns="2" >
+                          <h:outputText value="CPF/CNPJ" />
+                          <h:outputText value="Nome/Razão Social" />
+                          <p:inputText value="#{MBContador.cnpjCpf}" size="15" required="flse" maxlength="16"
+                                            requiredMessage="Campo Usuário obrigatório !">
+                              <p:ajax event="blur" listener="#{MBContador.buscaContador}" update="rnome" />
+                          </p:inputText>
+                          <p:inputText id="rnome" value="#{MBContador.razaoContador}" size="40" required="true" requiredMessage="Campo Nome/Razão Social obrigatório !"/>
+                      </h:panelGrid>
+                          <br/>
+                        <h:outputText styleClass="texto_informativo" value="Opções do Prestador" />
+                      </center>
+                      <p:panel style="width: 480px;margin: auto;" >
+                          <h:panelGrid style="margin: auto;" columns="2">
+                              <h:selectBooleanCheckbox value="#{MBContador.isEnviarEmailContador}" />
+                           <h:outputText value="Desejo enviar e-mail automaticamente ao meu contador a cada NF-e emitida" />
+
+                           <h:selectBooleanCheckbox value="#{MBContador.isConverterRPS}" />
+                           <h:outputText value="Autorizo que meu contador converta meus RPS em NF-e" />
+
+                           <h:selectBooleanCheckbox value="#{MBContador.isCancelarNF}" />
+                           <h:outputText value="Autorizo o meu contador a cancelar as NF-e emitidas" />
+
+                           <h:selectBooleanCheckbox value="#{MBContador.isConsultarNF}" />
+                           <h:outputText value="Autorizo o meu contador a consultar as NF-e emitidas" />
+
+                           <h:selectBooleanCheckbox value="#{MBContador.isGuiaPagamento}" />
+                           <h:outputText value="Autorizo o meu contador a emitir as respectivas guias de pagamento" />
+                      </h:panelGrid>
+                      </p:panel>
+                      <br/>
+                      
+                      <h:panelGrid style="width: 490px;margin: auto" columns="2" >
+                          <p:commandButton style="padding-right: 0px;" value="Vincular Contador ao perfil" update="msgs" actionListener="#{MBContador.vinculaContador}"  />
+                          <p:commandButton style="padding-right: 0px;" value="Desvincular Contador do perfil" update="contador" actionListener="#{MBContador.desvincularContador}"  />
+                      </h:panelGrid>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+        
+    </body>
+</html>

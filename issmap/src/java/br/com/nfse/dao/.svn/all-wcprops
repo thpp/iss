@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/issmap/!svn/ver/7/src/java/br/com/nfse/dao
+END
+DAOUsuario.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/issmap/!svn/ver/7/src/java/br/com/nfse/dao/DAOUsuario.java
+END
+DAOCadastro.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/dao/DAOCadastro.java
+END
+DAOCcm.java
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/dao/DAOCcm.java
+END
+DAOBairro.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/dao/DAOBairro.java
+END
+DAOLogradouro.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/dao/DAOLogradouro.java
+END

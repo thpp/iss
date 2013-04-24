@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/issmap/!svn/ver/5/lib/javamail-1.4.4/lib
+END
+imap.jar
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/issmap/!svn/ver/5/lib/javamail-1.4.4/lib/imap.jar
+END
+mailapi.jar
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/issmap/!svn/ver/5/lib/javamail-1.4.4/lib/mailapi.jar
+END
+smtp.jar
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/issmap/!svn/ver/5/lib/javamail-1.4.4/lib/smtp.jar
+END
+dsn.jar
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/issmap/!svn/ver/5/lib/javamail-1.4.4/lib/dsn.jar
+END
+pop3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/issmap/!svn/ver/5/lib/javamail-1.4.4/lib/pop3.jar
+END

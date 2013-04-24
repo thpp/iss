@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_principal.xhtml">
+
+            <ui:define name="title">
+                Perfil Prestador
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel header="Perfil Prestador">
+                    <p:wizard style="margin-top: 5px;" widgetVar="wiz"
+                              flowListener="#{MBUpload.onFlowProcess}" backLabel="Voltar" nextLabel="Próximo">
+
+                        <p:tab title="Dados Empresa" id="empresa">
+
+                            <p:panel id="dadosEmpresa" header="Dados da Empresa">
+
+                                <p:messages id="msgs1" showDetail="true"/>
+
+                                <h:panelGrid columns="2" columnClasses="label, value" styleClass="grid">
+
+                                    <h:outputText value="Nome Fantasia: "  />
+                                    <p:inputText required="true" size="70" label="Nome Fantasia" value="#{MBPerfil.razaoEmpresa}" />
+
+                                    <h:outputText value="Site: " />
+                                    <p:inputText size="70" value="#" />
+
+                                    Resumo sobre a<br/> empresa:
+                                    <p:inputTextarea style="width:450px;height:80px;"
+                                                     effectDuration="400" maxHeight="250" />
+
+                                </h:panelGrid>
+                                <br/>
+
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Upload Logotipo" id="logotipo">
+                            <p:panel id="logo" header="Upload Logo">
+
+                                <h:messages errorClass="error"/>
+                                <br/>
+                                <br/>                                
+                                <h:panelGrid  columns="2" >
+                                    <h:panelGrid  id="painel1" columns="1" columnClasses="label, value">
+                                        <p:graphicImage id="idimagem" value="#{MBUpload.imagem}" cache="flase" />
+                                    </h:panelGrid>
+                                    <h:panelGrid  style="margin-bottom: 15px;" columns="1">
+                                        <h:outputText value="Para incluir ou alterar o seu logotipo, defina a imagem clicando no botão selecionar,
+                                                      a imagem sera pré carregada na lista de arquivos, finalize o envio do logotipo clicando em UPLOAD." styleClass="texto_informativo1" />
+                                        <br/>
+                                        <h:outputText value="Recomendamos para que não haja perda de resolução e a imagem fique com boa nitidez, que o arquivo (logotipo)
+                                                      tenha proximadamente 128 pixeis de autura e aproximadamente 128 pixeis de largura" styleClass="texto_informativo1" />
+                                    </h:panelGrid>                                    
+                                </h:panelGrid>
+                                <p:fileUpload auto="false" label="Selecionar....."
+                                              allowTypes="*.jpg;*.png;*.gif;" multiple="false"
+                                              description="Imagem" update="idarquivo,idimagem"
+                                              fileUploadListener="#{MBUpload.fileUploadAction}" />
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Localização" id="local">
+                            <p:panel header="Adress Details">
+                                <p:messages  id="msgs2" showDetail="true"/>
+
+                                <h:panelGrid columns="4" columnClasses="label, value">
+
+                                    <h:outputText value="Cep: " />
+                                    <p:inputMask disabled="true" size="10" required="true" label="Cep"
+                                                 value="#{MBPerfil.cepEmpresa}" mask="99999-999"/>
+
+
+                                    <h:inputHidden value="as" />
+                                    <p:commandButton disabled="true" value="Bucar por CEP"
+                                                     actionListener="#{MBPerfil.salvar}"/>
+
+                                    <h:outputText value="Logradouro: " />
+                                    <p:inputText disabled="true" required="true" label="Logradouro"
+                                                 size="30" value="#{MBPerfil.logradouroEmpresa}" />
+
+                                    <h:outputText value="Numero: " />
+                                    <p:inputText disabled="true" required="true" label="Numero"
+                                                 size="6" value="#{MBPerfil.numeroEmpresa}" />
+
+                                    <h:outputText value="Bairro: " />
+                                    <p:inputText disabled="true" size="30" required="true" label="Bairro"
+                                                 value="#{MBPerfil.bairroEmpresa}" />
+
+                                    <h:outputText value="Complemento: " />
+                                    <p:inputText disabled="true" size="30" value="#{MBPerfil.complementoEmpresa}" />
+
+                                    <h:outputText value="Telefone: " />
+                                    <p:inputMask disabled="true" required="true" label="Telefone"
+                                                 value="#{MBPerfil.telefoneEEmpresa}" mask="(99) 9999-9999"/>
+
+                                    <h:outputText value="E-mail: " />
+                                    <p:inputText disabled="true" size="30" value="#{MBPerfil.emailEmpresa}" required="true" label="E-mail ">
+                                        <f:validator validatorId="emailValidator"/>
+                                        <p:ajax event="blur" update="msgs2" />
+                                    </p:inputText>
+
+                                    <h:outputText value="Estado: " />
+                                    <p:inputText disabled="true" size="30" value="#{MBPerfil.estadoEmpresa}" />
+
+                                    <h:outputText value="Cidade: " />
+                                    <p:inputText disabled="true" size="30" value="#{MBPerfil.cidadeEmpresa}" />
+
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Contatos" id="contatos">
+                            <p:panel id="dadosContato" header="Contatos da Empresa">
+
+                                <p:messages id="msgs3" showDetail="true"/>
+
+                                <h:panelGrid columns="2" columnClasses="label, value" style="margin: auto;">
+                                    <h:outputText value="Nome: " />
+                                    <h:outputText value="Cargo: " />
+                                    <p:inputText size="60" maxlength="55" value="#{MBPerfil.contato.nome}" />
+                                    <p:inputText size="30" maxlength="25" value="#{MBPerfil.contato.cargo}" />
+
+                                    <h:outputText value="E-mail: " />
+                                    <h:outputText value="Fone/Fax: " />
+                                    <p:inputText size="60" maxlength="55" value="#{MBPerfil.contato.email}" />
+                                    <p:inputMask value="#{MBPerfil.contato.foneFax}" mask="(99) 9999-9999"/>
+
+
+                                    <p:commandButton value="Incluir" action="#{MBPerfil.incluiContato}" update="dadosContato" />
+                                </h:panelGrid>
+                                <br/>
+                                <p:dataTable  id="tabelaContato" var="contato" value="#{MBPerfil.contatoLista}" paginator="true" rows="3" >
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nome contato " />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.nome}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Cargo" />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.cargo}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="E-mail" />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.email}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Fone/Fax" />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.foneFax}" />
+                                    </p:column>
+                                    <p:column style="width:32px">
+                                        <p:commandButton  action="#{MBPerfil.deletaContatoSelecionado}" update=":form :dadosContato" image="ui-icon ui-icon-close" title="Delete">
+                                            <f:setPropertyActionListener value="#{contato}"  target="#{MBPerfil.contatoSelecionado}" />
+                                        </p:commandButton>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+
+
+                        <p:tab title="NFS-e" id="recebimentoEmail">
+
+                            <p:panel id="recebimentoEmail1" header="E-mail e frase de segurança ">
+
+                                <h:panelGrid columns="1" columnClasses="label, value" styleClass="grid">
+
+                                    <h:outputText value="E-mail para recebeimento de NFS-e: " />
+                                    <p:inputText required="true" size="70" label="Nome Fantasia"
+                                                 value="#{MBPerfil.emailEmpresa}" />
+                                    <br/>
+
+                                    <p:separator />
+
+                                    <h:outputText value="Infome a seguir, um texto de sua escolha (frase de seguraça). Esta frase vai aparecer
+                                                  em todas as mensagens enviadas pelo IssMap para o seu e-mail, de forma que você tenha
+                                                  a segurança da autenticidade do remetente. Assim, toda vez que você receber um e-mail
+                                                  do IssMap, confira a frase de segurança informada na mensagem. Caso ela não exista ou esteja
+                                                  incorreta não abra a mensagem e proceda a sua exclusão" styleClass="texto_informativo1" />
+                                    <br/>
+
+                                    <h:outputText value="Frase de Segurança: " />
+                                    <p:inputTextarea style="width:450px;height:15px;"
+                                                     effectDuration="200" maxHeight="130" />
+
+                                </h:panelGrid>
+                                <br/>
+
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Tributação" id="confirm">
+                            <p:panel header="Confirmation">        
+
+                                <h:panelGrid columns="2" columnClasses="label, value" style="margin: auto;">
+
+                                    <h:outputText value="Inscrição Municipal: " />
+                                    <h:outputText value="Cobraça: " />
+                                    <p:inputText disabled="true" size="30" maxlength="55" value="#{MBPerfil.contato.nome}" />
+                                    <p:inputText disabled="true" size="30" maxlength="25" value="#{MBPerfil.contato.cargo}" />
+
+                                    <h:outputText value="Incentivo Fiscal: " />
+                                    <h:outputText value="Tipo de Tributaçao: " />                                    
+                                    <p:inputText disabled="true" size="30" maxlength="25" value="#{MBPerfil.contato.cargo}" />
+                                    <p:inputText disabled="true" size="30" maxlength="25" value="#{MBPerfil.contato.cargo}" />
+
+                                    <h:outputText value="Genero Atividade: " />
+                                    <h:outputText value="Valor Tributo: " />
+                                    <p:inputText disabled="true" size="50" maxlength="55" value="#{MBPerfil.contato.email}" />
+                                    <p:inputText disabled="true" size="15" maxlength="10" value="#{MBPerfil.contato.cargo}" />
+
+                                </h:panelGrid>
+
+                                <br/>
+                                
+                                <p:dataTable  id="tabelaTributos" var="contato" value="#{MBPerfil.contatoLista}" paginator="true" rows="3" >
+                                    <f:facet name="header">
+                                        Tributações
+                                    </f:facet>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Tributo " />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.nome}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Item do Tributo" />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.cargo}" />
+                                    </p:column>
+                                </p:dataTable>
+
+
+                            </p:panel>
+                        </p:tab>
+
+                    </p:wizard>
+                </p:panel>
+                <p:ajaxStatus>
+                    <f:facet name="start">
+                        <h:graphicImage value="/img/loading1.gif" />
+                    </f:facet>
+
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

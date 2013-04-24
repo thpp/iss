@@ -1,0 +1,222 @@
+.ui-widget {
+             font-size: 12px !important;
+            }
+            
+.ui-layout-unit-top .ui-layout-bd {
+    border: 0;
+    background:url('img/subtopo.png') no-repeat;
+    }
+.ui-layout-unit-center .ui-layout-bd{
+    -moz-border-radius: 10px; /* Para Firefox */
+    -webkit-border-radius: 10px; /*Para Safari e Chrome */
+}
+.ui-layout-unit-left .ui-layout-bd{
+    border-top: 1px;
+    -moz-border-radius: 10px; /* Para Firefox */
+    -webkit-border-radius: 10px; /*Para Safari e Chrome */
+}
+.ui-layout-unit-center .ui-wizard-step-title {
+    font-size: 12px;
+}
+
+.ui-wizard-step-title {
+    font-size: 14px;
+}
+.ui-layout{
+    border-top: 1px;
+    border-left: 1px;
+    border-right: 1px;
+}
+
+.sem_borda{
+    border-top: 1px;
+    border-left: 1px;
+    border-right: 1px;
+    border-bottom: 1px;
+}
+
+#top {
+    background:url('img/fundo-topo.png');
+    height:123px;
+    border-bottom:2px solid #023A68;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+}
+
+#topo1{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color: #333;
+}
+
+#container  {
+    margin: 1em auto;
+    width: 650px;  
+}
+#topo1{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:18px;
+    color: #333;
+}
+#centro_topo{
+    margin: auto;
+    margin-top: 0px;
+    width:900px;
+    height:100px;
+}
+.texto_topo{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:30px;
+    color: #333;
+}
+.texto_padrao{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color: #333;
+    font-style:italic;
+}
+.texto_informativo {
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:15px;
+    text-align: center !important;
+    font-weight: bold;
+    color: #333;
+    margin: 30px;
+}
+
+.texto_cont_nota{
+    margin: 10px; 
+    color: #333; 
+    font-weight: bold; 
+    font-size:12px;
+}
+
+.texto_informativo1{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.texto_informativo2{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:15px;
+    margin: 15px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 0px;
+}
+.texto_informativo_resultado{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:15px;
+    font-weight: bold;
+    color: #333;
+}
+.texto_data_notifica{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight: bold;
+    color: #b1030f;
+    margin-top: 0px;
+}
+
+.texto_subtopo{   
+    font-size:14px;
+    font-weight: bold;
+    color: #023A68;
+}
+
+.texto_topocidade{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:20px;
+    font-weight: bold;
+    color: #023A68;
+}
+
+.texto_subtoposair{
+    font-size:14px;
+    font-weight: bold;
+    color: #023A68;
+}
+
+.imagem_fundo{
+    background:url('img/scruz.png') no-repeat;
+    background-position: center;
+}
+
+.texto_menu{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;    
+    margin-left: 12px;
+    font-weight: bold;
+    color: #2c6d93;
+    font-size: 14px;
+}
+a{
+    text-decoration: none;
+}
+#centro{
+    margin: auto;
+    width:895px;
+    text-align:left;
+}
+#centro_cadastro{
+    margin: auto;
+    width:830px;
+    text-align:left;
+}
+.postagens{
+    background-color:#f7f7f7;
+    float:left;
+    padding:20px 5px;
+    margin:1px;
+    display: block;
+    text-decoration: none;
+
+}
+.postagens_centro{
+    background-color:#f7f7f7;
+    float:left;
+    padding:20px 5px;
+    margin:1px;
+    display: block;
+    text-decoration: none;
+    margin: auto;
+
+}
+#postagens_1{
+    background-color:#f7f7f7;
+    width:937px;
+    height:10px;
+    padding:5px;
+    margin:1px;
+}
+.texto_topico{
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size:20px;
+    color: #373b8a;
+}
+.button{
+    width: 110px;
+    height: 40px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.fundo_cadeado{
+    background:url('img/fundo.png') no-repeat;
+    background-position: center;
+}
+
+.consulta{
+    font-weight: bold; 
+    color: #023A68;
+    font-size: 22px;
+}
+
+.consulta:hover{
+    text-decoration: underline;
+}

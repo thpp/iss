@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                Cadastro Senha Usuario
+            </ui:define>
+
+            <ui:define name="content">
+                <div id="centro_cadastro">
+                    <div class="postagens_centro">
+                        <h:form>
+                            <p:panel header="Cadastro Senha" style="width:800px; height: 540px; margin-top: 5px;">
+
+                                <p:messages id="msgs1" showDetail="true"/>
+                                <br/>
+                                <h:outputText styleClass="texto_informativo" style="margin: 30px; font-size: 13px;" value="Bem vindo ao IssMap, você esta prestes a válidar seu cadastro no sistma de nota fislcal de
+                                              serviço eletronica da Prefeitura Municipal de Santa Cruz do Rio Pardo, informe seu CPF para a liberação do cadastro de sua senha." />
+                                <br/>
+                                <h:outputText styleClass="texto_informativo" style="margin: 30px; font-size: 13px;" value="Lembramos que a senha
+                                              é um item individual que por sua vez é intransferível e representa a sua assinatura eletrônica dentro do sistema, assegurando sua total responsabilidade pelo uso indevido." />
+
+                                <h:panelGrid style="margin-top: 20px;" columns="4" columnClasses="label, value" styleClass="grid">                                                          
+                                    <h:outputText value="CPF*" />
+                                    <p:inputMask required="true" label="CPF" value="#{MBSenhaUsuario.cpfBusca}" mask="999.999.999-99">
+                                        <f:validator validatorId="validaCPF"/>
+                                        <p:ajax event="blur" update="msgs1" />
+                                    </p:inputMask>
+                                    <p:commandButton value="Buscar CPF" action="#{MBSenhaUsuario.buscaUsuario}" update="senhaAcesso" />
+
+                                    <p:ajaxStatus>
+                                        <f:facet name="start">
+                                            <h:graphicImage value="/img/loading1.gif" />
+                                        </f:facet>
+                                        <f:facet name="complete">
+                                            <h:outputText value="" />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+                                </h:panelGrid>
+
+                                <br/>
+
+                                <p:panel id="senhaAcesso" visible="#{MBSenhaUsuario.mostraCadastroSenha}" >
+
+                                    <p:messages id="msgs3" showDetail="true"/>
+
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+
+                                        <h:outputText value="Empresa Contratante: " />
+                                        <h:outputText styleClass="texto_informativo" style="font-size: 13px;" value="#{MBSenhaUsuario.empresaContratante}" />
+
+                                        <h:outputText value="Usuario: " />
+                                        <h:outputText styleClass="texto_informativo" style="font-size: 13px;"  value="#{MBSenhaUsuario.nomeUsuario}" />
+
+                                    </h:panelGrid>
+                                    <br/>
+                                    <h:panelGrid columns="2" >
+                                        <h:outputText value="Senha: " />
+                                        <p:password required="flase" label="Senha"
+                                                    value="#{MBSenhaUsuario.senha}" inline="true" feedback="true" minLength="6"
+                                                    promptLabel="Senha" weakLabel="Fraca"
+                                                    goodLabel="Médio" strongLabel="Forte" size="30" >
+                                            <p:ajax event="blur" listener="#{MBSenhaUsuario.carregaValorSenha}" update="msgs3" />
+                                        </p:password>
+
+                                        <h:outputText value="Confirme a Senha: " />
+                                        <p:password required="false" label="Confirma senha"
+                                                    value="#{MBSenhaUsuario.confirmaSenha}" feedback="false" minLength="6" size="30">
+                                            <p:ajax event="blur" listener="#{MBSenhaUsuario.validaSenhas}" update="msgs3" />
+                                        </p:password>
+
+                                        <h:outputText value="Dica de senha: " />
+                                        <p:inputText required="false" label="Dica de Senha"
+                                                     value="#{MBSenhaUsuario.dicaSenha}" size="60"/>
+
+                                        <h:inputHidden required="#{MBSenhaUsuario.confirmaSenhaHidden}" requiredMessage="Senha e confirma senha, valores incorretos" />
+
+                                        <p:commandButton value="Validar Cadastro" action="#{MBSenhaUsuario.validaCadastro}" update="senhaAcesso" />
+                                    </h:panelGrid>
+
+
+
+                                    <script type="text/javascript">
+                                        function fadein(input, container) {
+                                            container.fadeIn("slow");
+                                        }
+
+                                        function fadeout(input, container) {  
+                                            container.fadeOut("slow");
+                                        }
+                                    </script>
+
+                                </p:panel>
+
+                            </p:panel>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>            
+        </ui:composition>
+
+    </body>
+</html>

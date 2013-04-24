@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/issmap/!svn/ver/7/src/java/br/com/nfse/jsfuntil
+END
+JSFUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/JSFUtil.java
+END
+LogradouroDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/LogradouroDao.java
+END
+CnpjValidator.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/CnpjValidator.java
+END
+ConnectionFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/ConnectionFactory.java
+END
+AutenticaSessao.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/AutenticaSessao.java
+END
+CpfValidator.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/CpfValidator.java
+END
+PopulaCodigoCidade.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/PopulaCodigoCidade.java
+END
+EmailValidator.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/EmailValidator.java
+END
+HibernateUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/HibernateUtil.java
+END
+UsuarioSalt.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/issmap/!svn/ver/7/src/java/br/com/nfse/jsfuntil/UsuarioSalt.java
+END
+Teste.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/Teste.java
+END
+PopulaTabelaLogradouro.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/PopulaTabelaLogradouro.java
+END
+GeraTabelas.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/issmap/!svn/ver/1/src/java/br/com/nfse/jsfuntil/GeraTabelas.java
+END

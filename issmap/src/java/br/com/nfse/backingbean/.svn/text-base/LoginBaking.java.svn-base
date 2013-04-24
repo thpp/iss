@@ -1,0 +1,115 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.nfse.backingbean;
+
+import br.com.nfse.jsfuntil.UsuarioSalt;
+import br.com.nfse.to.Usuario;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/**
+ *
+ * @author Thiago Henrique
+ */
+@ManagedBean(name = "MBlogin")
+@ViewScoped
+public class LoginBaking implements java.io.Serializable {
+
+    private String cnpjCpf;
+    private String senha;
+    UsuarioSalt salt = new UsuarioSalt();
+    Usuario usuario = null;
+    private String nomeUsuario = null;
+
+    public String login() {
+
+        System.out.println(cnpjCpf);
+        System.out.println(senha);
+
+        String retorno = null;
+
+        try {
+            this.usuario = this.salt.autenticaUsuario(this.cnpjCpf, this.senha);
+        } catch (SQLException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "Usuario ou Senha Incorreto"));
+            System.out.println(ex.getNextException());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UsuarioSalt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (usuario != null) {
+                System.out.println("Autenticado");
+                HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", this.usuario);
+                retorno = "loginOk";
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRO! ", "Usuario ou Senha Incorreto"));
+            }
+
+        return retorno;
+    }
+
+    public String logout() {
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        session.removeAttribute("usuario");
+        this.usuario = new Usuario();
+        this.cnpjCpf = null;
+        this.senha = null;
+        this.nomeUsuario = null;
+        
+        return "redirect";
+
+    }
+
+    public void encerraSessao() {
+        try {
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) ctx.getExternalContext().getSession(false);
+            session.setAttribute("usuario", null);
+            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/login.xhtml");
+            session.invalidate();
+        } catch (Exception e) {
+        }
+    }
+
+
+    public String getCnpjCpf() {
+        return cnpjCpf;
+    }
+
+    public void setCnpjCpf(String cnpjCpf) {
+        this.cnpjCpf = cnpjCpf;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getNomeUsuario() {
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        Usuario currentUser = (Usuario) session.getAttribute("usuario");
+
+        this.nomeUsuario = currentUser.getCcm().getNomeRazao()+ " "+currentUser.getLogin();
+
+        return nomeUsuario;
+    }
+}

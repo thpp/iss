@@ -1,0 +1,87 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package br.com.nfse.to;
+
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+/**
+ *
+ * @author Thiago Henque
+ */
+@Entity
+@Table(name="LOGRADOUROS")
+public class Logradouro implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="CD_LOGRADOURO")
+    private Integer codigo;
+
+    @ManyToOne()
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name="CD_BAIRRO",nullable=false)
+    private Bairro bairro;
+
+    @Column(name="CD_TIPO_LOGRADOUROS")
+    private Integer cdTipoLogradouro;
+
+    @Column(name="DS_LOGRADOURO_NOME",nullable=false,length=150)
+    private String nome;
+
+    @Column(name="NO_LOGRADOURO_CEP",nullable=false,length=60)
+    private String cep;
+
+    public Bairro getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(Bairro bairro) {
+        this.bairro = bairro;
+    }
+
+    public Integer getCdTipoLogradouro() {
+        return cdTipoLogradouro;
+    }
+
+    public void setCdTipoLogradouro(Integer cdTipoLogradouro) {
+        this.cdTipoLogradouro = cdTipoLogradouro;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+}

@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>        
+        <ui:composition template="#{MBGrafico.template}">
+
+            <ui:define name="title">
+                IssMap
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel header="IssMap">
+                    <p:tabView styleClass="sem_borda">  
+
+                        <p:tab title="Vis&atilde;o Geral">  
+                            <h:panelGrid columns="2" cellpadding="10" rendered="#{MBGrafico.exibeNotasParcial}" >  
+                                <p:panel style="width: 280px; height: 110px" >                                    
+                                    <h:outputLabel styleClass="texto_informativo1" value="Notas emitidas hoje " />
+                                    <p:separator style="height: 1px;"/>
+
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel styleClass="texto_informativo2" value="Notas Emitidas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaHojePrestador}" />
+                                        <h:outputLabel styleClass="texto_informativo2" value="Valor Total Notas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaHojeTomador}" />
+                                    </h:panelGrid>
+                                    <p:separator style="width: 210px; height: 5px;"/>
+                                    
+                                </p:panel>
+
+                                <p:panel style="width: 280px; height: 110px" >                                    
+                                    <h:outputLabel styleClass="texto_informativo1" value="Notas emitidas no dia anterior" />
+                                    <p:separator style="height: 1px;"/>
+
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel styleClass="texto_informativo2" value="Notas Emitidas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaAntPrestador}" />
+                                        <h:outputLabel styleClass="texto_informativo2" value="Valor Total Notas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaAntTomador}" />
+                                    </h:panelGrid>
+                                    <p:separator style="width: 210px; height: 5px;"/>
+                                </p:panel>
+
+
+                                <p:panel style="width: 280px; height: 110px" >                                    
+                                    <h:outputLabel styleClass="texto_informativo1" value="Notas emitidas nos ultimos sete dias  " />
+                                    <p:separator style="height: 1px;"/>
+
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel styleClass="texto_informativo2" value="Notas Emitidas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaSetePrestador}" />
+                                        <h:outputLabel styleClass="texto_informativo2" value="Valor Total Notas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaSeteTomador}" />
+                                    </h:panelGrid>
+                                    <p:separator style="width: 210px; height: 5px;"/>
+                                </p:panel>
+
+                                <p:panel style="width: 280px; height: 110px" >                                    
+                                    <h:outputLabel styleClass="texto_informativo1" value="Notas emitidas no m&ecirc;s vigente " />
+                                    <p:separator style="height: 1px;"/>
+
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel styleClass="texto_informativo2" value="Notas Emitidas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaMesPrestador}" />
+                                        <h:outputLabel styleClass="texto_informativo2" value="Valor Total Notas: " />
+                                        <h:outputLabel styleClass="texto_informativo_resultado" value="#{MBGrafico.notaMesTomador}" />
+                                    </h:panelGrid>
+                                    <p:separator style="width: 210px; height: 5px;"/>
+                                </p:panel>
+                            </h:panelGrid>
+
+                            <p:panel style="width: 615px; height: #{MBGrafico.tamanhoPainelNotificacoes}" >                                    
+                                <h:outputLabel styleClass="texto_informativo1" value="Notifica&ccedil;&otilde;es " />
+                                <p:separator style="height: 1px;"/>
+
+                                <p:dataTable id="basic" var="notifica" value="#{MBGrafico.listaNotificacoes}" paginator="true" rows="#{MBGrafico.paginatorRows}">  
+                                    <p:column id="modelHeader">                                           
+                                        <h:outputText styleClass="texto_menu" value="#{notifica.remetente} - " /> <h:outputText styleClass="texto_data_notifica" value="#{notifica.dataString} " /> <h:outputText styleClass="texto_data_notifica" value="#{notifica.hora}" /> <br/>
+                                        <h:outputText styleClass="texto_informativo1" value="#{notifica.notificacao}" />
+                                    </p:column>                                      
+                                </p:dataTable> 
+                            </p:panel>                                                        
+                        </p:tab>  
+                        <p:tab title="Grafico Mensal">  
+                            <h:panelGrid style="margin-left: 10px;margin-top: 25px;" columns="1" columnClasses="label, value" >
+                                <p:columnChart width="600px" height="250px" value="#{MBGrafico.colunasGrafico1Semestre}" var="coluna" xfield="#{coluna.nomeColuna}" style="graficoStyle">
+                                    <p:chartSeries label="Notas Prestadas" value="#{coluna.notasPrestador}" style="prestadorStyle"  />
+                                    <p:chartSeries label="Notas Tomadas" value="#{coluna.notasTomador}" style="tomadorStyle" />
+                                </p:columnChart>
+
+                                <p:columnChart width="600px" height="290px" value="#{MBGrafico.colunasGrafico2Semestre}" var="coluna" xfield="#{coluna.nomeColuna}" style="graficoStyle2">
+                                    <p:chartSeries label="Notas Prestadas" value="#{coluna.notasPrestador}" style="prestadorStyle"  />
+                                    <p:chartSeries label=" Notas Tomadas" value="#{coluna.notasTomador}" style="tomadorStyle" />
+                                </p:columnChart>                        
+
+                                <script type="text/javascript">
+                                      var tomadorStyle = {
+                                          color: 0xeaa228,
+                                          size: 35
+                                      };                              
+                                      var prestadorStyle = {
+                                            color: 0x4bb2c5,
+                                            size: 35
+                                            };
+                                    
+                                      var graficoStyle = {
+                                            border: {color: 0x96acb4},                                    
+                                            font: {name: "Arial Black", size: 14, color: 0x586b71},
+                                            background: {
+                                                color: 0xfef7e0
+                                            },
+                                            dataTip:
+                                            {
+                                                border: {color: 0x2e434d, size: 2},
+                                                font: {name: "Arial Black", size: 13, color: 0x586b71}
+                                            },
+                                            xAxis:
+                                            {
+                                                color: 0x2e434d
+                                            },
+                                            yAxis:
+                                            {
+                                                color: 0x2e434d,
+                                                majorTicks: {color: 0x2e434d, length: 4},
+                                                minorTicks: {color: 0x2e434d, length: 2},
+                                                majorGridLines: {size: 1}
+                                            }
+                                        };
+                                
+                                        var graficoStyle2 = {
+                                            border: {color: 0x96acb4},                                    
+                                            font: {name: "Arial Black", size: 14, color: 0x586b71},
+                                            background: {
+                                                color: 0xfef7e0                                    
+                                            },
+                                           legend: {
+                                                   display: "top"
+                                           },
+                                            dataTip:
+                                            {
+                                                border: {color: 0x2e434d, size: 2},
+                                                font: {name: "Arial Black", size: 13, color: 0x586b71}
+                                            },
+                                            xAxis:
+                                            {
+                                                color: 0x2e434d
+                                            },
+                                            yAxis:
+                                            {
+                                                color: 0x2e434d,
+                                                majorTicks: {color: 0x2e434d, length: 4},
+                                                minorTicks: {color: 0x2e434d, length: 2},
+                                                majorGridLines: {size: 1}
+                                            }
+                                        };
+                                </script>
+                            </h:panelGrid>  
+                        </p:tab>  
+                    </p:tabView>  
+
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

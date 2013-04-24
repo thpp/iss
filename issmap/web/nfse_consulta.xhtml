@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+    <body>
+
+        <ui:composition template="#{MBNfseConsulta.template}">
+
+            <ui:define name="title">
+                Consulta de Nota Fiscal Eletrônica de Serviço
+            </ui:define>
+
+            <ui:define name="content">                
+
+                <p:tabView>                    
+                    <p:tab title="Notas como Prestador" id="prestador" rendered="#{MBNfseConsulta.exibeNotasTributacaoNormal}">                       
+                        <p:panel id="nfseBuscaPrestador" styleClass="sem_borda"  header="Consulta Nota Fiscal Eletrônica de Serviço como Prestador" />
+                        <p:panel>
+                            <p:messages id="msgs" showDetail="true"/>
+                            <h:panelGrid style="margin: auto;" columns="5">
+                                <h:outputLabel value="CPF/CNPJ Tomador:" for="cpf_cnpj"/>
+                                <h:inputHidden value="as"  />
+                                <h:outputLabel value="Data Inicial:" for="data_ini"/>
+                                <h:inputHidden value="as"  />
+                                <h:outputLabel value="Data Final:" for="data_fim"/>
+
+                                <p:inputText id="cpf_cnpj_prestador" value="#{MBNfseConsulta.cpfCnpjPrestador}" />
+                                <p:spacer width="25" height="10" />
+                                <p:calendar id="data_ini_prestador" value="#{MBNfseConsulta.dataIniPrestador}" size="12" effect="slide" pattern="dd/MM/yyyy" />
+                                <h:outputLabel value="á" />
+                                <p:calendar id="data_fim_prestador" value="#{MBNfseConsulta.dataFimPrestador}" size="12" effect="slide" pattern="dd/MM/yyyy"  />
+                            </h:panelGrid>                  
+                            <h:panelGrid style="margin: auto;" columns="2">
+                                <h:outputLabel value="Nome Razão:" for="nome_razao"/>
+                                <h:inputHidden value="as"  />
+                                <p:inputText id="nome_razao_prestador" size="50" value="#{MBNfseConsulta.nomeRazaoPrestador}" />                                    
+                                <p:commandButton value="Pesquisar" action="#{MBNfseConsulta.filtraNotasPrestador}" update="tabNotasPrestador, msgs" /> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+
+                            </h:panelGrid>  
+                        </p:panel>
+                        <br/>
+                        <p:dataTable id="tabNotasPrestador" var="nota" value="#{MBNfseConsulta.notas}" paginator="true" rows="7">                                    
+
+                            <p:column style="width:16px">  
+                                <p:rowToggler />  
+                            </p:column>  
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    CNPJ/CPF Tomador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.cpfCnpjTomador}" />  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Nome/Razão Tomador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.nomeRazaoTomador}" />  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Lançamento  
+                                </f:facet>  
+                                <h:outputText value="#{nota.dataEmissao}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Valor  
+                                </f:facet>  
+                                <h:outputText value="#{nota.valorBaseCalculo}" >
+                                    <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+                            
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Situação  
+                                </f:facet> 
+                                <h:outputText rendered="#{nota.cancelada == false and nota.notaSubstituida == null}" value="Normal" style="font-weight: bold; color: #023a68;" />
+                                <h:outputText rendered="#{nota.cancelada == true and nota.substituida == false}" value="Cancelada" style="font-weight: bold; color: #d4747b;" /> 
+                                <h:outputText rendered="#{nota.substituida == true}" value="Substituida" style="font-weight: bold; color: #d4747b;" />
+                                <h:outputText rendered="#{nota.notaSubstituida != null}" value="Substitutiva" style="font-weight: bold; color: #02690e;" />
+                            </p:column>
+
+                            <!--aparece quanto clica para expandir-->
+                            <p:rowExpansion>  
+                                <h:panelGrid id="display" columns="2" 
+                                             style="width:600px;"  
+                                             styleClass="ui-widget-content"  
+                                             columnClasses="label, value">                               
+                                    <h:outputText style="font-weight: bold;" value="Descrição Serviço:" />
+                                    <h:outputText style="font-weight: bold;" value="Visualisar" />                                    
+
+                                    <h:outputText id="model" value="#{nota.descServico}" />
+
+                                    <h:commandLink style="margin: auto;" target="_blank" action="#{MBNfseConsulta.imprimeNota}" >
+                                        <h:graphicImage value="/img/vnota.png" />
+                                        <f:setPropertyActionListener value="#{nota}" target="#{MBNfseConsulta.notaSelecionada}" />
+                                    </h:commandLink>
+
+                                </h:panelGrid>                                 
+                            </p:rowExpansion>   
+                        </p:dataTable>  
+                    </p:tab>
+                    <!-- FIM DA TAB PRESTADOR -->
+
+
+                    <!-- FIM DA TAB TOMADOR -->
+                    <p:tab title="Notas como Tomador" id="tomador" rendered="#{MBNfseConsulta.exibeNotasTributacaoNormal}">
+                        <p:panel id="nfseBuscatomador" styleClass="sem_borda" header="Consulta Nota Fiscal Eletrônica de Serviço como Tomador" />
+                        <p:panel>
+                            <p:messages id="msgs1" showDetail="true"/>
+                            <h:panelGrid style="margin: auto;" columns="5">
+                                <h:outputLabel value="CPF/CNPJ Prestador:" for="cpf_cnpj"/>
+                                <h:inputHidden value="as"  />
+                                <h:outputLabel value="Data Inicial:" for="data_ini"/>
+                                <h:inputHidden value="as"  />
+                                <h:outputLabel value="Data Final:" for="data_fim"/>
+
+                                <p:inputText id="cpf_cnpj_tomador" value="#{MBNfseConsulta.cpfCnpjTomador}" />
+                                <p:spacer width="25" height="10" />
+                                <p:calendar id="data_ini_tomador" value="#{MBNfseConsulta.dataIniTomador}" size="12" effect="slide" pattern="dd/MM/yyyy" />
+                                <h:outputLabel value="á" />
+                                <p:calendar id="data_fim_tomador" value="#{MBNfseConsulta.dataFimTomador}" size="12" effect="slide" pattern="dd/MM/yyyy" />
+                            </h:panelGrid>                  
+                            <h:panelGrid style="margin: auto;" columns="2">
+                                <h:outputLabel value="Nome Razão:" for="nome_razao"/>
+                                <h:inputHidden value="as"  />
+                                <p:inputText id="nome_razao_tomador" size="50" value="#{MBNfseConsulta.nomeRazaoTomador}" />                                    
+                                <p:commandButton value="Pesquisar" action="#{MBNfseConsulta.filtraNotasTomador}" update="tabNotasTomador, msgs1" /> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+
+                            </h:panelGrid>  
+                        </p:panel>
+                        <br/> 
+                        <p:dataTable id="tabNotasTomador" var="nota" value="#{MBNfseConsulta.notas}" paginator="true" rows="7">                                    
+                            <p:column>  
+                                <p:rowToggler />  
+                            </p:column>  
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    CNPJ/CPF Prestador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.cpfCnpjPrestador}" />  
+                            </p:column>  
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Nome/Razão Prestador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.nomeRazaoPrestador}" />  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Data do lançamento  
+                                </f:facet>  
+                                <h:outputText value="#{nota.dataEmissao}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>   
+                                <f:facet name="header">  
+                                    Valor Nota  
+                                </f:facet>  
+                                <h:outputText value="#{nota.valorBaseCalculo}" >
+                                    <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <!--aparece quanto clica para expandir-->
+                            <p:rowExpansion>  
+                                <h:panelGrid id="display" columns="2" 
+                                             style="width:600px;"  
+                                             styleClass="ui-widget-content"  
+                                             columnClasses="label, value">                               
+                                    <h:outputText style="font-weight: bold;" value="Descrição Serviço:" />
+                                    <h:outputText style="font-weight: bold;" value="Visualisar" />                                    
+
+                                    <h:outputText id="model" value="#{nota.descServico}" />
+
+                                    <h:commandLink style="margin: auto;" target="_blank" action="#{MBNfseConsulta.imprimeNota}" >
+                                        <h:graphicImage value="/img/vnota.png" />
+                                        <f:setPropertyActionListener value="#{nota}" target="#{MBNfseConsulta.notaSelecionada}" />
+                                    </h:commandLink>
+
+                                </h:panelGrid>  
+                            </p:rowExpansion>  
+                        </p:dataTable> 
+                    </p:tab>
+                    <p:tab title="Notas com Retenção na Fonte" id="gerarGuiaRetidoFonte" >
+                        <p:panel styleClass="sem_borda"  header="Gerar Guias de Notas Retidas na Fonte" />
+                        <p:panel>
+                            <p:messages id="msgsRF" showDetail="true"/>
+
+                            <h:panelGrid style="margin: auto;" columns="6">                                
+
+                                <h:outputLabel value="Periodo :"/>                                
+                                <p:spacer width="25" height="10" />
+                                <p:calendar id="data_ini_RF" value="#{MBNfseConsulta.dataIniRF}" maxdate="#{MBNfseConsulta.dataHoje}"   size="12" effect="slide" pattern="dd/MM/yyyy"/>
+                                <h:outputLabel value="á" />
+                                <p:calendar id="data_fim_RF" value="#{MBNfseConsulta.dataFimRF}" maxdate="#{MBNfseConsulta.dataHoje}" size="12" effect="slide" pattern="dd/MM/yyyy"/> 
+                                <p:commandButton value="Pesquisar" action="#{MBNfseConsulta.filtraNotasRetidoFonte}" update="tabNotasRF" /> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>
+                        </p:panel>
+                        <br/>
+                        <p:dataTable id="tabNotasRF" var="nota" value="#{MBNfseConsulta.listaNotasRetidoFonte}" paginator="true" rows="7">                                    
+
+                            <f:facet name="header">  
+                                Notas á Serem Faturadas   
+                            </f:facet>
+
+                            <p:column style="width:16px">  
+                                <p:rowToggler />  
+                            </p:column>  
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Nome/Razão Prestador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.nomeRazaoPrestador}" />
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Data de Emissão  
+                                </f:facet>  
+                                <h:outputText value="#{nota.dataEmissao}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Valor Nota  
+                                </f:facet>  
+                                <h:outputText value="#{nota.valorBaseCalculo}" >
+                                    <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+                            
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Aliquota 
+                                </f:facet>  
+                                <h:outputText value="#{nota.aliquota}" >
+                                    <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+                            
+                            <p:column>  
+                                <f:facet name="header">  
+                                    ISS Devido  
+                                </f:facet>  
+                                <h:outputText value="#{nota.valorIss}" >
+                                    <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <!--aparece quanto clica para expandir-->
+                            <p:rowExpansion>  
+                                <h:panelGrid id="display" columns="2" 
+                                             style="width:600px;"  
+                                             styleClass="ui-widget-content"  
+                                             columnClasses="label, value">                               
+                                    <h:outputText style="font-weight: bold;" value="Descrição Serviço:" />
+                                    <h:outputText style="font-weight: bold;" value="Visualisar" />                                    
+
+                                    <h:outputText id="model" value="#{nota.descServico}" />
+
+                                    <p:commandButton id="botaoMotsraRF" value="Nota Completa" onclick="dlgDadosRF.show()" update="dadosNota">
+                                        <f:setPropertyActionListener value="#{nota}" target="#{MBMostraNotaRF.notaSelecionada}" />
+                                    </p:commandButton>
+
+                                </h:panelGrid>                                 
+                            </p:rowExpansion>   
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="perfil_prestador_1.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="altera_senha_prestador.xhtml" x="639" y="94" zoom="true"/>
+        <Node id="login.xhtml" x="418" y="421" zoom="true"/>
+        <Node id="perfil_prestador.xhtml" x="652" y="323" zoom="true"/>
+        <Node id="cadastro_previo_aviso.xhtml" x="82" y="356" zoom="true"/>
+        <Node id="*" x="931" y="297" zoom="true"/>
+        <Node id="previo_juridico.xhtml" x="411" y="299" zoom="true"/>
+        <Node id="vincular_contador.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="inicial.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="logout.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="template_principal.xhtml" x="198" y="229" zoom="true"/>
+        <Node id="previo_fisica.xhtml" x="137" y="294" zoom="true"/>
+        <Node id="template_cadastro_previo.xhtml" x="939" y="135" zoom="true"/>
+        <Node id="templateTeste.xhtml" x="528" y="230" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

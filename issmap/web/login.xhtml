@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<!-- teste -->
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                IssMap - Login
+            </ui:define>         
+
+            <ui:define name="content">
+
+                <h:form>
+                    <div id="centro">
+                        <div class="postagens">
+                            <p:panel style="width:450px; height: 200px">
+                                <f:facet name="header">
+                                    Login
+                                </f:facet>
+
+                                <h:panelGrid columns="2" >
+                                    <p:graphicImage style="border: none"  value="/img/cadeado.png" />
+                                    <h:panelGrid columns="2" >
+                                        <h:outputLabel value="CNPJ/CPF:" />
+                                        <p:inputText value="#{MBlogin.cnpjCpf}" size="28" required="true" maxlength="20"
+                                                     requiredMessage="Campo Usuário obrigatório !"/>
+
+                                        <h:outputLabel value="Senha:" />
+                                        <p:keyboard value="#{MBlogin.senha}" size="28" required="true"
+                                                    password="true" maxlength="30" requiredMessage="Campo Senha obrigatório !"/>
+
+                                        <p:commandButton value="Entrar" update="msgs1" action="#{MBlogin.login}" />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                <p:separator/>
+
+                                <h:panelGrid columns="1" style="margin: auto;padding-top: 0px;" >
+                                    <p:ajaxStatus>
+                                        <f:facet name="start">
+                                            <h:graphicImage value="/img/barra_pross.gif" />
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText value="" />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+                                </h:panelGrid>
+
+                                <p:messages id="msgs1" showDetail="true"/>
+                            </p:panel>
+                        </div>
+
+
+                        <div class="postagens">
+                            <p:panel style="width:400px; height: 200px">
+                                <f:facet name="header">
+                                    Informativo
+                                </f:facet>
+                                <h:panelGrid columns="1" >
+
+                                    <h:outputLabel styleClass="texto_informativo" value=" Prestador, ainda não é cadastrado ao IssMap? Não perca tempo de aproveitar as vantagens da nota fiscal de serviço eletrônica." />
+                                    <h:link value="Cadastre - se agora mesmo!" style="font-weight: bold; color: #023A68;font-size: 16px;" outcome="cadastro_previo_aviso" />
+
+                                </h:panelGrid>
+                                <p:separator/>
+                                <h:panelGrid columns="2" style="margin:-6px 0 0 30px;">
+                                <p:graphicImage style="border: none;"  value="/img/consulta.png" />    
+                                <p:commandLink onclick="dlgBuscaNota.show();" style="margin-right:20px; font-weight: bold;">  
+                                    <h:outputText value="Validar Nota Emitida" styleClass="consulta" />  
+                                </p:commandLink>                               
+                                </h:panelGrid>
+                                
+                            </p:panel>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

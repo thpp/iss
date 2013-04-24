@@ -1,0 +1,63 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.nfse.dao;
+
+import br.com.nfse.generic.GenericDAO;
+import br.com.nfse.jsfuntil.HibernateUtil;
+import br.com.nfse.to.Ccm;
+import java.sql.SQLException;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
+/**
+ *
+ * @author Thiago Henrique
+ */
+public class DAOCcm extends GenericDAO {
+
+    private Session session = null;
+    private Transaction transacao = null;
+    Ccm contador = null;
+
+    public Ccm buscaContadorPorCnpjCpf(String cnpjCpf) {
+
+        session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+            Criteria criteria = session.createCriteria(Ccm.class);
+            criteria = criteria.add(Restrictions.eq("cnpjCpf", cnpjCpf));
+
+            if (criteria.list().isEmpty()) {
+                System.out.println("Ususario null");
+                this.contador = null;
+            } else {
+                this.contador = (Ccm) criteria.list().get(0);
+            }
+        } catch (Exception e) {
+        }
+        // colocar restrição de que ele é realmente um contador, talvez telo crea...      
+
+        return contador;
+    }
+
+    public void salvarMerge(Ccm obj)throws SQLException{
+		session = HibernateUtil.getSessionFactory().openSession();
+		transacao = session.beginTransaction();
+
+		try{
+			session.merge(obj);
+			transacao.commit();
+		}catch (Exception e) {
+			transacao.rollback();
+                        System.out.println("Erro ao salvar ====>> "+e.getMessage());
+		}finally{
+			session.close();
+		}
+
+	}
+
+}

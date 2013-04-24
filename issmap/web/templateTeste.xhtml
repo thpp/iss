@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/cssLayout_1.css" rel="stylesheet" type="text/css" />
+        <title><ui:insert name="title">IssMap</ui:insert></title>
+    </h:head>
+
+    <h:body>
+
+        <p:layout fullPage="true">
+            <p:layoutUnit position="top" height="50">
+            </p:layoutUnit>
+            <p:layoutUnit position="left" width="230" header="Menu" collapsible="true" >
+                <h:form>
+                        <p:accordionPanel autoHeight="false" >
+                            <p:tab title="NFS-e">
+                                <h:commandLink  action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Gerar NFS-e" />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink  action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Cancelar NFS-e" />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                     <h:panelGrid columns="2">
+                                         <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                         <h:outputText styleClass="texto_menu"  value="Consultas NFS-e" />
+                                     </h:panelGrid>
+                                 </h:commandLink>
+                                    <hr/>
+                            </p:tab>
+
+                            <p:tab title="Gerenciamento NFS-e">
+                                <h:commandLink  action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Carta Correção " />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink  action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Processos Administrativos" />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                     <h:panelGrid columns="2">
+                                         <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                         <h:outputText styleClass="texto_menu"  value="Substituir NFS-e" />
+                                     </h:panelGrid>
+                                 </h:commandLink>
+                                    <hr/>
+                            </p:tab>
+
+                            <p:tab title="RPS">
+                                  <h:commandLink  action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Lote Assincrono " />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink  action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Lote Sincrono" />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink action="#{MBSolicitaSenha.formularioDesbloqueio}" >
+                                     <h:panelGrid columns="2">
+                                         <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                         <h:outputText styleClass="texto_menu"  value="Consultas RPS" />
+                                     </h:panelGrid>
+                                 </h:commandLink>
+                                    <hr/>
+                            </p:tab>
+                        <p:tab title="Configuração">
+                                <h:commandLink  action="perfil_prestador" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Perfil" />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink  action="vincula_contador" >
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                        <h:outputText styleClass="texto_menu" value="Vincular Contador" />
+                                    </h:panelGrid>
+                                </h:commandLink>
+                                    <hr/>
+                                <h:commandLink action="altera_senha_prestador" >
+                                     <h:panelGrid columns="2">
+                                         <p:graphicImage style="border: none"  value="/img/seta.png" />
+                                         <h:outputText styleClass="texto_menu"  value="Senha" />
+                                     </h:panelGrid>
+                                 </h:commandLink>
+                                    <hr/>
+                          </p:tab>
+                    </p:accordionPanel>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center" scrollable="true" header="Sistema">
+                <h:form>
+                    <ui:insert name="content"></ui:insert>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+
+    </h:body>
+
+</html>

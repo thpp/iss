@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                ..:: IssMap - Cadastro  ::..
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <div id="centro_cadastro">
+                        <div class="postagens_centro">
+                            
+                            <p:panel header="Antes de Começar Importante " style="width:800px; height: 410px; margin-top: 3px;">
+                                <h:panelGrid style="margin-top: 10px;" columns="1" columnClasses="label, value" styleClass="imagem_fundo" >
+                                    <br/>
+                                    <h:outputText styleClass="texto_informativo" value="Prezado Contribuinte" /><br/>
+
+                                    <h:outputText styleClass="texto_informativo" value="A prefeitura do municipio de Santa Cruz do Rio Pardo vem empreendendo esforços para aprimorar
+                                                  continuamente a qualidade dos serviços oferecidos aos contribuintes. Neste sendo, a internet apresenta-se como
+                                                  um importante instrumento capaz de atendê-los com agilidade e segurança." /> <br/>
+
+                                    <h:outputText styleClass="texto_informativo" value="E por falar em segurança o contribuinte deverá cadastrar uma senha individual que permitirá o acesso a area restrita
+                                                  de seu exclusivo interesse, no endereco eletronico do IssMAp" /> <br/>
+
+                                    <h:outputText styleClass="texto_informativo" value="Alertamos que caberá exclusivamente ao contribuinte toda a responsabilidade decorrente do uso indevido da senha, que deverá
+                                                  ser guardada em total segurança" /> <br/>
+                                    <br/>
+                                    <br/>
+                                    <h:panelGrid style="margin: auto;" columns="2" >
+                                        <h:commandButton styleClass="button" action="previo_fisica" value="Pessoa Física" />
+                                        <h:commandButton styleClass="button" action="previo_juridico" value="Pessoa Jurídica" />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+
+                            </p:panel>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

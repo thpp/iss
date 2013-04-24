@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                IssMap - Cadastro
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <div id="centro_cadastro">
+                        <div class="postagens_centro">
+                            
+                            <p:panel header="Antes de Começar Importante " style="width:800px; height: 420px; margin-top: 3px;">
+                                <h:panelGrid style="margin-top: 10px;" columns="1" columnClasses="label, value" styleClass="imagem_fundo" >
+                                    <br/>
+                                    <h:outputText styleClass="texto_informativo" value="Prezado Contribuinte" /><br/>
+
+                                    <h:outputText styleClass="texto_informativo" value="A Prefeitura Municipal de Santa Cruz do Rio Pardo vem empreendendo esforços para aprimorar
+                                                  continuamente a qualidade dos serviços oferecidos aos nossos contribuintes. Sendo este, a internet apresenta-se como
+                                                  um importante instrumento capaz de atendê-los com maior agilidade, segurança e praticidade." /> <br/>
+
+                                    <h:outputText styleClass="texto_informativo" value="Neste momento você está prestes a iniciar o cadastro de sua senha individual, que permitirá o seu acesso a uma area restrita
+                                                  de seu exclusivo interesse dentro do IssMap, o sistema de emissão de nosta fiscal eletrônica de serviço de nossa cidade." /> <br/>
+
+                                    <h:outputText styleClass="texto_informativo" value="Alertamos que caberá exclusivamente ao contribuinte toda a responsabilidade decorrente do uso indevido da senha, que deverá
+                                                  ser guardada em total segurança." /> <br/>                         
+                                    <br/>
+                                    <h:panelGrid style="margin: auto;" columns="3" >
+                                        <h:commandButton styleClass="button" action="previo_fisica?faces-redirect=true" value="Pessoa Física" />
+                                        <h:commandButton styleClass="button" action="previo_juridico?faces-redirect=true" value="Pessoa Jurídica" />
+                                        <!-- <h:commandButton styleClass="button" action="previo_contadores?faces-redirect=true" value="Contador" /> -->
+                                    </h:panelGrid>
+                                </h:panelGrid>
+
+                            </p:panel>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

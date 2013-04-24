@@ -1,0 +1,339 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package br.com.nfse.to;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+/**
+ *
+ * @author Thiago Henrique
+ */
+@Entity
+public class Ccm implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ccm_lancamentos_sequence_generator")
+    @SequenceGenerator(name = "ccm_lancamentos_sequence_generator", sequenceName = "ccm_lancamentos_sequence_id", allocationSize = 1)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+    private Logradouro logradouro;
+
+    @Column(name="nome_razao", length=100)
+    private String nomeRazao;
+    @Column(name="tipo_pessoa", length=100)
+    private int tipoPessoa;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+    private Ccm contador;
+    
+    @Column(length=100)
+    private String fantazia;
+    @Column(name="cnpj_cpf")
+    private String cnpjCpf;
+    @Column(name="ie_rg")
+    private Integer ieRg;
+    @Column(name="numero_predio")
+    private Integer numeroPredio;
+    @Column(length=100)
+    private String complemento;
+    @Column(name="site", length=45)
+    private String site;
+    @Column(name="email", length=45)
+    private String email;
+    @Column(name="inscricao_municipal", length=14)
+    private String im;
+    @Column(name="flg_simples",length=1)
+    private boolean simples;
+    @Column(name="flg_pl",length=1)
+    private boolean profissionalLiberal;
+    @Column(name="flg_mei",length=1)
+    private boolean mei;
+    @Column(name="flg_autonomo",length=1)
+    private boolean  autonomo;
+    @Column(name="flg_registro_pl",length=1)
+    private int tipoRegistro;
+    @Column(name="registro_pl",length=30)
+    private String registroPl;
+    @Column(name="flg_bloqueio", length=1)
+    private boolean bloqueio;
+    @Column(name="incentivo_fiscal", length=1)
+    private boolean incentivoFiscal;
+    @Column(name="representante_legal", length=45)
+    private String representanteLegal;
+    @Column(length=60)
+    private String rua;
+    @Column(length=45)
+    private String bairro;
+    @Column(length=20)
+    private String telefone;
+    @Column(name="permicao_contador")
+    private String permicaoContador;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ccm")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    private List<Socio> socios;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ccm1")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    private List<Contato> contatos;
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ccm")
+    private List<Usuario> usuarios;
+
+    public Ccm(){
+        
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public Logradouro getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(Logradouro logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public Ccm getContador() {
+        return contador;
+    }
+
+    public void setContador(Ccm contador) {
+        this.contador = contador;
+    }
+
+    public String getCnpjCpf() {
+        return cnpjCpf;
+    }
+
+    public void setCnpjCpf(String cnpjCpf) {
+        this.cnpjCpf = cnpjCpf;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getFantazia() {
+        return fantazia;
+    }
+
+    public void setFantazia(String fantazia) {
+        this.fantazia = fantazia;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getIeRg() {
+        return ieRg;
+    }
+
+    public void setIeRg(Integer ieRg) {
+        this.ieRg = ieRg;
+    }
+
+    public String getIm() {
+        return im;
+    }
+
+    public void setIm(String im) {
+        this.im = im;
+    }
+
+    public String getNomeRazao() {
+        return nomeRazao;
+    }
+
+    public void setNomeRazao(String nomeRazao) {
+        this.nomeRazao = nomeRazao;
+    }
+
+    public Integer getNumeroPredio() {
+        return numeroPredio;
+    }
+
+    public void setNumeroPredio(Integer numeroPredio) {
+        this.numeroPredio = numeroPredio;
+    }
+
+    public String getRegistroPl() {
+        return registroPl;
+    }
+
+    public void setRegistroPl(String registroPl) {
+        this.registroPl = registroPl;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public int getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public void setTipoPessoa(int tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
+
+    public int getTipoRegistro() {
+        return tipoRegistro;
+    }
+
+    public void setTipoRegistro(int tipoRegistro) {
+        this.tipoRegistro = tipoRegistro;
+    }
+
+    public List<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
+    }
+
+    public List<Socio> getSocios() {
+        return socios;
+    }
+
+    public void setSocios(List<Socio> socios) {
+        this.socios = socios;
+    }
+
+    public String getRepresentanteLegal() {
+        return representanteLegal;
+    }
+
+    public void setRepresentanteLegal(String representanteLegal) {
+        this.representanteLegal = representanteLegal;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getPermicaoContador() {
+        return permicaoContador;
+    }
+
+    public void setPermicaoContador(String permicaoContador) {
+        this.permicaoContador = permicaoContador;
+    }
+
+    public boolean isAutonomo() {
+        return autonomo;
+    }
+
+    public void setAutonomo(boolean autonomo) {
+        this.autonomo = autonomo;
+    }
+
+    public boolean isBloqueio() {
+        return bloqueio;
+    }
+
+    public void setBloqueio(boolean bloqueio) {
+        this.bloqueio = bloqueio;
+    }
+
+    public boolean isIncentivoFiscal() {
+        return incentivoFiscal;
+    }
+
+    public void setIncentivoFiscal(boolean incentivoFiscal) {
+        this.incentivoFiscal = incentivoFiscal;
+    }
+
+    public boolean isMei() {
+        return mei;
+    }
+
+    public void setMei(boolean mei) {
+        this.mei = mei;
+    }
+
+    public boolean isProfissionalLiberal() {
+        return profissionalLiberal;
+    }
+
+    public void setProfissionalLiberal(boolean profissionalLiberal) {
+        this.profissionalLiberal = profissionalLiberal;
+    }
+
+    public boolean isSimples() {
+        return simples;
+    }
+
+    public void setSimples(boolean simples) {
+        this.simples = simples;
+    }
+}

@@ -1,0 +1,33 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package br.com.nfse.jsfuntil;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+/**
+ *
+ * @author joaomarcos
+ */
+public class PopulaCodigoCidade {
+    public static void main(String[] args) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        System.out.println(sdf.format(new Date()));
+
+
+        DateFormat diaf = new SimpleDateFormat("d");
+        DateFormat mesf = new SimpleDateFormat("MMMM");
+        DateFormat anof = new SimpleDateFormat("yyyy");
+        Date data = Calendar.getInstance(Locale.getDefault()).getTime();
+        System.out.println(diaf.format(data));
+        System.out.println(mesf.format(data));
+        System.out.println(anof.format(data));
+    }
+}

@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="nfse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1" mode="Transparent" hAlign="Center" vAlign="Top" fontName="SansSerif" fontSize="14" isBold="true" isItalic="false" isUnderline="false"/>
+	<style name="style2" fontSize="9"/>
+	<style name="style3" hAlign="Center" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="dadosCabe" hAlign="Center" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Titulos" hAlign="Center" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<pen lineWidth="0.75"/>
+	</style>
+	<style name="Dados" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="informacoes" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<field name="numeroNota" class="java.lang.String"/>
+	<field name="cogigoVerifica" class="java.lang.String"/>
+	<field name="cpfCnpjPrestador" class="java.lang.String"/>
+	<field name="nomeRazaoPrestador" class="java.lang.String"/>
+	<field name="enderecoPrestador" class="java.lang.String"/>
+	<field name="imRgPrestador" class="java.lang.String"/>
+	<field name="cidadePrestador" class="java.lang.String"/>
+	<field name="estadoPrestador" class="java.lang.String"/>
+	<field name="cpfCnpjTomador" class="java.lang.String"/>
+	<field name="imRgTomador" class="java.lang.String"/>
+	<field name="nomeRazaoTomador" class="java.lang.String"/>
+	<field name="enderecoTomador" class="java.lang.String"/>
+	<field name="cidadeTomador" class="java.lang.String"/>
+	<field name="estadoTomador" class="java.lang.String"/>
+	<field name="emailTomador" class="java.lang.String"/>
+	<field name="valorNota" class="java.lang.String"/>
+	<field name="servicoPrestado" class="java.lang.String"/>
+	<field name="valorDeducoes" class="java.lang.String"/>
+	<field name="valorBaseCalculo" class="java.lang.String"/>
+	<field name="aliquota" class="java.lang.String"/>
+	<field name="valorIss" class="java.lang.String"/>
+	<field name="valorCredito" class="java.lang.String"/>
+	<field name="descServico" class="java.lang.String"/>
+	<field name="dataEmissao" class="java.lang.String"/>
+	<field name="caminhoImagem" class="java.lang.String"/>
+	<field name="qrCode" class="java.lang.String"/>
+	<field name="caminhoLogoPrefeitura" class="java.lang.String"/>
+	<field name="localExecucao" class="java.lang.String"/>
+	<field name="naturezaOperacao" class="java.lang.String"/>
+	<field name="tipoTributacao" class="java.lang.String"/>
+	<field name="retidoFonte" class="java.lang.String"/>
+	<field name="txtSubstitui" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<rectangle>
+				<reportElement x="462" y="52" width="93" height="26"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="-1" width="555" height="92"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<image isUsingCache="true" isLazy="true">
+				<reportElement x="12" y="5" width="74" height="68"/>
+				<imageExpression><![CDATA[$F{caminhoLogoPrefeitura}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="style1" x="91" y="16" width="339" height="21"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Prefeitura Municipal de Santa Cruz do Rio Pardo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="113" y="40" width="292" height="20"/>
+				<textElement/>
+				<text><![CDATA[Secretaria Municipal de Finanças]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="139" y="63" width="252" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nota Fiscal Eletrônica de Serviço - NF-e]]></text>
+			</staticText>
+			<image>
+				<reportElement x="439" y="6" width="111" height="77"/>
+				<imageExpression><![CDATA[$F{caminhoImagem}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="659" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="-1" width="555" height="109"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="218" width="555" height="280"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="informacoes" x="24" y="22" width="45" height="14"/>
+				<textElement/>
+				<text><![CDATA[CPF/CNPJ: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="24" y="38" width="79" height="13"/>
+				<textElement/>
+				<text><![CDATA[Nome/Razão Social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="24" y="56" width="40" height="14"/>
+				<textElement/>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="247" y="22" width="75" height="14"/>
+				<textElement/>
+				<text><![CDATA[Inscrição Municipal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="25" y="73" width="39" height="13"/>
+				<textElement/>
+				<text><![CDATA[Municipio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="232" y="72" width="21" height="13"/>
+				<textElement/>
+				<text><![CDATA[UF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Dados" x="72" y="21" width="157" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cpfCnpjPrestador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="106" y="38" width="263" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nomeRazaoPrestador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="69" y="55" width="301" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{enderecoPrestador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="325" y="21" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{imRgPrestador}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="108" width="555" height="110"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="Titulos" x="189" y="110" width="142" height="19"/>
+				<textElement/>
+				<text><![CDATA[Tomador de Serviço]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="239" y="555" width="83" height="28"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="128" y="555" width="111" height="28"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="322" y="555" width="98" height="28"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="420" y="555" width="135" height="28"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="583" width="555" height="75"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="informacoes" x="25" y="148" width="78" height="13"/>
+				<textElement/>
+				<text><![CDATA[Nome/Razão Social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="25" y="164" width="40" height="14"/>
+				<textElement/>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="26" y="181" width="39" height="13"/>
+				<textElement/>
+				<text><![CDATA[Municipio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="248" y="181" width="21" height="13"/>
+				<textElement/>
+				<text><![CDATA[UF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="248" y="132" width="75" height="13"/>
+				<textElement/>
+				<text><![CDATA[Inscrição Municipal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="25" y="132" width="45" height="13"/>
+				<textElement/>
+				<text><![CDATA[CPF/CNPJ: ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="435" y="108" width="120" height="110"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="498" width="555" height="26"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="Titulos" x="167" y="220" width="202" height="19"/>
+				<textElement/>
+				<text><![CDATA[Discriminação dos Serviços]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="555" width="128" height="28"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="435" y="36" width="120" height="36"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="435" y="72" width="120" height="36"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="style2" x="439" y="39" width="109" height="15"/>
+				<textElement/>
+				<text><![CDATA[Data e Hora de Emissão]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="435" y="0" width="120" height="36"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="style2" x="437" y="76" width="109" height="13"/>
+				<textElement/>
+				<text><![CDATA[Código de Verificação]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="dadosCabe" x="437" y="89" width="114" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cogigoVerifica}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="75" y="132" width="154" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cpfCnpjTomador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="106" y="147" width="249" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nomeRazaoTomador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="68" y="163" width="287" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{enderecoTomador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="69" y="180" width="157" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cidadeTomador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="269" y="180" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{estadoTomador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="68" y="72" width="161" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cidadePrestador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="259" y="72" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{estadoPrestador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="327" y="132" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{imRgTomador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="style2" x="4" y="557" width="116" height="12"/>
+				<textElement/>
+				<text><![CDATA[Valor Total Deduções (R$)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="133" y="556" width="93" height="13"/>
+				<textElement/>
+				<text><![CDATA[Base de Cálculo (R$)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="250" y="556" width="59" height="13"/>
+				<textElement/>
+				<text><![CDATA[Alíquota(%)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="331" y="556" width="74" height="13"/>
+				<textElement/>
+				<text><![CDATA[Valor do ISS (R$)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="424" y="556" width="131" height="13"/>
+				<textElement/>
+				<text><![CDATA[Crédito para Abatimento (R$)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="524" width="555" height="31"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="style2" x="4" y="526" width="116" height="13"/>
+				<textElement/>
+				<text><![CDATA[Codigo do Serviço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="26" y="196" width="26" height="13"/>
+				<textElement/>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Dados" x="53" y="196" width="270" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{emailTomador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="style3" x="128" y="585" width="292" height="16"/>
+				<textElement/>
+				<text><![CDATA[Outras Informações]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="157" y="503" width="145" height="18"/>
+				<textElement/>
+				<text><![CDATA[Valor Total da Nota = R$]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="style3" x="303" y="504" width="124" height="16"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{valorNota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="28" y="540" width="503" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{servicoPrestado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="17" y="569" width="109" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valorDeducoes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="132" y="569" width="105" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valorBaseCalculo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="259" y="569" width="61" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{aliquota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="338" y="569" width="80" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valorIss}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="453" y="569" width="100" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valorCredito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="style2" x="13" y="603" width="533" height="13"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[- A autenticidade desta NF-e está sujeita a verificação através do site http://www.issmap.micromap.com.br]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="13" y="615" width="533" height="13"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[- O credito gerado somente esratá disponivel após o recolhimento do ISS desta NF-e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="13" y="639" width="135" height="13"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[- Data de vencimento do ISS desta NF-e:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="12" y="257" width="533" height="217"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{descServico}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="475" y="194" width="42" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[* Bar-Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="13" y="627" width="533" height="13"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[- Bar - Code ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style2" x="439" y="4" width="93" height="12"/>
+				<textElement/>
+				<text><![CDATA[Número da nota]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="dadosCabe" x="436" y="16" width="120" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{numeroNota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="435" y="54" width="120" height="14"/>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataEmissao}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="456" y="122" width="76" height="72"/>
+				<imageExpression><![CDATA[$F{qrCode}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="informacoes" x="24" y="89" width="85" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Natureza da Operação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="informacoes" x="232" y="89" width="71" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tipo de Tributação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Titulos" x="185" y="1" width="142" height="19"/>
+				<textElement/>
+				<text><![CDATA[Prestador de Serviço]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Dados" x="305" y="89" width="120" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tipoTributacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Dados" x="111" y="89" width="118" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{naturezaOperacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="242" width="176" height="15"/>
+				<textElement/>
+				<text><![CDATA[Serviço(s) prestado(s) na cidadede de:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="189" y="242" width="180" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{localExecucao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="369" y="242" width="120" height="15"/>
+				<textElement/>
+				<text><![CDATA[Imposto Retido na Fonte:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="489" y="243" width="56" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{retidoFonte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="474" width="533" height="20" isRemoveLineWhenBlank="true" forecolor="#FF3333"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txtSubstitui}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

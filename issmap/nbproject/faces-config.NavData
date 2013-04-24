@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="cadastro_senha_usuario.xhtml" x="66" y="586" zoom="true"/>
+        <Node id="template_funcionario.xhtml" x="729" y="448" zoom="true"/>
+        <Node id="aviso_sem_sessao.xhtml" x="399" y="656" zoom="true"/>
+        <Node id="vincular_contador.xhtml" x="628" y="118" zoom="true"/>
+        <Node id="previo_juridico.xhtml" x="416" y="189" zoom="true"/>
+        <Node id="teste_full.xhtml" x="988" y="153" zoom="true"/>
+        <Node id="nfse_guia_pagamento.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="nfse_consulta.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="previo_contadores.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="livro_fiscal.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="nao_movimento.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="mobiliarios_contador.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="aviso_aguardando_desbloqueio.xhtml" x="76" y="256" zoom="true"/>
+        <Node id="template_principal.xhtml" x="56" y="167" zoom="true"/>
+        <Node id="previo_fisica.xhtml" x="47" y="212" zoom="true"/>
+        <Node id="template_cadastro_previo.xhtml" x="947" y="74" zoom="true"/>
+        <Node id="templateTeste.xhtml" x="399" y="152" zoom="true"/>
+        <Node id="template_principal_fisico.xhtml" x="406" y="505" zoom="true"/>
+        <Node id="altera_senha_prestador.xhtml" x="622" y="77" zoom="true"/>
+        <Node id="login.xhtml" x="453" y="412" zoom="true"/>
+        <Node id="perfil_prestador.xhtml" x="601" y="238" zoom="true"/>
+        <Node id="cadastro_previo_aviso.xhtml" x="2" y="340" zoom="true"/>
+        <Node id="usuarios.xhtml" x="594" y="294" zoom="true"/>
+        <Node id="aviso_bloqueado.xhtml" x="228" y="111" zoom="true"/>
+        <Node id="*" x="1150" y="224" zoom="true"/>
+        <Node id="nfse_lanca.xhtml" x="650" y="159" zoom="true"/>
+        <Node id="aviso_config.xhtml" x="1220" y="315" zoom="true"/>
+        <Node id="nfse_lanca_retido_fonte.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="aviso_semnota.xhtml" x="1472" y="356" zoom="true"/>
+        <Node id="cartacorrecao.xhtml" x="873" y="218" zoom="true"/>
+        <Node id="inicial.xhtml" x="53" y="382" zoom="true"/>
+        <Node id="template_eventual.xhtml" x="708" y="594" zoom="true"/>
+        <Node id="substituir_nfse.xhtml" x="54" y="303" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

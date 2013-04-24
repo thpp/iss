@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template_cadastro_previo.xhtml">
+
+            <ui:define name="title">
+                IssMap - Aviso
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <div id="centro_cadastro">
+                        <div class="postagens_centro">                            
+                            <p:panel header="Aviso de encerramento de sessão"  style="width:800px; height: 350px; margin-top: 3px;">
+                                
+                                <h:panelGrid style="margin-top: 10px;" columns="1" columnClasses="label, value" styleClass="fundo_cadeado" >
+                                    <br/>                                    
+                                    <h:panelGrid columns="2" width="700"  >
+                                       <h:outputText styleClass="texto_informativo" value="Prezado Contribuinte" /> 
+                                     <!--  <h:panelGrid columns="1" style="float:right;"><p:graphicImage  style="border: none"  value="/img/cadeado1.png" /></h:panelGrid>               -->                        
+                                    </h:panelGrid>
+                                    <br/>                                    
+                                    <h:outputText styleClass="texto_informativo" value="Não houve nenhuma atividade no nosso sistema nos últimos 30 minutos e por motivo de segurança do sistema ISSMAP,
+                                                  a sessão que você estava operando foi encerrada. Se quiser voltar a usar nosso sistema novamente, favor faça o login clicando no botão abaixo" /> <br/>                                    
+                                    <br/> 
+                                    <br/>
+                                    <br/>
+                                    <h:panelGrid style="margin: auto; padding-top:40px;" columns="1" >                                         
+                                        <p:commandButton styleClass="button" style="width : 150px;" action="loginPage"  value="Ir para a tela de login" ajax="false" />                                         
+                                    </h:panelGrid>                                                                                                            
+                                    <br/>
+                                </h:panelGrid>
+
+                            </p:panel>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

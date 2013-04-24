@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/issmap/!svn/ver/1/web/WEB-INF
+END
+sun-web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/issmap/!svn/ver/1/web/WEB-INF/sun-web.xml
+END
+faces-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/issmap/!svn/ver/1/web/WEB-INF/faces-config.xml
+END
+web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/issmap/!svn/ver/1/web/WEB-INF/web.xml
+END

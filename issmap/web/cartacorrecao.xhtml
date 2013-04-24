@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="#{MBNfseLanca.template}">
+
+            <ui:define name="title">
+                Carta de Correção Nota Fiscal Eletrônica de Serviço
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel id="nfseBusca" styleClass="sem_borda" header="Carta de Correção - Buscar Nota Fiscal">
+
+                    <p:messages id="msgs" showDetail="true"/>
+
+                    <h:panelGrid columns="5" style="margin-top: 30px;">
+
+                        <h:outputText value="CNPJ/CPF Tomador: " />
+                        <p:inputText value="#{MBCarta.cpfCnpjTomador}"  label="CNPJ/CPF" />
+                        <h:outputText value="Codigo Verificação: " />
+                        <p:inputText value="#{MBCarta.codigoVerificacao}"  label="CNPJ/CPF" />
+                        <p:commandButton value="Buscar" action="#{MBCarta.buscaNotaFical}" update="aviso,tab,msgs"/>
+
+                        <p:ajaxStatus>
+                            <f:facet name="start">
+                                <h:graphicImage value="/img/loading1.gif" />
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+
+                    </h:panelGrid>
+                    <p:separator/>
+                </p:panel> 
+                <p:panel styleClass="sem_borda" id="tab" visible="#{MBCarta.exibeCarta}">
+                    <p:tabView >
+                        <p:tab id="dadosNota" title="Dados NFS-e">
+                            <h:panelGrid style="width: 630px;" columns="2" >
+                                <h:panelGrid columns="1" >
+                                    <h:outputText value="Numero Nota" />
+                                    <h:outputText value="#{MBCarta.numeroNota}" style="font-weight: bold;" />
+                                    <h:outputText value="Data e Hora de Emissão" />
+                                    <h:outputText value="#{MBCarta.dataHora}" style="font-weight: bold;" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" >
+                                    <h:outputText value="Tomador" />
+                                    <h:outputText value="#{MBCarta.nomeRazaoTomador}" style="font-weight: bold;" />
+                                    <h:outputText value="Endereço" />
+                                    <h:outputText value="#{MBCarta.endTomador}" style="font-weight: bold;" />
+                                </h:panelGrid>                                
+                            </h:panelGrid>                            
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Atividade/Serviço" />
+                                <h:outputText value="Aliquota" />
+                                <p:inputText disabled="true" value="#{MBCarta.servicoPrestado}" size="80"/>
+                                <p:inputText id="aliquota" disabled="true" value="#{MBCarta.aliquota}" size="10"/>
+                            </h:panelGrid>                                                        
+
+                            <h:panelGrid columns="9" >
+                                <h:outputText value="Local de execução" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Natureza da Operação" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Tipo de Tributação" />
+                                <p:spacer width="15" height="10" />                                
+                                <h:outputText value="Tipo Movimento" />
+                                <p:spacer width="15" height="10" />
+                                <h:outputText value="Retiro na Fonte" />
+
+
+                                <h:outputText value="#{MBCarta.localExecucao}" style="font-weight: bold;" />  
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText value="#{MBCarta.naturezaOperacao}" style="font-weight: bold;" />
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText value="#{MBCarta.tipoTributacao}" style="font-weight: bold;" />
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText id="movimento" value="#{MBCarta.tipoMovimento}" style="font-weight: bold;" />
+
+                                <h:inputHidden   value="as"  />
+                                <h:outputText value="#{MBCarta.retidoFonte}" style="font-weight: bold;" />
+                            </h:panelGrid>                          
+                            <br/>                            
+                            <h:panelGrid columns="2">
+                                Descrição do<br/> serviço:
+                                <p:inputTextarea disabled="true" style="width:520px;height:70px;"
+                                                 effectDuration="200" maxHeight="115" value="#{MBCarta.descServico}" />
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="9" style="margin-left: 30px;" >
+
+                                <h:outputText value="Valor do Serviço" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Valor Deduções" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Base de Calculo" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Valor do ISSQN" />
+                                <h:inputHidden value="as"  />
+                                <h:outputText value="Crédito Gerado" />
+
+                                <p:inputText value="#{MBCarta.valorServico}" disabled="true" size="10" />
+                                <p:spacer width="15" height="10" />
+
+                                <p:inputText value="#{MBCarta.deducoes}" disabled="true" size="10"/>
+
+                                <p:spacer width="15" height="10" />
+                                <p:inputText id="baseCalculo"  value="#{MBCarta.baseCalculo}" disabled="true" size="10"/>
+                                <p:spacer width="15" height="10" />
+                                <p:inputText value="#{MBCarta.valorIss}" disabled="true" size="10"/>
+                                <p:spacer width="15" height="10" />
+                                <p:inputText value="#{MBCarta.valorCredito}" disabled="true" size="10"/>
+
+                            </h:panelGrid>                           
+                        </p:tab>
+                        <p:tab id="carta" title="Carta Correção">                                                                                   
+                            <br/>
+                            <h:panelGrid style="margin: auto;" columns="2">
+                                <h:outputText value="Digite no quadro abaixo, as correções necessárias à Discriminação dos Serviços " style="font-weight: bold;" />
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:inputTextarea style="width:600px;height:150px;"
+                                                 effectDuration="800" maxHeight="400" value="#{MBCarta.cartaCorracao}" />
+                            </h:panelGrid>
+                            <h:panelGrid style="margin: auto;" columns="2" >
+                                <p:commandButton  id="cbAnxCarta" disabled="#{MBCarta.btAnexa}"  value="Anexar Carta Correção" action="#{MBCarta.anexaCarta}"  update="msgs,cbAnxCarta"/>                          
+                            </h:panelGrid>                            
+                        </p:tab>
+                    </p:tabView> 
+                </p:panel>
+
+                <p:panel id="aviso" visible="#{MBCarta.exibeAviso}" styleClass="sem_borda" style="height: 420px; margin-top: 3px;">
+                    <h:panelGrid style="margin-top: 10px;" columns="1" columnClasses="label, value" styleClass="imagem_fundo" >
+                        <br/>
+                        <h:outputText styleClass="texto_informativo" value="Prezado Contribuinte" /><br/>
+
+                        <h:outputText styleClass="texto_informativo" value="É permitida a utilização da carta de correção, para regularização de erro ou omissão ocorrido na emissão da NF-e, DESDE QUE NÃO ESTEJA RELACIONADA COM:" />
+
+                        <h:outputText styleClass="texto_informativo" value=" - As variaveis que determinam o valor do imposto tais como: base de cálculo, aliquota, valor das deduções, código do serviço, diferença de preço e valor da prestação dos serviços." />
+
+                        <h:outputText styleClass="texto_informativo" value=" - A correção de dados cadastrais que implique qualquer alteração do orestador ou tomador de serviço" />                          
+                        <h:outputText styleClass="texto_informativo" value=" - O numero da nota e a data de emissão" />                          
+                        <h:outputText styleClass="texto_informativo" value=" - A indicção do local da incidência do ISS" />                          
+                        <h:outputText styleClass="texto_informativo" value=" - A indicação da responsabilidade do recolhimento do ISS" />                          
+                        <h:outputText styleClass="texto_informativo" value=" - O numero e a data de emissão do Recibo Provisório de Servilo - RPS" />                                                                           
+                    </h:panelGrid>
+
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

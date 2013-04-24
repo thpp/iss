@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="#{MBNfseLanca.template}">
+
+            <ui:define name="title">
+                Geração do Livro Fiscal
+            </ui:define>
+
+            <ui:define name="content">
+                <p:panel id="nfseBusca" styleClass="sem_borda" header="Geração do Livro Fiscal">
+
+                    <p:messages id="msgs" showDetail="true"/>
+
+                    <h:panelGrid style="margin: auto; margin-top: 20px;" columns="6">                                                                                                                                                              
+
+                        <h:outputLabel styleClass="texto_informativo2" value="Competêcia:"/>                                                    
+
+                        <h:selectOneMenu  value="#{MBLivroFiscal.competencia}" >                             
+                            <f:selectItem itemValue="1" itemLabel="Janeiro"/> 
+                            <f:selectItem itemValue="2" itemLabel="Fevereiro"/> 
+                            <f:selectItem itemValue="3" itemLabel="Março"/> 
+                            <f:selectItem itemValue="4" itemLabel="Abril"/> 
+                            <f:selectItem itemValue="5" itemLabel="Maio"/> 
+                            <f:selectItem itemValue="6" itemLabel="Junho"/> 
+                            <f:selectItem itemValue="7" itemLabel="Julho"/> 
+                            <f:selectItem itemValue="8" itemLabel="Agosto"/> 
+                            <f:selectItem itemValue="9" itemLabel="Setembro"/> 
+                            <f:selectItem itemValue="10" itemLabel="Outubro"/> 
+                            <f:selectItem itemValue="11" itemLabel="Novembro"/> 
+                            <f:selectItem itemValue="12" itemLabel="Dezembro"/>  
+                        </h:selectOneMenu>
+                        <h:inputHidden value="as" />
+                        <p:commandButton  id="cbtGerarRelatorio" value="Gerar Livro Fiscal" action="#{MBLivroFiscal.imprimeTeste}" ajax="false" onclick="this.form.target='_blank'" />
+
+                        <p:ajaxStatus>
+                            <f:facet name="start">
+                                <h:graphicImage value="/img/loading1.gif" />
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+                    </h:panelGrid>  
+                    <p:separator/>
+                </p:panel> 
+
+                <p:panel id="aviso" visible="#{MBSubstitui.exibeAviso}" styleClass="sem_borda" style="height: 420px; margin-top: 3px;">
+                    <h:panelGrid style="margin-top: 20px;" columns="1" columnClasses="label, value" styleClass="imagem_fundo" >
+                        <br/>
+                        <h:outputText styleClass="texto_informativo" value="Prezado Contribuinte" /><br/>
+
+                        <h:outputText styleClass="texto_informativo" value="A Funcionalidade de Geração do Livro Fiscal, é um 
+                                      documento de fiscalização da Prefeitura Municipal de Santa Cruz do Rio Pardo e deve ser emitido sempre que solicitado pela mesma, 
+                                      de conteudo ja programado dentro do sistema de emissão de nota fiscal eltrônica (ISSMAP), basta informar o mes de competência e clicar 
+                                      no botão Gerar Livro Fiscal.  " />
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        
+                    </h:panelGrid>
+
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

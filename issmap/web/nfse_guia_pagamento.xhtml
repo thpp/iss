@@ -1,0 +1,557 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+    <body>
+
+        <ui:composition template="#{MBGeraBoleto.template}">
+
+            <ui:define name="title">
+                Consulta de Nota Fiscal Eletrônica de Serviço
+            </ui:define>
+
+            <ui:define name="content">                
+
+                <p:tabView>                                        
+                    <p:tab title="Guias Geradas" id="guiaPagamento" rendered="#{MBGeraBoleto.guiasGeradasRendered}">                       
+                        <p:panel id="guiasGeradas" styleClass="sem_borda"  header="#{MBGeraBoleto.tituloPainelBoletos}" />                        
+                        <p:panel>                            
+
+                            <p:messages id="msg" showDetail="true" />
+
+
+                            <h:panelGrid rendered="#{MBGeraBoleto.tabelaBoletos}" style="margin: auto;" columns="6">                                                                                                
+
+                                <h:outputLabel value="Competêcia:"/>                                
+                                <p:spacer width="15" height="5" />
+                                <p:calendar id="data_ini_boleto" value="#{MBGeraBoleto.dataIniBolotoGerado}" maxdate="#{MBGeraBoleto.dataHoje}" size="12" effect="slide" pattern="dd/MM/yyyy" />
+                                <h:outputLabel value="á" />
+                                <p:calendar id="data_fim_boleto" value="#{MBGeraBoleto.dataFimBolotoGerado}" size="12" effect="slide" pattern="dd/MM/yyyy"  />
+                                <h:inputHidden value="as" />                                                                 
+
+                                <h:outputLabel value="Nº Documento:"/>                                
+                                <p:spacer width="15" height="5" />
+                                <p:inputText size="12" value="#{MBGeraBoleto.numeroDocumento}" />
+                                <h:inputHidden value="as" />
+
+                                <p:commandButton value="Pesquisar" action="#{MBGeraBoleto.buscaBoletos}" update="tabGuias, msg"/> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>
+
+                            <!-- Busca boletos Simples Nacional -->
+
+                            <h:panelGrid rendered="#{MBGeraBoleto.buscaSimples}" style="margin: auto;" columns="6">                                                                                                                                                              
+
+                                <h:outputLabel value="Competêcia:"/>                                
+                                <p:spacer width="15" height="5" />
+
+                                <h:selectOneMenu  value="#{MBGeraBoleto.mesSelecionado}" > 
+                                    <f:selectItem itemValue="" itemLabel="Selecione..."/>
+                                    <f:selectItem itemValue="Janeiro" itemLabel="Janeiro"/> 
+                                    <f:selectItem itemValue="Fevereiro" itemLabel="Fevereiro"/> 
+                                    <f:selectItem itemValue="Março" itemLabel="Março"/> 
+                                    <f:selectItem itemValue="Abril" itemLabel="Abril"/> 
+                                    <f:selectItem itemValue="Maio" itemLabel="Maio"/> 
+                                    <f:selectItem itemValue="Junho" itemLabel="Junho"/> 
+                                    <f:selectItem itemValue="Julho" itemLabel="Julho"/> 
+                                    <f:selectItem itemValue="Agosto" itemLabel="Agosto"/> 
+                                    <f:selectItem itemValue="Setembro" itemLabel="Setembro"/> 
+                                    <f:selectItem itemValue="Outubro" itemLabel="Outubro"/> 
+                                    <f:selectItem itemValue="Novembro" itemLabel="Novembro"/> 
+                                    <f:selectItem itemValue="Dezembro" itemLabel="Dezembro"/>  
+                                </h:selectOneMenu>
+                                <h:inputHidden value="as" />
+                                <p:commandButton value="Pesquisar" action="#{MBGeraBoleto.filtraBoletoSimplesNacional}" update="tabGuiasSimples, msg"/> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>                            
+
+                            <p:separator/>
+
+                        </p:panel>
+                        <br/>
+
+                        <!-- boletos iss variavel -->
+
+                        <p:dataTable rendered="#{MBGeraBoleto.tabelaBoletos}" id="tabGuias" var="boleto" value="#{MBGeraBoleto.listaBoletos}" paginator="true" rows="7">                                    
+
+                            <f:facet name="header">  
+                                Lista de Boletos  
+                            </f:facet>
+
+                            <p:column style="width:10px">  
+                                <p:rowToggler />  
+                            </p:column>                             
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    NºDocumento
+                                </f:facet>  
+                                <h:outputText value="#{boleto.numeroDocumento}" />  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Competêcia
+                                </f:facet>  
+                                <h:outputText value="#{boleto.dataCompetenciaFormatada}"/>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Vencimento  
+                                </f:facet>  
+                                <h:outputText value="#{boleto.dataVencimenro}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Valor
+                                </f:facet>  
+                                <h:outputText value="#{boleto.valorDocumento}" >
+                                    <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Pagam. 
+                                </f:facet>  
+                                <p:graphicImage style="border: none"  value="/img/#{boleto.logoSituacao}" />  
+                            </p:column>
+
+                            <p:column>
+                                <p:commandButton onclick="this.form.target='_blank'" ajax="false" action ="#{MBGeraBoleto.segundaViaBoleto}" value="2º Via" title="2º Via Boleto" disabled="#{boleto.baixa}" >  
+                                    <f:setPropertyActionListener value="#{boleto}" target="#{MBGeraBoleto.boletoSelecionado}" />  
+                                </p:commandButton>                                                     
+                            </p:column>
+
+                            <!--aparece quanto clica para expandir-->
+                            <p:rowExpansion>  
+                                <h:panelGrid id="display" columns="1" 
+                                             style="width:590px;"  
+                                             styleClass="ui-widget-content"  
+                                             columnClasses="label, value">                               
+                                    <h:outputText style="font-weight: bold;" value="Notas Relacionadas:" />
+
+
+                                    <p:dataList value="#{boleto.notasBoleto}" var="notasboleto" itemType="disc">
+                                        #{notasboleto.numeroNota} - #{notasboleto.nomeRazaoTomador} - #{notasboleto.valorBaseCalculo}
+                                    </p:dataList>
+
+                                </h:panelGrid>                                 
+                            </p:rowExpansion>   
+                        </p:dataTable>
+
+                        <!-- tabela simples nacional e Fixo -->
+
+                        <p:dataTable rendered="#{MBGeraBoleto.tabelaSNF}" id="tabGuiasSimples" var="simplesFixo" value="#{MBGeraBoleto.boletosSNF}" paginator="true" rows="9">                                    
+
+                            <f:facet name="header">  
+                                Lista de Boletos
+                            </f:facet>                            
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    NºDocumento
+                                </f:facet>  
+                                <h:outputText value="#{simplesFixo.numeroDocumento}" />  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    #{MBGeraBoleto.textoColunaCommtParcela}
+                                </f:facet>  
+                                <h:outputText value="#{simplesFixo.competencia}"/>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Vencimento  
+                                </f:facet>  
+                                <h:outputText value="#{simplesFixo.vencimento}" />
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Valor
+                                </f:facet>  
+                                <h:outputText value="#{simplesFixo.valor}" />                                   
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Pagamento 
+                                </f:facet>
+                                <h:outputText value="#{simplesFixo.pagamento}" />                                   
+                            </p:column>
+
+                            <p:column>    
+                                <p:graphicImage style="border: none"  value="/img/#{simplesFixo.logo}" />  
+                            </p:column>
+
+                            <p:column rendered="#{MBGeraBoleto.botaoSegundaVia}" >
+                                <p:commandButton onclick="this.form.target='_blank'" ajax="false" action ="#{MBGeraBoleto.segundaViaFixo}" value="2º Via" title="2º Via Boleto" disabled="#{simplesFixo.botao}" >  
+                                    <f:setPropertyActionListener value="#{simplesFixo}" target="#{MBGeraBoleto.fixoSelecionado}" />  
+                                </p:commandButton>                                                     
+                            </p:column>
+
+                        </p:dataTable>                                                 
+                    </p:tab>
+
+                    <!-- FIM DA TAB LISTA GUIA PAGAMENTO -->
+
+                    <p:tab title="Gerar Guias" id="prestador"  rendered="#{MBGeraBoleto.geraBoleto}" >                       
+                        <p:panel id="geraGuiaPagamento" styleClass="sem_borda"  header="Consulta Data do Periodo" />
+                        <p:panel>
+                            <p:messages id="msgs1" showDetail="true"/>
+
+                            <h:panelGrid style="margin: auto;" columns="6">                                
+
+                                <h:outputLabel value="Periodo :"/>                                
+                                <p:spacer width="25" height="10" />
+                                <p:calendar id="data_ini_prestador" value="#{MBGeraBoleto.dataIni}" maxdate="#{MBGeraBoleto.dataHoje}" size="12" effect="slide" pattern="dd/MM/yyyy" />
+                                <h:outputLabel value="á" />
+                                <p:calendar id="data_fim_prestador" value="#{MBGeraBoleto.dataFim}" maxdate="#{MBGeraBoleto.dataHoje}" size="12" effect="slide" pattern="dd/MM/yyyy"  />
+                                <p:commandButton value="Pesquisar" action="#{MBGeraBoleto.filtraNotasPrestador}" update="tabNotasPrestador, msgs1, mostraDados" /> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>
+
+
+                            <p:separator/>
+                            <p:panel id="mostraDados"  visible="#{MBGeraBoleto.mostraDados}" styleClass="sem_borda" >
+                                <h:panelGrid style="margin: auto;" columns="5">
+                                    <h:outputLabel styleClass="texto_cont_nota" value="Notas do periodo:"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="#{MBGeraBoleto.quantidadeNota}"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="Vator Notas:"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="#{MBGeraBoleto.totalNota}" />
+                                    <h:inputHidden value="as"  />
+                                    <h:outputLabel styleClass="texto_cont_nota" value="Aliquota:"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="#{MBGeraBoleto.aliquota}%" />
+                                    <h:outputLabel styleClass="texto_cont_nota" value="Vator Boleto:"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="#{MBGeraBoleto.totalBoleto}" />
+                                    <p:commandButton value="Gerar Boleto ISSQN" action="#{MBGeraBoleto.imprimeBoleto}" onclick="this.form.target='_blank'" ajax="false"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:panel>
+                        <br/>
+                        <p:dataTable id="tabNotasPrestador" var="nota" value="#{MBGeraBoleto.notas}" paginator="true" rows="7">                                    
+
+                            <f:facet name="header">  
+                                Notas á Serem Faturadas   
+                            </f:facet>
+
+                            <p:column style="width:16px">  
+                                <p:rowToggler />  
+                            </p:column>  
+
+                            <p:column style="width:250px">  
+                                <f:facet name="header">  
+                                    CNPJ/CPF Tomador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.cpfCnpjTomador}" />  
+                            </p:column>
+
+                            <p:column style="width:250px">  
+                                <f:facet name="header">  
+                                    Nome/Razão Tomador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.nomeRazaoTomador}" />
+                            </p:column>
+
+                            <p:column style="width:250px">  
+                                <f:facet name="header">  
+                                    Data de Emissão  
+                                </f:facet>  
+                                <h:outputText value="#{nota.dataEmissao}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column style="width:250px">  
+                                <f:facet name="header">  
+                                    Valor Nota  
+                                </f:facet>  
+                                <h:outputText value="#{nota.valorBaseCalculo}" >
+                                    <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <!--aparece quanto clica para expandir-->
+                            <p:rowExpansion>  
+                                <h:panelGrid id="display" columns="2" 
+                                             style="width:600px;"  
+                                             styleClass="ui-widget-content"  
+                                             columnClasses="label, value">                               
+                                    <h:outputText style="font-weight: bold;" value="Descrição Serviço:" />
+                                    <h:outputText style="font-weight: bold;" value="Visualisar" />                                    
+
+                                    <h:outputText id="model" value="#{nota.descServico}" />
+
+                                    <h:commandLink style="margin: auto;" target="_blank" immediate="flse" action="#{MBNfseConsulta.imprimeNota}" >
+                                        <h:graphicImage value="/img/vnota.png" />
+                                        <f:setPropertyActionListener value="#{nota}" target="#{MBNfseConsulta.notaSelecionada}" />
+                                    </h:commandLink>
+
+                                </h:panelGrid>                                 
+                            </p:rowExpansion>   
+                        </p:dataTable>  
+                    </p:tab>
+                    <!-- FIM DA TAB GERA GUIA DE PAGAMENTO -->
+
+                    <p:tab title="Guias Geradas Retido na Fonte" id="guiaRetidoFonte" >
+                        <p:panel id="guiasGeradasRF" styleClass="sem_borda"  header="Guias de Pagamento de Notas Retidas na Fonte" />
+                        <p:panel>
+                            <p:messages id="msgRF" showDetail="true"/>
+                            <h:panelGrid style="margin: auto;" columns="6">                                                                                                
+
+                                <h:outputLabel value="Competêcia:"/>                                
+                                <p:spacer width="15" height="5" />
+                                <p:calendar id="data_ini_boleto_retido_fonte" value="#{MBGeraBoleto.dataIniBolotoGeradoRF}" maxdate="#{MBGeraBoleto.dataHoje}" size="12" effect="slide" pattern="dd/MM/yyyy" />
+                                <h:outputLabel value="á" />
+                                <p:calendar id="data_fim_boleto_retido_fonte" value="#{MBGeraBoleto.dataFimBolotoGeradoRF}" maxdate="#{MBGeraBoleto.dataHoje}" size="12" effect="slide" pattern="dd/MM/yyyy"  />
+                                <h:inputHidden value="as" />                                                                 
+
+                                <h:outputLabel value="Nº Documento:"/>                                
+                                <p:spacer width="15" height="5" />
+                                <p:inputText size="12" value="#{MBGeraBoleto.numeroDocumentoRF}" />
+                                <h:inputHidden value="as" />
+
+                                <p:commandButton value="Pesquisar" action="#{MBGeraBoleto.buscaBoletosRF}" update="tabGuiasRF, msgRF"/> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>
+                            <p:separator/>
+                        </p:panel> 
+                        <br/>
+                        <p:dataTable id="tabGuiasRF" var="boleto" value="#{MBGeraBoleto.listaBoletosRetidoFonte}" paginator="true" rows="7">                                    
+
+                            <f:facet name="header">  
+                                Lista de Boletos  
+                            </f:facet>
+
+                            <p:column style="width:10px">  
+                                <p:rowToggler />  
+                            </p:column>                             
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    NºDocumento
+                                </f:facet>  
+                                <h:outputText value="#{boleto.numeroDocumento}" />  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Competêcia
+                                </f:facet>  
+                                <h:outputText value="#{boleto.dataCompetenciaFormatada}"/>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Vencimento  
+                                </f:facet>  
+                                <h:outputText value="#{boleto.dataVencimenro}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Valor
+                                </f:facet>  
+                                <h:outputText value="#{boleto.valorDocumento}" >
+                                    <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Pagam. 
+                                </f:facet>  
+                                <p:graphicImage style="border: none"  value="/img/#{boleto.logoSituacao}" />  
+                            </p:column>
+
+                            <p:column>
+                                <p:commandButton onclick="this.form.target='_blank'" ajax="false" action ="#{MBGeraBoleto.segundaViaBoleto}" value="2º Via" title="2º Via Boleto" disabled="#{boleto.baixa}" >  
+                                    <f:setPropertyActionListener value="#{boleto}" target="#{MBGeraBoleto.boletoSelecionado}" />  
+                                </p:commandButton>                                                     
+                            </p:column>
+
+                            <!--aparece quanto clica para expandir-->
+                            <p:rowExpansion>  
+                                <h:panelGrid id="display" columns="1" 
+                                             style="width:590px;"  
+                                             styleClass="ui-widget-content"  
+                                             columnClasses="label, value">                               
+                                    <h:outputText style="font-weight: bold;" value="Notas Relacionadas:" />
+
+
+                                    <p:dataList value="#{boleto.notasBoleto}" var="notasboleto" itemType="disc">
+                                        #{notasboleto.numeroNota} - #{notasboleto.nomeRazaoPrestador} - #{notasboleto.valorBaseCalculo}
+                                    </p:dataList>
+
+                                </h:panelGrid>                                 
+                            </p:rowExpansion>   
+                        </p:dataTable>
+
+                    </p:tab>
+
+                    <p:tab title="Gerar Guias Retido na Fonte" id="gerarGuiaRetidoFonte" >
+                        <p:panel styleClass="sem_borda"  header="Gerar Guias de Notas Retidas na Fonte" />
+                        <p:panel>
+                            <p:messages id="msgsRF" showDetail="true"/>
+
+                            <h:panelGrid style="margin: auto;" columns="6">                                
+
+                                <h:outputLabel value="Periodo :"/>                                
+                                <p:spacer width="25" height="10" />
+                                <p:calendar id="data_ini_RF" value="#{MBGeraBoleto.dataIniRF}" maxdate="#{MBGeraBoleto.dataHoje}"   size="12" effect="slide" pattern="dd/MM/yyyy"/>
+                                <h:outputLabel value="á" />
+                                <p:calendar id="data_fim_RF" value="#{MBGeraBoleto.dataFimRF}" maxdate="#{MBGeraBoleto.dataHoje}" size="12" effect="slide" pattern="dd/MM/yyyy"/> 
+                                <p:commandButton value="Pesquisar" action="#{MBGeraBoleto.filtraNotasRetidoFonte}" update="tabNotasRF, msgsRF, mostraDadosRF" /> 
+
+                                <p:ajaxStatus>
+                                    <f:facet name="start">
+                                        <h:graphicImage value="/img/loading1.gif" />
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </h:panelGrid>
+
+                            <p:separator/>
+                            <p:panel id="mostraDadosRF" visible="#{MBGeraBoleto.mostraDadosGeraBoletoRetidoFonte}" styleClass="sem_borda" >
+                                <h:panelGrid style="margin: auto;" columns="4">
+                                    <h:outputLabel styleClass="texto_cont_nota" value="Notas do periodo:"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="#{MBGeraBoleto.quantidadeNotaRetidoFonte}"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="Vator Notas:"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="#{MBGeraBoleto.totalNotaRetidoFonte}" />                                   
+                                                                        
+                                    <h:outputLabel styleClass="texto_cont_nota" value="Iss Devido:"/>
+                                    <h:outputLabel styleClass="texto_cont_nota" value="#{MBGeraBoleto.totalIssDevidoRetidoFonte}" />
+                                    
+                                </h:panelGrid>
+                                <h:panelGrid style="margin: auto;" columns="1">
+                                    <p:commandButton value="Gerar Guia de pagamento" action="#{MBGeraBoleto.geraBoletoRetidoFonte}" onclick="this.form.target='_blank'" ajax="false"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:panel>
+                        <br/>
+                        <p:dataTable id="tabNotasRF" var="nota" value="#{MBGeraBoleto.listaNotasRetidoFonte}" paginator="true" rows="7">                                    
+
+                            <f:facet name="header">  
+                                Notas á Serem Faturadas   
+                            </f:facet>
+
+                            <p:column style="width:16px">  
+                                <p:rowToggler />  
+                            </p:column>  
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Nome/Razão Prestador  
+                                </f:facet>  
+                                <h:outputText value="#{nota.nomeRazaoPrestador}" />
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Data de Emissão  
+                                </f:facet>  
+                                <h:outputText value="#{nota.dataEmissao}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Valor Nota  
+                                </f:facet>  
+                                <h:outputText value="#{nota.valorBaseCalculo}" >
+                                    <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+                            
+                            <p:column>  
+                                <f:facet name="header">  
+                                    Aliquota 
+                                </f:facet>  
+                                <h:outputText value="#{nota.aliquota}" >
+                                    <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+                            
+                            <p:column>  
+                                <f:facet name="header">  
+                                    ISS Devido  
+                                </f:facet>  
+                                <h:outputText value="#{nota.valorIss}" >
+                                    <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="2"/>
+                                </h:outputText>  
+                            </p:column>
+
+                            <!--aparece quanto clica para expandir-->
+                            <p:rowExpansion>  
+                                <h:panelGrid id="display" columns="2" 
+                                             style="width:600px;"  
+                                             styleClass="ui-widget-content"  
+                                             columnClasses="label, value">                               
+                                    <h:outputText style="font-weight: bold;" value="Descrição Serviço:" />
+                                    <h:outputText style="font-weight: bold;" value="Visualisar" />                                    
+
+                                    <h:outputText id="model" value="#{nota.descServico}" />
+
+                                    <p:commandButton id="botaoMotsraRF" value="Nota Completa" onclick="dlgDadosRF.show()" update="dadosNota">
+                                        <f:setPropertyActionListener value="#{nota}" target="#{MBMostraNotaRF.notaSelecionada}" />
+                                    </p:commandButton>
+
+                                </h:panelGrid>                                 
+                            </p:rowExpansion>   
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

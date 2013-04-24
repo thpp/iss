@@ -1,0 +1,43 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package br.com.nfse.jsfuntil;
+
+/**
+ *
+ * @author thiago Henrique
+ */
+public class Teste {
+    public static void main(String agrs[]){
+
+        String permicoes = "1,2,3,4,5,";
+        
+        String permicoesR[] = permicoes.split("\\,");
+
+        System.out.println(permicoesR.length);
+
+        System.out.println("1 = "+ permicoesR[0]);
+        System.out.println("2 = "+permicoesR[1]);
+        System.out.println("3 = "+permicoesR[2]);
+        System.out.println("4 = "+permicoesR[3]);
+        System.out.println("5 = "+permicoesR[4]);
+
+        for (int i = 0; i < permicoesR.length; i++) {
+            if (permicoesR[i].equals("1")) {
+                System.out.println("um");
+            } else if (permicoesR[i].equals("2")) {
+                System.out.println("dois");
+            } else if (permicoesR[i].equals("3")) {
+                System.out.println("três");
+            } else if (permicoesR[i].equals("4")) {
+                System.out.println("quatro");
+            } else if (permicoesR[i].equals("5")) {
+                System.out.println("cinco");
+            }
+        }
+
+    }
+
+}

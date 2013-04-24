@@ -1,0 +1,54 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package br.com.nfse.backingbean;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
+/**
+ *
+ * @author Thiago Henrique
+ */
+@ManagedBean(name="MBMenu")
+@RequestScoped
+public class ControlaMenuBaking {
+
+     private Integer index = 0;
+
+    public ControlaMenuBaking() {
+        index = new Integer(0);
+        index = 0;
+    }
+
+    public void altera0(){
+        index = new Integer(0);
+        index = 0;
+    }
+
+    public void altera1(){
+        index = new Integer(0);
+        index = 1;
+    }
+
+    public void altera2(){
+        index = new Integer(0);
+        index = 2;
+    }
+
+    public void altera3(){
+        index = new Integer(0);
+        index = 3;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
+}

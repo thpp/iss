@@ -1,0 +1,50 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package br.com.nfse.generic;
+
+import br.com.nfse.jsfuntil.HibernateUtil;
+import java.sql.SQLException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+/**
+ *
+ * @author Leticia
+ */
+public class GenericDAO {
+
+    Transaction transacao = null;
+	Session session = null;
+
+        public void salvar(Object obj)throws SQLException{
+		session = HibernateUtil.getSessionFactory().openSession();
+		transacao = session.beginTransaction();
+
+		try{
+			session.saveOrUpdate(obj);
+			transacao.commit();
+		}catch (Exception e) {
+			transacao.rollback();
+                        System.out.println("Erro ao salvar ====>> "+e.getMessage());
+		}finally{
+			session.close();
+		}
+
+	}
+	public void excluir(Object obj)throws Exception{
+		session = HibernateUtil.getSessionFactory().openSession();
+		transacao = session.beginTransaction();
+
+		try{
+			session.delete(obj);
+			transacao.commit();
+		}catch (Exception e) {
+			transacao.rollback();
+		}finally{
+			session.close();
+		}
+	}
+}
